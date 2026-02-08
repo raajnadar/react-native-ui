@@ -1,26 +1,54 @@
-import { MaterialProvider, darkTheme } from "@react-native-ui/core";
-import { StyleSheet, Text, View } from "react-native";
+import { MaterialProvider, darkTheme, lightTheme } from "@react-native-ui/core";
+import { Typography } from "@rn-ui/typography";
+import { ScrollView, StyleSheet, View } from "react-native";
+
+const variants = [
+  "displayLarge",
+  "displayMedium",
+  "displaySmall",
+  "headlineLarge",
+  "headlineMedium",
+  "headlineSmall",
+  "titleLarge",
+  "titleMedium",
+  "titleSmall",
+  "bodyLarge",
+  "bodyMedium",
+  "bodySmall",
+  "labelLarge",
+  "labelMedium",
+  "labelSmall"
+] as const;
 
 export default function App() {
   return (
     <MaterialProvider theme={darkTheme}>
-      <View style={styles.container}>
-        <Text style={styles.title}>React Native UI Example</Text>
-      </View>
+      <ScrollView contentContainerStyle={styles.container}>
+        {variants.map((variant) => (
+          <View key={variant} style={styles.item}>
+            <Typography variant={variant} style={styles.label}>
+              {variant}
+            </Typography>
+            <Typography variant={variant}>
+              The quick brown fox jumps over the lazy dog.
+            </Typography>
+          </View>
+        ))}
+      </ScrollView>
     </MaterialProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: darkTheme.colors.background,
+    padding: 24,
+    rowGap: 24,
+    backgroundColor: lightTheme.colors.background
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#FFF",
+  item: {
+    rowGap: 4
+  },
+  label: {
+    color: lightTheme.colors.primary
   }
 });

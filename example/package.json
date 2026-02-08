@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@react-native-ui/core": "workspace:*",
+    "@rn-ui/typography": "workspace:*",
+    "anser": "^2.1.1",
     "expo": "~54.0.0",
     "expo-asset": "~12.0.0",
     "expo-modules-core": "3.0.29",
