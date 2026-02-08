@@ -1,11 +1,13 @@
 {
-  "name": "react-native-ui",
+  "name": "@react-native-ui/core",
   "version": "0.0.0",
   "private": false,
   "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "src/index.ts",
+  "react-native": "src/index.ts",
+  "source": "src/index.ts",
   "scripts": {
     "build": "tsup src/index.ts --dts --format esm --outDir dist --clean"
   },
