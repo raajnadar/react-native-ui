@@ -8,13 +8,24 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "lint": "turbo run lint",
+    "lint": "eslint example packages",
     "test": "turbo run test",
     "dev": "turbo run dev",
     "clean": "turbo run clean",
-    "example": "pnpm --filter example start"
+    "example": "pnpm --filter example start",
+    "format": "prettier . --write"
   },
   "devDependencies": {
+    "@eslint/js": "^8.57.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-react": "^7.0.0",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "eslint-plugin-react-native": "^4.0.0",
+    "prettier": "^3.0.0",
+    "typescript-eslint": "^8.0.0",
     "turbo": "^2.0.0"
   }
 }
