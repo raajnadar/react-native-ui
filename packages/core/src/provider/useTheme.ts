@@ -1,8 +1,8 @@
-import * as React from "react";
+import { useContext } from 'react'
 
-import type { Theme } from "../theme/types";
-import { ThemeContext } from "./ThemeContext";
+import type { Theme } from '../theme/types'
+import { ThemeContext } from './ThemeContext'
 
 export function useTheme(): Theme {
-  return React.useContext(ThemeContext);
+  return useContext(ThemeContext)
 }
