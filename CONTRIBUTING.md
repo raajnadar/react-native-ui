@@ -27,7 +27,7 @@ Thanks for contributing to `react-native-ui`.
 
 ## Package Scripts
 - `packages/core`:
-  - `pnpm --filter @react-native-ui/core run build`
+  - `pnpm --filter @rn-ui/core run build`
 
 ## Code Style
 - ESLint is configured in `eslint.config.js`.

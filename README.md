@@ -31,8 +31,8 @@ A React Native UI library workspace with an example app and a core package.
 - `pnpm run clean`: Clean build outputs via Turborepo.
 
 ## Package Commands
-- Build only `@react-native-ui/core`:
-  - `pnpm --filter @react-native-ui/core run build`
+- Build only `@rn-ui/core`:
+  - `pnpm --filter @rn-ui/core run build`
 
 ## Workspace Layout
 - `packages/core`: Library source and build output.

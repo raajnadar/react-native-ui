@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import type { ReactNode } from "react";
 import type { StyleProp, TextProps, TextStyle } from "react-native";
 import { StyleSheet, Text } from "react-native";
-import { useTheme } from "@react-native-ui/core";
+import { useTheme } from "@rn-ui/core";
 
 import { typographyTokens } from "./tokens";
 import type { TypographyVariant } from "./types";

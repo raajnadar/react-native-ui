@@ -10,8 +10,8 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "@react-native-ui/core": "workspace:*",
-    "@react-native-ui/typography": "workspace:*",
+    "@rn-ui/components": "workspace:*",
+    "@rn-ui/core": "workspace:*",
     "expo": "~54.0.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",

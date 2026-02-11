@@ -43,12 +43,12 @@ importers:
 
   example:
     dependencies:
-      '@react-native-ui/core':
+      '@rn-ui/components':
+        specifier: workspace:*
+        version: link:../packages/components
+      '@rn-ui/core':
         specifier: workspace:*
         version: link:../packages/core
-      '@react-native-ui/typography':
-        specifier: workspace:*
-        version: link:../packages/typography
       expo:
         specifier: ~54.0.0
         version: 54.0.33(@babel/core@7.29.0)(react-native@0.81.5(@babel/core@7.29.0)(@react-native/metro-config@0.83.1(@babel/core@7.29.0))(@types/react@19.1.17)(react@19.1.0))(react@19.1.0)
@@ -90,9 +90,9 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
-  packages/typography:
+  packages/components:
     devDependencies:
-      '@react-native-ui/core':
+      '@rn-ui/core':
         specifier: workspace:*
         version: link:../core
       '@types/react':
