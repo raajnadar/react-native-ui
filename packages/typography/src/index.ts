@@ -1,6 +1,4 @@
-export { Typography, typography } from './Typography'
-export type {
-  TypographyProps,
-  TypographyVariant,
-  TypographyOverrides,
-} from './Typography'
+export { Typography } from "./Typography";
+export { typographyTokens } from "./tokens";
+export type { TypographyToken } from "./tokens";
+export type { TypographyVariant } from "./types";

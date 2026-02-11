@@ -1,6 +1,6 @@
-import { MaterialProvider, darkTheme, lightTheme } from "@react-native-ui/core";
-import { Typography } from "@rn-ui/typography";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { MaterialProvider, lightTheme } from "@react-native-ui/core";
+import { Typography } from "@react-native-ui/typography";
+import { ScrollView, StyleSheet } from "react-native";
 
 const variants = [
   "displayLarge",
@@ -20,19 +20,21 @@ const variants = [
   "labelSmall"
 ] as const;
 
+function toSentenceCase(value: string) {
+  return value
+    .replace(/([A-Z])/g, " $1")
+    .toLowerCase()
+    .replace(/^./, (char) => char.toUpperCase());
+}
+
 export default function App() {
   return (
-    <MaterialProvider theme={darkTheme}>
+    <MaterialProvider theme={lightTheme}>
       <ScrollView contentContainerStyle={styles.container}>
         {variants.map((variant) => (
-          <View key={variant} style={styles.item}>
-            <Typography variant={variant} style={styles.label}>
-              {variant}
-            </Typography>
-            <Typography variant={variant}>
-              The quick brown fox jumps over the lazy dog.
-            </Typography>
-          </View>
+          <Typography key={variant} variant={variant}>
+            {toSentenceCase(variant)}
+          </Typography>
         ))}
       </ScrollView>
     </MaterialProvider>
@@ -42,13 +44,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     padding: 24,
-    rowGap: 24,
-    backgroundColor: lightTheme.colors.background
-  },
-  item: {
-    rowGap: 4
-  },
-  label: {
-    color: lightTheme.colors.primary
+    rowGap: 24
   }
 });

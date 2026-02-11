@@ -1,151 +1,83 @@
-import { Text as RNText, TextProps as RNTextProps, TextStyle } from "react-native";
+import { useMemo } from "react";
+import type { ReactNode } from "react";
+import type { StyleProp, TextProps, TextStyle } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import { useTheme } from "@react-native-ui/core";
 
-export type TypographyVariant =
-  | "displayLarge"
-  | "displayMedium"
-  | "displaySmall"
-  | "headlineLarge"
-  | "headlineMedium"
-  | "headlineSmall"
-  | "titleLarge"
-  | "titleMedium"
-  | "titleSmall"
-  | "bodyLarge"
-  | "bodyMedium"
-  | "bodySmall"
-  | "labelLarge"
-  | "labelMedium"
-  | "labelSmall";
+import { typographyTokens } from "./tokens";
+import type { TypographyVariant } from "./types";
 
-const defaultVariants: Record<TypographyVariant, TextStyle> = {
-  displayLarge: {
-    fontFamily: "Roboto",
-    fontSize: 57,
-    fontWeight: "400",
-    lineHeight: 64,
-    letterSpacing: -0.25
-  },
-  displayMedium: {
-    fontFamily: "Roboto",
-    fontSize: 45,
-    fontWeight: "400",
-    lineHeight: 52,
-    letterSpacing: 0
-  },
-  displaySmall: {
-    fontFamily: "Roboto",
-    fontSize: 36,
-    fontWeight: "400",
-    lineHeight: 44,
-    letterSpacing: 0
-  },
-  headlineLarge: {
-    fontFamily: "Roboto",
-    fontSize: 32,
-    fontWeight: "400",
-    lineHeight: 40,
-    letterSpacing: 0
-  },
-  headlineMedium: {
-    fontFamily: "Roboto",
-    fontSize: 28,
-    fontWeight: "400",
-    lineHeight: 36,
-    letterSpacing: 0
-  },
-  headlineSmall: {
-    fontFamily: "Roboto",
-    fontSize: 24,
-    fontWeight: "400",
-    lineHeight: 32,
-    letterSpacing: 0
-  },
-  titleLarge: {
-    fontFamily: "Roboto",
-    fontSize: 22,
-    fontWeight: "400",
-    lineHeight: 28,
-    letterSpacing: 0
-  },
-  titleMedium: {
-    fontFamily: "Roboto",
-    fontSize: 16,
-    fontWeight: "500",
-    lineHeight: 24,
-    letterSpacing: 0.15
-  },
-  titleSmall: {
-    fontFamily: "Roboto",
-    fontSize: 14,
-    fontWeight: "500",
-    lineHeight: 20,
-    letterSpacing: 0.1
-  },
-  bodyLarge: {
-    fontFamily: "Roboto",
-    fontSize: 16,
-    fontWeight: "400",
-    lineHeight: 24,
-    letterSpacing: 0.5
-  },
-  bodyMedium: {
-    fontFamily: "Roboto",
-    fontSize: 14,
-    fontWeight: "400",
-    lineHeight: 20,
-    letterSpacing: 0.25
-  },
-  bodySmall: {
-    fontFamily: "Roboto",
-    fontSize: 12,
-    fontWeight: "400",
-    lineHeight: 16,
-    letterSpacing: 0.4
-  },
-  labelLarge: {
-    fontFamily: "Roboto",
-    fontSize: 14,
-    fontWeight: "500",
-    lineHeight: 20,
-    letterSpacing: 0.1
-  },
-  labelMedium: {
-    fontFamily: "Roboto",
-    fontSize: 12,
-    fontWeight: "500",
-    lineHeight: 16,
-    letterSpacing: 0.5
-  },
-  labelSmall: {
-    fontFamily: "Roboto",
-    fontSize: 11,
-    fontWeight: "500",
-    lineHeight: 16,
-    letterSpacing: 0.5
-  }
+type ThemeTypographyToken = Partial<
+  Pick<
+    TextStyle,
+    "fontFamily" | "fontSize" | "fontWeight" | "letterSpacing" | "lineHeight"
+  >
+>;
+
+type ThemeTypography = Partial<Record<TypographyVariant, ThemeTypographyToken>> & {
+  fontFamily?: string;
+  fontWeight?: Partial<Record<TypographyVariant, TextStyle["fontWeight"]>>;
 };
 
-export type TypographyOverrides = Partial<Record<TypographyVariant, TextStyle>>;
+interface ThemeLike {
+  typography?: ThemeTypography;
+}
 
-export interface TypographyProps extends RNTextProps {
+function createTypographyStyles(themeTypography?: ThemeTypography) {
+  const variantStyles = {} as Record<TypographyVariant, TextStyle>;
+
+  for (const variant of Object.keys(typographyTokens) as TypographyVariant[]) {
+    const localToken = typographyTokens[variant];
+    const themedToken = themeTypography?.[variant];
+    const themedFontFamily = themedToken?.fontFamily ?? themeTypography?.fontFamily;
+    const themedFontWeight = themeTypography?.fontWeight?.[variant];
+
+    variantStyles[variant] = {
+      fontSize: themedToken?.fontSize ?? localToken.fontSize,
+      lineHeight: themedToken?.lineHeight ?? localToken.lineHeight,
+      letterSpacing: themedToken?.letterSpacing ?? localToken.letterSpacing,
+      fontWeight: themedFontWeight ?? themedToken?.fontWeight ?? localToken.fontWeight,
+      ...(themedFontFamily ? { fontFamily: themedFontFamily } : {})
+    };
+  }
+
+  return StyleSheet.create(variantStyles);
+}
+
+export interface TypographyProps
+  extends Omit<TextProps, "children" | "style"> {
+  children: ReactNode;
   variant?: TypographyVariant;
-  overrides?: TypographyOverrides;
+  style?: StyleProp<TextStyle>;
+  numberOfLines?: TextProps["numberOfLines"];
+  ellipsizeMode?: TextProps["ellipsizeMode"];
+  selectable?: TextProps["selectable"];
 }
 
 export function Typography({
-  variant = "bodyMedium",
-  overrides,
-  style,
   children,
+  variant = "bodyMedium",
+  style,
+  numberOfLines,
+  ellipsizeMode,
+  selectable,
   ...props
 }: TypographyProps) {
-  const variantStyle = overrides?.[variant] ?? defaultVariants[variant];
+  const theme = useTheme() as ThemeLike | undefined;
+  const styles = useMemo(
+    () => createTypographyStyles(theme?.typography),
+    [theme?.typography]
+  );
 
   return (
-    <RNText {...props} style={[variantStyle, style]}>
+    <Text
+      {...props}
+      numberOfLines={numberOfLines}
+      ellipsizeMode={ellipsizeMode}
+      selectable={selectable}
+      style={[styles[variant], style]}
+    >
       {children}
-    </RNText>
+    </Text>
   );
 }
-
-export const typography = defaultVariants;
