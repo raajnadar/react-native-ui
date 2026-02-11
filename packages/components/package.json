@@ -39,6 +39,7 @@
     "build": "tsup src/index.ts src/button/index.ts src/typography/index.ts --dts --format cjs --outDir dist --clean"
   },
   "peerDependencies": {
+    "@expo/vector-icons": ">=15.0.0",
     "@rn-ui/core": "0.0.0",
     "react": "19.1.0",
     "react-native": "0.81.5",
