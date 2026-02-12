@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import type { StyleProp, TextProps, TextStyle } from "react-native";
 import { StyleSheet, Text } from "react-native";
 import { useTheme } from "@rn-ui/core";
@@ -21,6 +21,9 @@ type ThemeTypography = Partial<Record<TypographyVariant, ThemeTypographyToken>> 
 
 interface ThemeLike {
   typography?: ThemeTypography;
+  colors?: {
+    onBackground?: string;
+  };
 }
 
 function createTypographyStyles(themeTypography?: ThemeTypography) {
@@ -49,35 +52,32 @@ export interface TypographyProps
   children: ReactNode;
   variant?: TypographyVariant;
   style?: StyleProp<TextStyle>;
-  numberOfLines?: TextProps["numberOfLines"];
-  ellipsizeMode?: TextProps["ellipsizeMode"];
-  selectable?: TextProps["selectable"];
+  as?: ComponentType<TextProps>;
 }
 
 export function Typography({
   children,
   variant = "bodyMedium",
   style,
-  numberOfLines,
-  ellipsizeMode,
-  selectable,
-  ...props
+  as: Component = Text,
+  ...textProps
 }: TypographyProps) {
   const theme = useTheme() as ThemeLike | undefined;
   const styles = useMemo(
     () => createTypographyStyles(theme?.typography),
     [theme?.typography]
   );
+  const colorStyle = useMemo(
+    () => ({ color: theme?.colors?.onBackground }),
+    [theme?.colors?.onBackground]
+  );
 
   return (
-    <Text
-      {...props}
-      numberOfLines={numberOfLines}
-      ellipsizeMode={ellipsizeMode}
-      selectable={selectable}
-      style={[styles[variant], style]}
+    <Component
+      {...textProps}
+      style={[styles[variant], colorStyle, style]}
     >
       {children}
-    </Text>
+    </Component>
   );
 }
