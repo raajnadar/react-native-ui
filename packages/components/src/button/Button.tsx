@@ -9,24 +9,24 @@ import type { ButtonProps } from "./types";
 
 function resolveStyle(
   containerStyle: StyleProp<ViewStyle>,
-  pressedStyle: StyleProp<ViewStyle>,
-  disabledStyle: StyleProp<ViewStyle>,
+  pressedContainerStyle: StyleProp<ViewStyle>,
+  disabledContainerStyle: StyleProp<ViewStyle>,
   disabled: boolean,
   style: ButtonProps["style"]
 ): (state: { pressed: boolean }) => StyleProp<ViewStyle> {
   if (typeof style === "function") {
     return (state) => [
       containerStyle,
-      state.pressed && !disabled ? pressedStyle : undefined,
-      disabled ? disabledStyle : undefined,
+      state.pressed && !disabled ? pressedContainerStyle : undefined,
+      disabled ? disabledContainerStyle : undefined,
       style(state)
     ];
   }
 
   return ({ pressed }) => [
     containerStyle,
-    pressed && !disabled ? pressedStyle : undefined,
-    disabled ? disabledStyle : undefined,
+    pressed && !disabled ? pressedContainerStyle : undefined,
+    disabled ? disabledContainerStyle : undefined,
     style
   ];
 }
@@ -50,13 +50,15 @@ export function Button({
       disabled={isDisabled}
       style={resolveStyle(
         styles.container,
-        styles.pressed,
-        styles.disabled,
+        styles.pressedContainer,
+        styles.disabledContainer,
         isDisabled,
         style
       )}
     >
-      <Text style={styles.label}>{children}</Text>
+      <Text style={[styles.label, isDisabled ? styles.disabledLabel : undefined]}>
+        {children}
+      </Text>
     </Pressable>
   );
 }

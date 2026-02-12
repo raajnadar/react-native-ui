@@ -14,8 +14,6 @@ export interface LayoutProps extends PropsWithChildren {
   style?: StyleProp<ViewStyle>;
 }
 
-const immersiveEdges: Edge[] = ["left", "right", "bottom"];
-
 function createStyles(theme: Theme) {
   return StyleSheet.create({
     root: {
@@ -25,18 +23,33 @@ function createStyles(theme: Theme) {
   });
 }
 
+function removeBackgroundColor(style?: StyleProp<ViewStyle>) {
+  if (!style) {
+    return undefined;
+  }
+
+  const flattenedStyle = StyleSheet.flatten(style);
+
+  if (!flattenedStyle || flattenedStyle.backgroundColor === undefined) {
+    return style;
+  }
+
+  const styleWithoutBackground = { ...flattenedStyle };
+  delete styleWithoutBackground.backgroundColor;
+
+  return styleWithoutBackground;
+}
+
 export function Layout({
   children,
-  immersive = false,
-  edges,
   style
 }: LayoutProps) {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
-  const resolvedEdges = immersive ? immersiveEdges : edges;
+  const styleWithoutBackground = useMemo(() => removeBackgroundColor(style), [style]);
 
   return (
-    <SafeAreaView style={[styles.root, style]} edges={resolvedEdges}>
+    <SafeAreaView style={[styles.root, styleWithoutBackground]} edges={["bottom"]}>
       {children}
     </SafeAreaView>
   );
