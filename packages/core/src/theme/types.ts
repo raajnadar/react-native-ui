@@ -2,6 +2,8 @@ export interface Theme {
   colors: Colors;
   typography: Typography;
   shape: Shape;
+  spacing: Spacing;
+  stateLayer: StateLayer;
   elevation: Elevation;
   motion: Motion;
 }
@@ -11,14 +13,26 @@ export interface Colors {
   onPrimary: string;
   primaryContainer: string;
   onPrimaryContainer: string;
+  primaryFixed: string;
+  onPrimaryFixed: string;
+  primaryFixedDim: string;
+  onPrimaryFixedVariant: string;
   secondary: string;
   onSecondary: string;
   secondaryContainer: string;
   onSecondaryContainer: string;
+  secondaryFixed: string;
+  onSecondaryFixed: string;
+  secondaryFixedDim: string;
+  onSecondaryFixedVariant: string;
   tertiary: string;
   onTertiary: string;
   tertiaryContainer: string;
   onTertiaryContainer: string;
+  tertiaryFixed: string;
+  onTertiaryFixed: string;
+  tertiaryFixedDim: string;
+  onTertiaryFixedVariant: string;
   error: string;
   onError: string;
   errorContainer: string;
@@ -26,11 +40,19 @@ export interface Colors {
   background: string;
   onBackground: string;
   surface: string;
+  surfaceDim: string;
+  surfaceBright: string;
+  surfaceContainerLowest: string;
+  surfaceContainerLow: string;
+  surfaceContainer: string;
+  surfaceContainerHigh: string;
+  surfaceContainerHighest: string;
   onSurface: string;
   surfaceVariant: string;
   onSurfaceVariant: string;
   outline: string;
   outlineVariant: string;
+  surfaceTint: string;
   shadow: string;
   scrim: string;
   inverseSurface: string;
@@ -40,8 +62,19 @@ export interface Colors {
 
 export interface Typography {
   displayLarge: TextStyle;
+  displayMedium: TextStyle;
+  displaySmall: TextStyle;
+  headlineLarge: TextStyle;
   headlineMedium: TextStyle;
+  headlineSmall: TextStyle;
+  titleLarge: TextStyle;
+  titleMedium: TextStyle;
+  titleSmall: TextStyle;
   bodyLarge: TextStyle;
+  bodyMedium: TextStyle;
+  bodySmall: TextStyle;
+  labelLarge: TextStyle;
+  labelMedium: TextStyle;
   labelSmall: TextStyle;
 }
 
@@ -63,13 +96,39 @@ export interface Shape {
   cornerFull: number;
 }
 
+export interface Spacing {
+  xs: number;
+  sm: number;
+  md: number;
+  lg: number;
+  xl: number;
+}
+
+export interface StateLayer {
+  pressedOpacity: number;
+  focusedOpacity: number;
+  hoveredOpacity: number;
+  disabledOpacity: number;
+}
+
 export interface Elevation {
-  level0: number;
-  level1: number;
-  level2: number;
-  level3: number;
-  level4: number;
-  level5: number;
+  level0: ElevationLevel;
+  level1: ElevationLevel;
+  level2: ElevationLevel;
+  level3: ElevationLevel;
+}
+
+export interface ElevationLevel {
+  shadowColor: string;
+  shadowOffset: ShadowOffset;
+  shadowOpacity: number;
+  shadowRadius: number;
+  elevation: number;
+}
+
+export interface ShadowOffset {
+  width: number;
+  height: number;
 }
 
 export interface Motion {

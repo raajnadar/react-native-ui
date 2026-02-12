@@ -1,4 +1,5 @@
 import type { Theme } from "./types";
+import { defaultTypography } from "./typography";
 
 export const lightTheme: Theme = {
   colors: {
@@ -6,14 +7,26 @@ export const lightTheme: Theme = {
     onPrimary: "#FFFFFF",
     primaryContainer: "#EADDFF",
     onPrimaryContainer: "#21005D",
+    primaryFixed: "#EADDFF",
+    onPrimaryFixed: "#21005D",
+    primaryFixedDim: "#D0BCFF",
+    onPrimaryFixedVariant: "#4F378B",
     secondary: "#625B71",
     onSecondary: "#FFFFFF",
     secondaryContainer: "#E8DEF8",
     onSecondaryContainer: "#1D192B",
+    secondaryFixed: "#E8DEF8",
+    onSecondaryFixed: "#1D192B",
+    secondaryFixedDim: "#CCC2DC",
+    onSecondaryFixedVariant: "#4A4458",
     tertiary: "#7D5260",
     onTertiary: "#FFFFFF",
     tertiaryContainer: "#FFD8E4",
     onTertiaryContainer: "#31111D",
+    tertiaryFixed: "#FFD8E4",
+    onTertiaryFixed: "#31111D",
+    tertiaryFixedDim: "#EFB8C8",
+    onTertiaryFixedVariant: "#633B48",
     error: "#B3261E",
     onError: "#FFFFFF",
     errorContainer: "#F9DEDC",
@@ -21,47 +34,26 @@ export const lightTheme: Theme = {
     background: "#FFFBFE",
     onBackground: "#1C1B1F",
     surface: "#FFFBFE",
+    surfaceDim: "#DED8E1",
+    surfaceBright: "#FFFBFE",
+    surfaceContainerLowest: "#FFFFFF",
+    surfaceContainerLow: "#F7F2FA",
+    surfaceContainer: "#F3EDF7",
+    surfaceContainerHigh: "#ECE6F0",
+    surfaceContainerHighest: "#E6E0E9",
     onSurface: "#1C1B1F",
     surfaceVariant: "#E7E0EC",
     onSurfaceVariant: "#49454F",
     outline: "#79747E",
     outlineVariant: "#CAC4D0",
+    surfaceTint: "#6750A4",
     shadow: "#000000",
     scrim: "#000000",
     inverseSurface: "#313033",
     inverseOnSurface: "#F4EFF4",
     inversePrimary: "#D0BCFF"
   },
-  typography: {
-    displayLarge: {
-      fontFamily: "Roboto",
-      fontSize: 57,
-      fontWeight: "400",
-      lineHeight: 64,
-      letterSpacing: -0.25
-    },
-    headlineMedium: {
-      fontFamily: "Roboto",
-      fontSize: 28,
-      fontWeight: "400",
-      lineHeight: 36,
-      letterSpacing: 0
-    },
-    bodyLarge: {
-      fontFamily: "Roboto",
-      fontSize: 16,
-      fontWeight: "400",
-      lineHeight: 24,
-      letterSpacing: 0.5
-    },
-    labelSmall: {
-      fontFamily: "Roboto",
-      fontSize: 11,
-      fontWeight: "500",
-      lineHeight: 16,
-      letterSpacing: 0.5
-    }
-  },
+  typography: defaultTypography,
   shape: {
     cornerNone: 0,
     cornerExtraSmall: 4,
@@ -71,13 +63,60 @@ export const lightTheme: Theme = {
     cornerExtraLarge: 28,
     cornerFull: 999
   },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32
+  },
+  stateLayer: {
+    pressedOpacity: 0.12,
+    focusedOpacity: 0.12,
+    hoveredOpacity: 0.08,
+    disabledOpacity: 0.38
+  },
   elevation: {
-    level0: 0,
-    level1: 1,
-    level2: 3,
-    level3: 6,
-    level4: 8,
-    level5: 12
+    level0: {
+      shadowColor: "#000000",
+      shadowOffset: {
+        width: 0,
+        height: 0
+      },
+      shadowOpacity: 0,
+      shadowRadius: 0,
+      elevation: 0
+    },
+    level1: {
+      shadowColor: "#000000",
+      shadowOffset: {
+        width: 0,
+        height: 1
+      },
+      shadowOpacity: 0.16,
+      shadowRadius: 2,
+      elevation: 1
+    },
+    level2: {
+      shadowColor: "#000000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      elevation: 3
+    },
+    level3: {
+      shadowColor: "#000000",
+      shadowOffset: {
+        width: 0,
+        height: 4
+      },
+      shadowOpacity: 0.24,
+      shadowRadius: 8,
+      elevation: 6
+    }
   },
   motion: {
     durationShort1: 50,
