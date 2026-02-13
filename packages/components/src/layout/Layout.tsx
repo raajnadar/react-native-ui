@@ -6,22 +6,31 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import type { Edge } from "react-native-safe-area-context";
 import { useTheme } from "@rn-ui/core";
 
-import type { Theme } from "@rn-ui/core";
-
 export interface LayoutProps extends PropsWithChildren {
   immersive?: boolean;
   edges?: Edge[];
   style?: StyleProp<ViewStyle>;
 }
 
-function createStyles(theme: Theme) {
-  return StyleSheet.create({
-    root: {
-      flex: 1,
-      backgroundColor: theme.colors.background
-    }
-  });
+const defaultEdges: Edge[] = ["bottom"];
+
+function resolveEdges(immersive?: boolean, edges?: Edge[]): Edge[] {
+  if (edges) {
+    return edges;
+  }
+
+  if (immersive) {
+    return [];
+  }
+
+  return defaultEdges;
 }
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1
+  }
+});
 
 function removeBackgroundColor(style?: StyleProp<ViewStyle>) {
   if (!style) {
@@ -41,15 +50,21 @@ function removeBackgroundColor(style?: StyleProp<ViewStyle>) {
 }
 
 export function Layout({
+  immersive,
+  edges,
   children,
   style
 }: LayoutProps) {
   const theme = useTheme();
-  const styles = useMemo(() => createStyles(theme), [theme]);
+  const themeBackgroundStyle = useMemo(
+    () => ({ backgroundColor: theme.colors.background }),
+    [theme.colors.background]
+  );
   const styleWithoutBackground = useMemo(() => removeBackgroundColor(style), [style]);
+  const safeAreaEdges = useMemo(() => resolveEdges(immersive, edges), [immersive, edges]);
 
   return (
-    <SafeAreaView style={[styles.root, styleWithoutBackground]} edges={["bottom"]}>
+    <SafeAreaView style={[styles.root, themeBackgroundStyle, styleWithoutBackground]} edges={safeAreaEdges}>
       {children}
     </SafeAreaView>
   );

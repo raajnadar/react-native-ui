@@ -4,44 +4,36 @@ import { Pressable } from "react-native";
 import { useTheme } from "@rn-ui/core";
 
 import { createStyles } from "./styles";
-import type { IconButtonProps, IconButtonVariant } from "./types";
-
-function parseHexColor(color: string) {
-  const normalized = color.replace("#", "");
-
-  if (normalized.length !== 6 && normalized.length !== 8) {
-    return null;
-  }
-
-  const r = Number.parseInt(normalized.slice(0, 2), 16);
-  const g = Number.parseInt(normalized.slice(2, 4), 16);
-  const b = Number.parseInt(normalized.slice(4, 6), 16);
-
-  if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) {
-    return null;
-  }
-
-  return { r, g, b };
-}
-
-function alphaColor(color: string, alpha: number): string {
-  const channels = parseHexColor(color);
-  const boundedAlpha = Math.max(0, Math.min(1, alpha));
-
-  if (!channels) {
-    return color;
-  }
-
-  return `rgba(${channels.r}, ${channels.g}, ${channels.b}, ${boundedAlpha})`;
-}
+import type { IconButtonProps, IconButtonSize, IconButtonVariant } from "./types";
+import { alphaColor } from "../utils/color";
 
 function getIconColor(
   variant: IconButtonVariant,
   theme: ReturnType<typeof useTheme>,
-  disabled: boolean
+  disabled: boolean,
+  isToggle: boolean,
+  selected: boolean
 ): string {
   if (disabled) {
     return alphaColor(theme.colors.onSurface, 0.38);
+  }
+
+  if (isToggle) {
+    if (variant === "filled") {
+      return selected ? theme.colors.onPrimary : theme.colors.primary;
+    }
+
+    if (variant === "tonal") {
+      return selected
+        ? theme.colors.onSecondaryContainer
+        : theme.colors.onSurfaceVariant;
+    }
+
+    if (variant === "outlined") {
+      return selected ? theme.colors.inverseOnSurface : theme.colors.onSurfaceVariant;
+    }
+
+    return selected ? theme.colors.primary : theme.colors.onSurfaceVariant;
   }
 
   if (variant === "filled") {
@@ -57,8 +49,26 @@ function getIconColor(
 
 function getColorStyle(
   styles: ReturnType<typeof createStyles>,
-  variant: IconButtonVariant
+  variant: IconButtonVariant,
+  isToggle: boolean,
+  selected: boolean
 ) {
+  if (isToggle) {
+    if (variant === "tonal") {
+      return selected ? styles.colorTonalToggleSelected : styles.colorTonalToggleUnselected;
+    }
+
+    if (variant === "outlined") {
+      return selected ? styles.colorOutlinedToggleSelected : styles.colorOutlined;
+    }
+
+    if (variant === "standard") {
+      return selected ? styles.colorStandardToggleSelected : styles.colorStandard;
+    }
+
+    return selected ? styles.colorFilledToggleSelected : styles.colorFilledToggleUnselected;
+  }
+
   if (variant === "tonal") {
     return styles.colorTonal;
   }
@@ -74,10 +84,72 @@ function getColorStyle(
   return styles.colorFilled;
 }
 
+function getSizeStyle(styles: ReturnType<typeof createStyles>, size: IconButtonSize) {
+  if (size === "small") {
+    return styles.sizeSmall;
+  }
+
+  if (size === "large") {
+    return styles.sizeLarge;
+  }
+
+  return styles.sizeMedium;
+}
+
+function getIconPixelSize(size: IconButtonSize): number {
+  if (size === "small") {
+    return 18;
+  }
+
+  if (size === "large") {
+    return 28;
+  }
+
+  return 24;
+}
+
+function getDefaultHitSlop(size: IconButtonSize): number {
+  if (size === "small") {
+    return 8;
+  }
+
+  if (size === "large") {
+    return 0;
+  }
+
+  return 4;
+}
+
 function getPressedStyle(
   styles: ReturnType<typeof createStyles>,
-  variant: IconButtonVariant
+  variant: IconButtonVariant,
+  isToggle: boolean,
+  selected: boolean
 ) {
+  if (isToggle) {
+    if (variant === "tonal") {
+      return selected
+        ? styles.pressedTonalToggleSelected
+        : styles.pressedTonalToggleUnselected;
+    }
+
+    if (variant === "outlined") {
+      return selected
+        ? styles.pressedOutlinedToggleSelected
+        : styles.pressedOutlinedToggleUnselected;
+    }
+
+    if (variant === "standard") {
+      return selected
+        ? styles.pressedStandardToggleSelected
+        : styles.pressedStandardToggleUnselected;
+    }
+
+    return selected
+      ? styles.pressedFilledToggleSelected
+      : styles.pressedFilledToggleUnselected;
+  }
+
   if (variant === "tonal") {
     return styles.pressedTonal;
   }
@@ -114,33 +186,46 @@ function getDisabledStyle(
 
 export function IconButton({
   icon,
+  selectedIcon,
   onPress,
   disabled = false,
   variant = "filled",
+  selected,
+  size = "medium",
   hitSlop,
   ...props
 }: IconButtonProps) {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const isDisabled = Boolean(disabled);
-  const iconColor = getIconColor(variant, theme, isDisabled);
+  const isToggle = selected !== undefined;
+  const isSelected = Boolean(selected);
+  const iconColor = getIconColor(variant, theme, isDisabled, isToggle, isSelected);
+  const displayIcon = isToggle && isSelected && selectedIcon ? selectedIcon : icon;
+  const iconPixelSize = getIconPixelSize(size);
+  const accessibilityState = isToggle
+    ? { disabled: isDisabled, selected: isSelected }
+    : { disabled: isDisabled };
 
   return (
     <Pressable
       {...props}
       accessibilityRole="button"
-      accessibilityState={{ disabled: isDisabled }}
+      accessibilityState={accessibilityState}
       disabled={isDisabled}
-      hitSlop={hitSlop ?? 4}
+      hitSlop={hitSlop ?? getDefaultHitSlop(size)}
       onPress={onPress}
       style={({ pressed }) => [
         styles.container,
-        getColorStyle(styles, variant),
-        pressed && !isDisabled ? getPressedStyle(styles, variant) : undefined,
+        getSizeStyle(styles, size),
+        getColorStyle(styles, variant, isToggle, isSelected),
+        pressed && !isDisabled
+          ? getPressedStyle(styles, variant, isToggle, isSelected)
+          : undefined,
         isDisabled ? getDisabledStyle(styles, variant) : undefined
       ]}
     >
-      <MaterialCommunityIcons name={icon} size={24} color={iconColor} />
+      <MaterialCommunityIcons name={displayIcon} size={iconPixelSize} color={iconColor} />
     </Pressable>
   );
 }

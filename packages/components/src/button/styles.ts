@@ -1,8 +1,9 @@
+import type { ViewStyle } from "react-native";
 import { StyleSheet } from "react-native";
 import type { Theme } from "@rn-ui/core";
 
-import { typographyTokens } from "../typography/tokens";
 import type { ButtonVariant } from "./types";
+import { alphaColor, blendColor } from "../utils/color";
 
 interface VariantColors {
   backgroundColor: string;
@@ -13,57 +14,6 @@ interface VariantColors {
   disabledBackgroundColor: string;
   disabledTextColor: string;
   disabledBorderColor: string;
-}
-
-function parseHexColor(color: string) {
-  const normalized = color.replace("#", "");
-
-  if (normalized.length !== 6 && normalized.length !== 8) {
-    return null;
-  }
-
-  const r = Number.parseInt(normalized.slice(0, 2), 16);
-  const g = Number.parseInt(normalized.slice(2, 4), 16);
-  const b = Number.parseInt(normalized.slice(4, 6), 16);
-
-  if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) {
-    return null;
-  }
-
-  return { r, g, b };
-}
-
-function alphaColor(color: string, alpha: number): string {
-  const channels = parseHexColor(color);
-  const boundedAlpha = Math.max(0, Math.min(1, alpha));
-
-  if (!channels) {
-    return color;
-  }
-
-  return `rgba(${channels.r}, ${channels.g}, ${channels.b}, ${boundedAlpha})`;
-}
-
-function blendColor(base: string, overlay: string, overlayAlpha: number): string {
-  const baseChannels = parseHexColor(base);
-  const overlayChannels = parseHexColor(overlay);
-  const boundedAlpha = Math.max(0, Math.min(1, overlayAlpha));
-
-  if (!baseChannels || !overlayChannels) {
-    return alphaColor(overlay, boundedAlpha);
-  }
-
-  const r = Math.round(
-    (1 - boundedAlpha) * baseChannels.r + boundedAlpha * overlayChannels.r
-  );
-  const g = Math.round(
-    (1 - boundedAlpha) * baseChannels.g + boundedAlpha * overlayChannels.g
-  );
-  const b = Math.round(
-    (1 - boundedAlpha) * baseChannels.b + boundedAlpha * overlayChannels.b
-  );
-
-  return `rgb(${r}, ${g}, ${b})`;
 }
 
 function getVariantColors(theme: Theme, variant: ButtonVariant): VariantColors {
@@ -103,6 +53,23 @@ function getVariantColors(theme: Theme, variant: ButtonVariant): VariantColors {
     };
   }
 
+  if (variant === "elevated") {
+    return {
+      backgroundColor: theme.colors.surfaceContainerLow,
+      textColor: theme.colors.primary,
+      borderColor: theme.colors.surfaceContainerLow,
+      borderWidth: 0,
+      pressedBackgroundColor: blendColor(
+        theme.colors.surfaceContainerLow,
+        theme.colors.primary,
+        theme.stateLayer.pressedOpacity
+      ),
+      disabledBackgroundColor: disabledContainerColor,
+      disabledTextColor: disabledLabelColor,
+      disabledBorderColor: disabledContainerColor
+    };
+  }
+
   if (variant === "tonal") {
     return {
       backgroundColor: theme.colors.secondaryContainer,
@@ -138,7 +105,34 @@ function getVariantColors(theme: Theme, variant: ButtonVariant): VariantColors {
 
 export function createStyles(theme: Theme, variant: ButtonVariant) {
   const colors = getVariantColors(theme, variant);
-  const labelToken = typographyTokens.labelLarge;
+  const labelStyle = theme.typography.labelLarge;
+  const elevationLevel0: Pick<
+    ViewStyle,
+    "shadowColor" | "shadowOffset" | "shadowOpacity" | "shadowRadius" | "elevation"
+  > = {
+    shadowColor: theme.elevation.level0.shadowColor,
+    shadowOffset: {
+      width: theme.elevation.level0.shadowOffset.width,
+      height: theme.elevation.level0.shadowOffset.height
+    },
+    shadowOpacity: theme.elevation.level0.shadowOpacity,
+    shadowRadius: theme.elevation.level0.shadowRadius,
+    elevation: theme.elevation.level0.elevation
+  };
+  const elevationLevel1: Pick<
+    ViewStyle,
+    "shadowColor" | "shadowOffset" | "shadowOpacity" | "shadowRadius" | "elevation"
+  > = {
+    shadowColor: theme.elevation.level1.shadowColor,
+    shadowOffset: {
+      width: theme.elevation.level1.shadowOffset.width,
+      height: theme.elevation.level1.shadowOffset.height
+    },
+    shadowOpacity: theme.elevation.level1.shadowOpacity,
+    shadowRadius: theme.elevation.level1.shadowRadius,
+    elevation: theme.elevation.level1.elevation
+  };
+  const elevationStyle = variant === "elevated" ? elevationLevel1 : elevationLevel0;
 
   return StyleSheet.create({
     container: {
@@ -152,22 +146,30 @@ export function createStyles(theme: Theme, variant: ButtonVariant) {
       borderRadius: theme.shape.cornerFull,
       backgroundColor: colors.backgroundColor,
       borderColor: colors.borderColor,
-      borderWidth: colors.borderWidth
+      borderWidth: colors.borderWidth,
+      ...elevationStyle
     },
     pressedContainer: {
       backgroundColor: colors.pressedBackgroundColor
     },
     disabledContainer: {
       backgroundColor: colors.disabledBackgroundColor,
-      borderColor: colors.disabledBorderColor
+      borderColor: colors.disabledBorderColor,
+      ...elevationLevel0
     },
     label: {
-      fontFamily: theme.typography.labelSmall.fontFamily,
-      fontSize: labelToken.fontSize,
-      lineHeight: labelToken.lineHeight,
-      fontWeight: labelToken.fontWeight,
-      letterSpacing: labelToken.letterSpacing,
+      fontFamily: labelStyle.fontFamily,
+      fontSize: labelStyle.fontSize,
+      lineHeight: labelStyle.lineHeight,
+      fontWeight: labelStyle.fontWeight,
+      letterSpacing: labelStyle.letterSpacing,
       color: colors.textColor
+    },
+    leadingIcon: {
+      marginRight: theme.spacing.sm
+    },
+    trailingIcon: {
+      marginLeft: theme.spacing.sm
     },
     disabledLabel: {
       color: colors.disabledTextColor
