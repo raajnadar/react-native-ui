@@ -1,49 +1,85 @@
-# Contributing
+# Contributing to React Native UI
 
-Thanks for contributing to `react-native-ui`.
+Thanks for contributing. This project is a `pnpm` monorepo with shared packages and an Expo example app, so keeping changes scoped and verifiable is important.
 
-## Quick Checklist
-- Use Node.js >= 18 and `pnpm` (workspace uses `pnpm@9`).
-- Run `pnpm install` once at the repo root.
-- Keep changes scoped and add/update docs/tests when relevant.
+## Development Stack
+- Node.js `>=18`
+- `pnpm@9`
+- Expo SDK `54` (used by `example`)
 
-## Repo Layout
-- `packages/core`: Library source and build output.
-- `example`: Example app used for manual testing.
+## Local Setup
 
-## Setup
-1. Install dependencies at the repo root:
-   - `pnpm install`
-2. (Optional) Run the example app:
-   - `pnpm --filter example start`
+```bash
+pnpm install
+pnpm run example
+```
 
-## Common Scripts (Repo Root)
-- `pnpm run build`: Build all packages via Turborepo.
-- `pnpm run dev`: Run package dev tasks via Turborepo.
-- `pnpm run test`: Run tests via Turborepo (if configured per package).
-- `pnpm run lint`: Lint `example` and `packages`.
-- `pnpm run format`: Format the repo with Prettier.
-- `pnpm run clean`: Clean build outputs via Turborepo.
+Optional platform runs:
 
-## Package Scripts
-- `packages/core`:
-  - `pnpm --filter @rn-ui/core run build`
+```bash
+pnpm --filter example ios
+pnpm --filter example android
+pnpm --filter example web
+```
 
-## Code Style
-- ESLint is configured in `eslint.config.js`.
-- Prettier config lives in `.prettierrc`.
-- Please run `pnpm run lint` and `pnpm run format` before submitting.
+## Project Structure
+- `packages/core`: theme contracts, theme objects, provider, and hooks.
+- `packages/components`: reusable UI components and subpath exports.
+- `example`: Expo Router app used for manual validation.
 
-## Making Changes
-1. Create a focused branch.
-2. Make changes in `packages/` and/or `example/` as needed.
-3. Update or add documentation when behavior changes.
-4. Verify locally:
-   - `pnpm run lint`
-   - `pnpm run build`
-   - `pnpm --filter example start` (manual check)
+## Contribution Guidelines
+- Keep each PR focused on a single concern (component behavior, refactor, docs, etc.).
+- Preserve public exports unless the change explicitly targets an API update.
+- When changing component behavior, update the example screens in `example/app`.
+- When changing public APIs, update relevant docs and examples in the same PR.
 
-## Submitting
-- Open a PR with a clear description of the change and any tradeoffs.
-- Include screenshots or short notes for UI changes in `example/`.
-- Keep commits small and intentional.
+## Code Quality Standards
+- Linting: `eslint.config.js`
+- Formatting: `.prettierrc`
+- Type safety: package builds generate type declarations and should stay clean.
+
+Run this before opening a PR:
+
+```bash
+pnpm run lint
+pnpm run build
+pnpm run format
+```
+
+If your change affects runtime behavior, also validate manually:
+
+```bash
+pnpm run example
+```
+
+## Useful Commands
+
+| Command | Description |
+| --- | --- |
+| `pnpm run build` | Build all packages through Turborepo. |
+| `pnpm run dev` | Run package `dev` tasks. |
+| `pnpm run test` | Run package `test` tasks when available. |
+| `pnpm run lint` | Lint `example` and `packages`. |
+| `pnpm run format` | Format repository files with Prettier. |
+| `pnpm run clean` | Clear build outputs. |
+| `pnpm --filter @rn-ui/core build` | Build core package only. |
+| `pnpm --filter @rn-ui/components build` | Build components package only. |
+
+## Pull Request Checklist
+- [ ] Branch is focused and rebased on latest main branch state.
+- [ ] Local commands pass (`lint`, `build`, and formatting applied).
+- [ ] Example app behavior is verified for impacted components.
+- [ ] Docs were updated for any API or behavior changes.
+- [ ] PR description includes scope, rationale, and visual notes for UI changes.
+
+## Commit Guidance
+- Prefer clear, imperative commit messages.
+- Keep commits small enough to review logically.
+- Squash noisy fixup commits before merge when appropriate.
+
+## Reporting Issues
+When filing an issue, include:
+- Reproduction steps.
+- Expected vs actual behavior.
+- Device/platform details (iOS, Android, web, simulator/emulator/device).
+- Relevant screenshots or logs when applicable.
