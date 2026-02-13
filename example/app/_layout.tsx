@@ -1,9 +1,10 @@
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { StyleSheet, View, useColorScheme } from "react-native";
 import { Slot, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { MaterialProvider, darkTheme, lightTheme, useTheme } from "@rn-ui/core";
 import { AppBar, Layout } from "@rn-ui/components";
+import type { AppBarAction } from "@rn-ui/components";
 
 function resolveRouteName(segments: string[]): string {
   const visibleSegments = segments.filter((segment) => !segment.startsWith("("));
@@ -26,6 +27,7 @@ function resolveTitle(routeName: string): string {
 const stackScreenOptions = {
   headerShown: false
 } as const;
+type ThemePreference = "system" | "light" | "dark";
 
 function isDarkColor(color: string): boolean {
   const normalizedHex = color.replace("#", "");
@@ -52,7 +54,12 @@ const styles = StyleSheet.create({
   }
 });
 
-function RootLayoutContent() {
+interface RootLayoutContentProps {
+  isDarkTheme: boolean;
+  onToggleTheme: () => void;
+}
+
+function RootLayoutContent({ isDarkTheme, onToggleTheme }: RootLayoutContentProps) {
   const theme = useTheme();
   const router = useRouter();
   const segments = useSegments();
@@ -60,6 +67,16 @@ function RootLayoutContent() {
   const title = useMemo(() => resolveTitle(routeName), [routeName]);
   const canGoBack = routeName !== "index";
   const statusBarStyle = isDarkColor(theme.colors.surface) ? "light" : "dark";
+  const appBarActions = useMemo<AppBarAction[]>(
+    () => [
+      {
+        icon: isDarkTheme ? "white-balance-sunny" : "weather-night",
+        accessibilityLabel: isDarkTheme ? "Switch to light theme" : "Switch to dark theme",
+        onPress: onToggleTheme
+      }
+    ],
+    [isDarkTheme, onToggleTheme]
+  );
 
   return (
     <>
@@ -74,6 +91,7 @@ function RootLayoutContent() {
           title={title}
           canGoBack={canGoBack}
           onBackPress={() => router.back()}
+          actions={appBarActions}
           insetTop
         />
         <View style={styles.content}>
@@ -86,11 +104,24 @@ function RootLayoutContent() {
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const theme = colorScheme === "dark" ? darkTheme : lightTheme;
+  const [themePreference, setThemePreference] = useState<ThemePreference>("system");
+  const isDarkTheme =
+    themePreference === "system" ? colorScheme === "dark" : themePreference === "dark";
+  const theme = isDarkTheme ? darkTheme : lightTheme;
+  const toggleTheme = useCallback(() => {
+    setThemePreference((currentPreference) => {
+      const currentIsDark =
+        currentPreference === "system"
+          ? colorScheme === "dark"
+          : currentPreference === "dark";
+
+      return currentIsDark ? "light" : "dark";
+    });
+  }, [colorScheme]);
 
   return (
     <MaterialProvider theme={theme}>
-      <RootLayoutContent />
+      <RootLayoutContent isDarkTheme={isDarkTheme} onToggleTheme={toggleTheme} />
     </MaterialProvider>
   );
 }
