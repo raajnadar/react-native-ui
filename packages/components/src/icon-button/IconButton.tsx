@@ -187,6 +187,7 @@ function getDisabledStyle(
 export function IconButton({
   icon,
   selectedIcon,
+  iconColor,
   onPress,
   disabled = false,
   variant = "filled",
@@ -200,7 +201,8 @@ export function IconButton({
   const isDisabled = Boolean(disabled);
   const isToggle = selected !== undefined;
   const isSelected = Boolean(selected);
-  const iconColor = getIconColor(variant, theme, isDisabled, isToggle, isSelected);
+  const resolvedIconColor =
+    iconColor ?? getIconColor(variant, theme, isDisabled, isToggle, isSelected);
   const displayIcon = isToggle && isSelected && selectedIcon ? selectedIcon : icon;
   const iconPixelSize = getIconPixelSize(size);
   const accessibilityState = isToggle
@@ -225,7 +227,11 @@ export function IconButton({
         isDisabled ? getDisabledStyle(styles, variant) : undefined
       ]}
     >
-      <MaterialCommunityIcons name={displayIcon} size={iconPixelSize} color={iconColor} />
+      <MaterialCommunityIcons
+        name={displayIcon}
+        size={iconPixelSize}
+        color={resolvedIconColor}
+      />
     </Pressable>
   );
 }

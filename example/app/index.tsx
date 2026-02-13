@@ -9,10 +9,13 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Typography variant="headlineSmall">Components</Typography>
       <View style={styles.list}>
-        <Button variant="outlined" onPress={() => router.push("/typography")}>
+        <Button onPress={() => router.push("/appbar")}>
+          AppBar
+        </Button>
+        <Button onPress={() => router.push("/typography")}>
           Typography
         </Button>
-        <Button variant="outlined" onPress={() => router.push("/button")}>
+        <Button onPress={() => router.push("/button")}>
           Button
         </Button>
       </View>

@@ -1,5 +1,7 @@
 export { Button } from './button'
 export type { ButtonProps, ButtonVariant } from './button'
+export { AppBar } from './appbar'
+export type { AppBarAction, AppBarProps, AppBarVariant } from './appbar'
 export { IconButton } from './icon-button'
 export type {
   IconButtonProps,

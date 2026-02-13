@@ -1,12 +1,17 @@
 import { Button, IconButton, Typography } from "@rn-ui/components";
 import { ScrollView, StyleSheet, View } from "react-native";
 
-const variants = ["filled", "tonal", "outlined", "text"] as const;
+const variants = ["filled", "elevated", "tonal", "outlined", "text"] as const;
 const iconVariants = [
   { label: "Filled", value: "filled" },
   { label: "Tonal", value: "tonal" },
   { label: "Outlined", value: "outlined" },
   { label: "Standard", value: "standard" }
+] as const;
+const iconSizes = [
+  { label: "Small", value: "small" },
+  { label: "Medium", value: "medium" },
+  { label: "Large", value: "large" }
 ] as const;
 
 export default function ButtonScreen() {
@@ -37,11 +42,38 @@ export default function ButtonScreen() {
       </View>
 
       <View style={styles.section}>
+        <Typography variant="titleSmall">Buttons: With Icons</Typography>
+        <View style={styles.items}>
+          <Button variant="filled" leadingIcon="plus">
+            Add Item
+          </Button>
+          <Button variant="outlined" trailingIcon="arrow-right">
+            Continue
+          </Button>
+          <Button variant="tonal" leadingIcon="heart-outline" trailingIcon="share-variant">
+            Favorite
+          </Button>
+        </View>
+      </View>
+
+      <View style={styles.section}>
         <Typography variant="titleSmall">IconButton: Variants</Typography>
         <View style={styles.iconGrid}>
           {iconVariants.map((option) => (
             <View key={option.value} style={styles.iconCell}>
               <IconButton icon="heart-outline" variant={option.value} />
+              <Typography variant="labelSmall">{option.label}</Typography>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.section}>
+        <Typography variant="titleSmall">IconButton: Sizes</Typography>
+        <View style={styles.iconGrid}>
+          {iconSizes.map((option) => (
+            <View key={option.value} style={styles.iconCell}>
+              <IconButton icon="heart-outline" size={option.value} variant="standard" />
               <Typography variant="labelSmall">{option.label}</Typography>
             </View>
           ))}
@@ -56,7 +88,9 @@ export default function ButtonScreen() {
               <Typography variant="labelSmall">{option.label}</Typography>
               <View style={styles.stateIcons}>
                 <IconButton icon="heart-outline" variant={option.value} />
-                <IconButton icon="heart-outline" variant={option.value} disabled />
+                <IconButton icon="heart-outline" selectedIcon="heart" selected variant={option.value} />
+                <IconButton icon="heart-outline" selected={false} variant={option.value} disabled />
+                <IconButton icon="heart-outline" selectedIcon="heart" selected variant={option.value} disabled />
               </View>
             </View>
           ))}
@@ -100,6 +134,8 @@ const styles = StyleSheet.create({
   stateIcons: {
     flexDirection: "row",
     alignItems: "center",
+    flexWrap: "wrap",
+    rowGap: 8,
     columnGap: 12
   }
 });
