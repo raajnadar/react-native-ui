@@ -1,7 +1,10 @@
 import { StyleSheet } from "react-native";
+import { defaultTopAppBarTokens } from "@rn-ui/core";
 import type { Theme } from "@rn-ui/core";
 
 export function createStyles(theme: Theme) {
+  const topAppBar = theme.topAppBar ?? defaultTopAppBarTokens;
+
   return StyleSheet.create({
     root: {
       backgroundColor: theme.colors.surface
@@ -10,27 +13,28 @@ export function createStyles(theme: Theme) {
       backgroundColor: theme.colors.surface
     },
     smallContainer: {
-      height: 64,
+      height: topAppBar.smallContainerHeight,
       position: "relative"
     },
     mediumContainer: {
-      height: 112
+      height: topAppBar.mediumContainerHeight
     },
     largeContainer: {
-      height: 152
+      height: topAppBar.largeContainerHeight
     },
     expandedContainer: {
       position: "relative"
     },
     topRow: {
-      height: 64,
-      paddingHorizontal: 4,
+      height: topAppBar.topRowHeight,
+      paddingHorizontal: topAppBar.horizontalPadding,
       flexDirection: "row",
       alignItems: "center"
     },
     expandedTitleContainer: {
       flex: 1,
       justifyContent: "flex-end",
+      minWidth: 0,
       paddingRight: theme.spacing.md
     },
     topRowSpacer: {
@@ -39,15 +43,15 @@ export function createStyles(theme: Theme) {
     sideSlot: {
       flexDirection: "row",
       alignItems: "center",
-      minHeight: 48
+      minHeight: topAppBar.sideSlotMinHeight
     },
     actionsRow: {
       flexDirection: "row",
       alignItems: "center"
     },
     iconFrame: {
-      width: 48,
-      height: 48,
+      width: topAppBar.iconFrameSize,
+      height: topAppBar.iconFrameSize,
       alignItems: "center",
       justifyContent: "center"
     },
@@ -55,7 +59,8 @@ export function createStyles(theme: Theme) {
       position: "absolute",
       top: 0,
       bottom: 0,
-      justifyContent: "center"
+      justifyContent: "center",
+      minWidth: 0
     },
     centeredTitle: {
       textAlign: "center"
@@ -64,13 +69,14 @@ export function createStyles(theme: Theme) {
       textAlign: "left"
     },
     mediumTitlePadding: {
-      paddingBottom: 24
+      paddingBottom: topAppBar.mediumTitleBottomPadding
     },
     largeTitlePadding: {
-      paddingBottom: 28
+      paddingBottom: topAppBar.largeTitleBottomPadding
     },
     title: {
       flexShrink: 1,
+      maxWidth: "100%",
       includeFontPadding: false,
       textAlignVertical: "center"
     }

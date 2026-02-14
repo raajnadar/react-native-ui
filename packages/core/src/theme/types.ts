@@ -3,6 +3,7 @@ export interface Theme {
   typography: Typography;
   shape: Shape;
   spacing: Spacing;
+  topAppBar?: TopAppBarTokens;
   stateLayer: StateLayer;
   elevation: Elevation;
   motion: Motion;
@@ -102,6 +103,19 @@ export interface Spacing {
   md: number;
   lg: number;
   xl: number;
+}
+
+export interface TopAppBarTokens {
+  horizontalPadding: number;
+  titleStartInset: number;
+  smallContainerHeight: number;
+  mediumContainerHeight: number;
+  largeContainerHeight: number;
+  topRowHeight: number;
+  sideSlotMinHeight: number;
+  iconFrameSize: number;
+  mediumTitleBottomPadding: number;
+  largeTitleBottomPadding: number;
 }
 
 export interface StateLayer {

@@ -1,4 +1,5 @@
 import type { Theme } from "./types";
+import { defaultTopAppBarTokens } from "./topAppBar";
 import { defaultTypography } from "./typography";
 
 export const lightTheme: Theme = {
@@ -70,6 +71,7 @@ export const lightTheme: Theme = {
     lg: 24,
     xl: 32
   },
+  topAppBar: defaultTopAppBarTokens,
   stateLayer: {
     pressedOpacity: 0.12,
     focusedOpacity: 0.12,

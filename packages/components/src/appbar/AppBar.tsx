@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from "react-native";
 import { Platform, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTheme } from "@rn-ui/core";
+import { defaultTopAppBarTokens, useTheme } from "@rn-ui/core";
 
 import { IconButton } from "../icon-button";
 import type { IconButtonProps } from "../icon-button";
@@ -13,8 +13,6 @@ import { createStyles } from "./styles";
 import type { AppBarProps } from "./types";
 
 type AppBarSize = "small" | "medium" | "large";
-const TOP_APP_BAR_HORIZONTAL_PADDING = 4;
-const TOP_APP_BAR_TITLE_INSET = 12;
 const DEFAULT_BACK_ICON: IconButtonProps["icon"] =
   Platform.OS === "ios" ? "chevron-left" : "arrow-left";
 
@@ -23,6 +21,11 @@ const titleVariantBySize: Record<AppBarSize, TypographyVariant> = {
   medium: "headlineSmall",
   large: "headlineMedium"
 };
+const APP_BAR_TITLE_TEXT_PROPS = {
+  numberOfLines: 1,
+  ellipsizeMode: "tail",
+  accessibilityRole: "header"
+} as const;
 
 function resolveSize(variant: AppBarProps["variant"]): AppBarSize {
   if (variant === "medium" || variant === "large") {
@@ -74,6 +77,7 @@ export function AppBar({
   actions
 }: AppBarProps) {
   const theme = useTheme();
+  const topAppBar = theme.topAppBar ?? defaultTopAppBarTokens;
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [leadingWidth, setLeadingWidth] = useState(0);
   const [actionsWidth, setActionsWidth] = useState(0);
@@ -86,10 +90,21 @@ export function AppBar({
   const isCenterAligned = variant === "center-aligned";
   const isExpanded = size !== "small";
   const titleStartInset =
-    TOP_APP_BAR_HORIZONTAL_PADDING + Math.max(TOP_APP_BAR_TITLE_INSET, leadingWidth);
-  const compactTitleEndInset = TOP_APP_BAR_HORIZONTAL_PADDING + actionsWidth;
+    topAppBar.horizontalPadding + Math.max(topAppBar.titleStartInset, leadingWidth);
+  const compactTitleEndInset = topAppBar.horizontalPadding + actionsWidth;
   const centeredSideInset =
-    TOP_APP_BAR_HORIZONTAL_PADDING + Math.max(leadingWidth, actionsWidth);
+    topAppBar.horizontalPadding + Math.max(leadingWidth, actionsWidth);
+  const expandedTitleInsetStyle = useMemo<ViewStyle>(
+    () => ({ paddingLeft: titleStartInset }),
+    [titleStartInset]
+  );
+  const overlayTitleInsetStyle = useMemo<ViewStyle>(
+    () =>
+      isCenterAligned
+        ? { left: centeredSideInset, right: centeredSideInset }
+        : { left: titleStartInset, right: compactTitleEndInset },
+    [centeredSideInset, compactTitleEndInset, isCenterAligned, titleStartInset]
+  );
 
   const leadingContent = useMemo(() => {
     if (leading) {
@@ -186,11 +201,11 @@ export function AppBar({
           style={[
             styles.expandedTitleContainer,
             size === "large" ? styles.largeTitlePadding : styles.mediumTitlePadding,
-            { paddingLeft: titleStartInset }
+            expandedTitleInsetStyle
           ]}
         >
           <Typography
-            numberOfLines={1}
+            {...APP_BAR_TITLE_TEXT_PROPS}
             variant={titleVariant}
             style={[styles.title, titleColorStyle, styles.startAlignedTitle]}
           >
@@ -212,15 +227,10 @@ export function AppBar({
       {topRow}
       <View
         pointerEvents="none"
-        style={[
-          styles.overlayTitleContainer,
-          isCenterAligned
-            ? { left: centeredSideInset, right: centeredSideInset }
-            : { left: titleStartInset, right: compactTitleEndInset }
-        ]}
+        style={[styles.overlayTitleContainer, overlayTitleInsetStyle]}
       >
         <Typography
-          numberOfLines={1}
+          {...APP_BAR_TITLE_TEXT_PROPS}
           variant={titleVariant}
           style={[
             styles.title,
