@@ -24,3 +24,5 @@ ios/build/
 .DS_Store
 .env.local
 .env.*.local
+
+.turbo
