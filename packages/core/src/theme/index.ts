@@ -3,6 +3,7 @@ export type {
   Colors,
   Typography,
   TextStyle,
+  FontWeight,
   Shape,
   TopAppBarTokens,
   Elevation,
