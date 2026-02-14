@@ -9,25 +9,37 @@ import { useTheme } from "@rn-ui/core";
 import { createStyles } from "./styles";
 import type { ButtonProps } from "./types";
 
+interface PressableState {
+  pressed: boolean;
+  hovered?: boolean;
+}
+
 function resolveStyle(
   containerStyle: StyleProp<ViewStyle>,
+  hoveredContainerStyle: StyleProp<ViewStyle>,
   pressedContainerStyle: StyleProp<ViewStyle>,
   disabledContainerStyle: StyleProp<ViewStyle>,
   disabled: boolean,
   style: ButtonProps["style"]
-): (state: { pressed: boolean }) => StyleProp<ViewStyle> {
+): (state: PressableState) => StyleProp<ViewStyle> {
   if (typeof style === "function") {
     return (state) => [
       containerStyle,
+      state.hovered && !state.pressed && !disabled
+        ? hoveredContainerStyle
+        : undefined,
       state.pressed && !disabled ? pressedContainerStyle : undefined,
       disabled ? disabledContainerStyle : undefined,
       style(state)
     ];
   }
 
-  return ({ pressed }) => [
+  return (state) => [
     containerStyle,
-    pressed && !disabled ? pressedContainerStyle : undefined,
+    state.hovered && !state.pressed && !disabled
+      ? hoveredContainerStyle
+      : undefined,
+    state.pressed && !disabled ? pressedContainerStyle : undefined,
     disabled ? disabledContainerStyle : undefined,
     style
   ];
@@ -44,8 +56,13 @@ export function Button({
   ...props
 }: ButtonProps) {
   const isDisabled = Boolean(disabled);
+  const hasLeading = Boolean(leadingIcon);
+  const hasTrailing = Boolean(trailingIcon);
   const theme = useTheme();
-  const styles = useMemo(() => createStyles(theme, variant), [theme, variant]);
+  const styles = useMemo(
+    () => createStyles(theme, variant, hasLeading, hasTrailing),
+    [theme, variant, hasLeading, hasTrailing]
+  );
   const labelStyle = useMemo(
     () => StyleSheet.flatten([styles.label, isDisabled ? styles.disabledLabel : undefined]),
     [isDisabled, styles.disabledLabel, styles.label]
@@ -61,6 +78,7 @@ export function Button({
       disabled={isDisabled}
       style={resolveStyle(
         styles.container,
+        styles.hoveredContainer,
         styles.pressedContainer,
         styles.disabledContainer,
         isDisabled,

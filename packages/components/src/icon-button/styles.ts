@@ -11,7 +11,8 @@ export function createStyles(theme: Theme) {
     container: {
       borderRadius: theme.shape.cornerFull,
       alignItems: "center",
-      justifyContent: "center"
+      justifyContent: "center",
+      cursor: "pointer"
     },
     sizeSmall: {
       width: 32,
@@ -70,6 +71,89 @@ export function createStyles(theme: Theme) {
     colorStandardToggleSelected: {
       borderWidth: 0
     },
+
+    // Hover states (M3: 8% state layer)
+    hoveredFilled: {
+      backgroundColor: blendColor(
+        theme.colors.primary,
+        theme.colors.onPrimary,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredFilledToggleUnselected: {
+      backgroundColor: blendColor(
+        toggleUnselectedContainerColor,
+        theme.colors.primary,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredFilledToggleSelected: {
+      backgroundColor: blendColor(
+        theme.colors.primary,
+        theme.colors.onPrimary,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredTonal: {
+      backgroundColor: blendColor(
+        theme.colors.secondaryContainer,
+        theme.colors.onSecondaryContainer,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredTonalToggleUnselected: {
+      backgroundColor: blendColor(
+        toggleUnselectedContainerColor,
+        theme.colors.onSurfaceVariant,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredTonalToggleSelected: {
+      backgroundColor: blendColor(
+        theme.colors.secondaryContainer,
+        theme.colors.onSecondaryContainer,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredOutlined: {
+      backgroundColor: alphaColor(
+        theme.colors.onSurfaceVariant,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredOutlinedToggleUnselected: {
+      backgroundColor: alphaColor(
+        theme.colors.onSurfaceVariant,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredOutlinedToggleSelected: {
+      backgroundColor: blendColor(
+        theme.colors.inverseSurface,
+        theme.colors.inverseOnSurface,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredStandard: {
+      backgroundColor: alphaColor(
+        theme.colors.onSurfaceVariant,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredStandardToggleUnselected: {
+      backgroundColor: alphaColor(
+        theme.colors.onSurfaceVariant,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+    hoveredStandardToggleSelected: {
+      backgroundColor: alphaColor(
+        theme.colors.primary,
+        theme.stateLayer.hoveredOpacity
+      )
+    },
+
+    // Pressed states (M3: 12% state layer)
     pressedFilled: {
       backgroundColor: blendColor(
         theme.colors.primary,
@@ -149,21 +233,27 @@ export function createStyles(theme: Theme) {
         theme.stateLayer.pressedOpacity
       )
     },
+
+    // Disabled states
     disabledFilled: {
       backgroundColor: disabledContainerColor,
-      borderColor: disabledContainerColor
+      borderColor: disabledContainerColor,
+      cursor: "auto"
     },
     disabledTonal: {
       backgroundColor: disabledContainerColor,
-      borderColor: disabledContainerColor
+      borderColor: disabledContainerColor,
+      cursor: "auto"
     },
     disabledOutlined: {
       backgroundColor: "transparent",
-      borderColor: disabledOutlineColor
+      borderColor: disabledOutlineColor,
+      cursor: "auto"
     },
     disabledStandard: {
       backgroundColor: "transparent",
-      borderColor: "transparent"
+      borderColor: "transparent",
+      cursor: "auto"
     }
   });
 }

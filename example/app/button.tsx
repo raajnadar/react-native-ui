@@ -112,7 +112,9 @@ const styles = StyleSheet.create({
     rowGap: 10
   },
   items: {
-    rowGap: 8
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8
   },
   iconGrid: {
     flexDirection: "row",

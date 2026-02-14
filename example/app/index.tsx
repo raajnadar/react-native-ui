@@ -9,13 +9,13 @@ export default function HomeScreen() {
     <View style={styles.container}>
       <Typography variant="headlineSmall">Components</Typography>
       <View style={styles.list}>
-        <Button onPress={() => router.push("/appbar")}>
+        <Button style={styles.navButton} onPress={() => router.push("/appbar")}>
           AppBar
         </Button>
-        <Button onPress={() => router.push("/typography")}>
+        <Button style={styles.navButton} onPress={() => router.push("/typography")}>
           Typography
         </Button>
-        <Button onPress={() => router.push("/button")}>
+        <Button style={styles.navButton} onPress={() => router.push("/button")}>
           Button
         </Button>
       </View>
@@ -31,5 +31,8 @@ const styles = StyleSheet.create({
   },
   list: {
     rowGap: 12
+  },
+  navButton: {
+    alignSelf: "stretch"
   }
 });

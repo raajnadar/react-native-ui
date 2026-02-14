@@ -120,6 +120,51 @@ function getDefaultHitSlop(size: IconButtonSize): number {
   return 4;
 }
 
+function getHoveredStyle(
+  styles: ReturnType<typeof createStyles>,
+  variant: IconButtonVariant,
+  isToggle: boolean,
+  selected: boolean
+) {
+  if (isToggle) {
+    if (variant === "tonal") {
+      return selected
+        ? styles.hoveredTonalToggleSelected
+        : styles.hoveredTonalToggleUnselected;
+    }
+
+    if (variant === "outlined") {
+      return selected
+        ? styles.hoveredOutlinedToggleSelected
+        : styles.hoveredOutlinedToggleUnselected;
+    }
+
+    if (variant === "standard") {
+      return selected
+        ? styles.hoveredStandardToggleSelected
+        : styles.hoveredStandardToggleUnselected;
+    }
+
+    return selected
+      ? styles.hoveredFilledToggleSelected
+      : styles.hoveredFilledToggleUnselected;
+  }
+
+  if (variant === "tonal") {
+    return styles.hoveredTonal;
+  }
+
+  if (variant === "outlined") {
+    return styles.hoveredOutlined;
+  }
+
+  if (variant === "standard") {
+    return styles.hoveredStandard;
+  }
+
+  return styles.hoveredFilled;
+}
+
 function getPressedStyle(
   styles: ReturnType<typeof createStyles>,
   variant: IconButtonVariant,
@@ -217,10 +262,13 @@ export function IconButton({
       disabled={isDisabled}
       hitSlop={hitSlop ?? getDefaultHitSlop(size)}
       onPress={onPress}
-      style={({ pressed }) => [
+      style={({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => [
         styles.container,
         getSizeStyle(styles, size),
         getColorStyle(styles, variant, isToggle, isSelected),
+        hovered && !pressed && !isDisabled
+          ? getHoveredStyle(styles, variant, isToggle, isSelected)
+          : undefined,
         pressed && !isDisabled
           ? getPressedStyle(styles, variant, isToggle, isSelected)
           : undefined,
