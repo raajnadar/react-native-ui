@@ -88,6 +88,7 @@ function RootLayoutContent({ isDarkTheme, onToggleTheme }: RootLayoutContentProp
       />
       <Layout edges={["bottom"]}>
         <AppBar
+          elevated
           title={title}
           canGoBack={canGoBack}
           onBackPress={() => router.back()}

@@ -16,6 +16,7 @@ export interface AppBarProps {
   canGoBack?: boolean;
   onBackPress?: () => void;
   insetTop?: boolean;
+  elevated?: boolean;
   leading?: ReactNode;
   trailing?: ReactNode;
   actions?: AppBarAction[];

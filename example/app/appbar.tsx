@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import { useRouter } from "expo-router";
+import { useTheme } from "@rn-ui/core";
 import { AppBar, Typography } from "@rn-ui/components";
 import type { AppBarAction, AppBarVariant } from "@rn-ui/components";
 import { ScrollView, StyleSheet, View } from "react-native";
@@ -49,6 +51,16 @@ const actions: AppBarAction[] = [
 
 export default function AppBarScreen() {
   const router = useRouter();
+  const theme = useTheme();
+  const previewStyle = useMemo(
+    () => ({
+      borderWidth: 1,
+      borderColor: theme.colors.outlineVariant,
+      borderRadius: theme.shape.cornerMedium,
+      overflow: "hidden" as const
+    }),
+    [theme.colors.outlineVariant, theme.shape.cornerMedium]
+  );
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -60,7 +72,9 @@ export default function AppBarScreen() {
           {variants.map((item) => (
             <View key={`base-${item.key}`} style={styles.group}>
               <Typography variant="labelMedium">{item.label}</Typography>
-              <AppBar title={item.title} variant={item.variant} actions={actions} />
+              <View style={previewStyle}>
+                <AppBar title={item.title} variant={item.variant} actions={actions} />
+              </View>
             </View>
           ))}
         </View>
@@ -72,13 +86,36 @@ export default function AppBarScreen() {
           {variants.map((item) => (
             <View key={`back-${item.key}`} style={styles.group}>
               <Typography variant="labelMedium">{item.label}</Typography>
-              <AppBar
-                title={item.title}
-                variant={item.variant}
-                canGoBack
-                actions={actions}
-                onBackPress={() => router.back()}
-              />
+              <View style={previewStyle}>
+                <AppBar
+                  title={item.title}
+                  variant={item.variant}
+                  canGoBack
+                  actions={actions}
+                  onBackPress={() => router.back()}
+                />
+              </View>
+            </View>
+          ))}
+        </View>
+      </View>
+
+      <View style={styles.section}>
+        <Typography variant="titleSmall">Elevated</Typography>
+        <View style={styles.list}>
+          {variants.map((item) => (
+            <View key={`elevated-${item.key}`} style={styles.group}>
+              <Typography variant="labelMedium">{item.label}</Typography>
+              <View style={previewStyle}>
+                <AppBar
+                  title={item.title}
+                  variant={item.variant}
+                  elevated
+                  canGoBack
+                  actions={actions}
+                  onBackPress={() => router.back()}
+                />
+              </View>
             </View>
           ))}
         </View>
@@ -90,13 +127,15 @@ export default function AppBarScreen() {
           {variants.map((item) => (
             <View key={`long-${item.key}`} style={styles.group}>
               <Typography variant="labelMedium">{item.label}</Typography>
-              <AppBar
-                title={longTitle}
-                variant={item.variant}
-                canGoBack
-                actions={actions}
-                onBackPress={() => router.back()}
-              />
+              <View style={previewStyle}>
+                <AppBar
+                  title={longTitle}
+                  variant={item.variant}
+                  canGoBack
+                  actions={actions}
+                  onBackPress={() => router.back()}
+                />
+              </View>
             </View>
           ))}
         </View>

@@ -72,6 +72,7 @@ export function AppBar({
   canGoBack = false,
   onBackPress,
   insetTop = false,
+  elevated = false,
   leading,
   trailing,
   actions
@@ -215,9 +216,12 @@ export function AppBar({
       </View>
     );
 
+    const rootStyle = elevated ? [styles.root, styles.elevatedRoot] : styles.root;
+    const safeAreaStyle = elevated ? [styles.safeArea, styles.elevatedSafeArea] : styles.safeArea;
+
     return (
-      <View style={styles.root}>
-        {withTopInset(insetTop, content, styles.safeArea)}
+      <View style={rootStyle}>
+        {withTopInset(insetTop, content, safeAreaStyle)}
       </View>
     );
   }
@@ -244,9 +248,12 @@ export function AppBar({
     </View>
   );
 
+  const rootStyle = elevated ? [styles.root, styles.elevatedRoot] : styles.root;
+  const safeAreaStyle = elevated ? [styles.safeArea, styles.elevatedSafeArea] : styles.safeArea;
+
   return (
-    <View style={styles.root}>
-      {withTopInset(insetTop, content, styles.safeArea)}
+    <View style={rootStyle}>
+      {withTopInset(insetTop, content, safeAreaStyle)}
     </View>
   );
 }

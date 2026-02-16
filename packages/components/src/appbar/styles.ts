@@ -12,6 +12,12 @@ export function createStyles(theme: Theme) {
     safeArea: {
       backgroundColor: theme.colors.surface
     },
+    elevatedRoot: {
+      backgroundColor: theme.colors.surfaceContainer
+    },
+    elevatedSafeArea: {
+      backgroundColor: theme.colors.surfaceContainer
+    },
     smallContainer: {
       height: topAppBar.smallContainerHeight,
       position: "relative"
