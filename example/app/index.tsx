@@ -18,6 +18,9 @@ export default function HomeScreen() {
         <Button style={styles.navButton} onPress={() => router.push("/button")}>
           Button
         </Button>
+        <Button style={styles.navButton} onPress={() => router.push("/text-field")}>
+          TextField
+        </Button>
       </View>
     </View>
   );

@@ -10,6 +10,8 @@ export type {
 } from './icon-button'
 export { Layout } from './layout'
 export type { LayoutProps } from './layout'
+export { TextField } from './text-field'
+export type { TextFieldProps, TextFieldVariant } from './text-field'
 export { Typography } from './typography'
 export { typographyTokens } from './typography'
 export type { TypographyProps } from './typography/Typography'

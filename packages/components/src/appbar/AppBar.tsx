@@ -198,7 +198,6 @@ export function AppBar({
       <View style={[styles.expandedContainer, getSizeStyle(styles, size)]}>
         {topRow}
         <View
-          pointerEvents="none"
           style={[
             styles.expandedTitleContainer,
             size === "large" ? styles.largeTitlePadding : styles.mediumTitlePadding,
@@ -230,7 +229,6 @@ export function AppBar({
     <View style={styles.smallContainer}>
       {topRow}
       <View
-        pointerEvents="none"
         style={[styles.overlayTitleContainer, overlayTitleInsetStyle]}
       >
         <Typography

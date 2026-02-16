@@ -41,7 +41,8 @@ export function createStyles(theme: Theme) {
       flex: 1,
       justifyContent: "flex-end",
       minWidth: 0,
-      paddingRight: theme.spacing.md
+      paddingRight: theme.spacing.md,
+      pointerEvents: "none"
     },
     topRowSpacer: {
       flex: 1
@@ -66,7 +67,8 @@ export function createStyles(theme: Theme) {
       top: 0,
       bottom: 0,
       justifyContent: "center",
-      minWidth: 0
+      minWidth: 0,
+      pointerEvents: "none"
     },
     centeredTitle: {
       textAlign: "center"
