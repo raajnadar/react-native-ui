@@ -4,7 +4,11 @@
     "slug": "react-native-ui-example",
     "scheme": "rnui",
     "version": "0.0.0",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,9 +26,24 @@
         "backgroundColor": "#ffffff"
       }
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router"
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/edc0e7f0-1670-40a9-a43c-cbcadafe6587"
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "edc0e7f0-1670-40a9-a43c-cbcadafe6587"
+      }
+    },
+    "owner": "raajnadar"
   }
 }

@@ -7,24 +7,34 @@
 
 Material-inspired React Native UI toolkit built as a `pnpm` + `Turborepo` workspace.
 
+## Preview
+
+Scan the QR code with [Expo Go](https://expo.dev/go) to try the example app on your device:
+
+![Preview QR Code](https://qr.expo.dev/eas-update?slug=react-native-ui-example&projectId=edc0e7f0-1670-40a9-a43c-cbcadafe6587&channel=main)
+
+> Updated automatically on every push to `main` via [EAS Update](.github/workflows/eas-update.yml).
+
 This repository includes:
+
 - `@rn-ui/core`: theme types, themes, and provider primitives.
 - `@rn-ui/components`: reusable UI components built on top of core.
 - `example`: an Expo Router app used as a live component playground.
 
 ## Features
+
 - Theme system with `lightTheme`, `darkTheme`, and `MaterialProvider`.
-- Reusable components with typed APIs (`AppBar`, `Button`, `IconButton`, `Typography`, `Layout`).
+- Reusable components with typed APIs.
 - Expo-based example app for quick manual verification on iOS, Android, and web.
 - Workspace-driven local development with package linking.
 
 ## Packages
 
-| Package | Purpose |
-| --- | --- |
-| `@rn-ui/core` | Theme contracts, theme values, context provider, `useTheme`. |
-| `@rn-ui/components` | UI components and subpath exports (`appbar`, `button`, `icon-button`, `layout`, `typography`). |
-| `example` | Demo app showing component behavior and API usage. |
+| Package             | Purpose                                                      |
+| ------------------- | ------------------------------------------------------------ |
+| `@rn-ui/core`       | Theme contracts, theme values, context provider, `useTheme`. |
+| `@rn-ui/components` | UI components and subpath exports.                           |
+| `example`           | Demo app showing component behavior and API usage.           |
 
 ## Repository Layout
 
@@ -39,6 +49,7 @@ This repository includes:
 ```
 
 ## Requirements
+
 - Node.js `>=18`
 - `pnpm@9` (configured in `packageManager`)
 
@@ -60,8 +71,8 @@ pnpm --filter example web
 ## Usage Example
 
 ```tsx
-import { MaterialProvider, lightTheme } from "@rn-ui/core";
-import { Button, Typography } from "@rn-ui/components";
+import { MaterialProvider, lightTheme } from '@rn-ui/core'
+import { Button, Typography } from '@rn-ui/components'
 
 export function Screen() {
   return (
@@ -69,21 +80,21 @@ export function Screen() {
       <Typography variant="headlineSmall">Hello UI</Typography>
       <Button variant="filled">Press me</Button>
     </MaterialProvider>
-  );
+  )
 }
 ```
 
 ## Workspace Commands
 
-| Command | Description |
-| --- | --- |
-| `pnpm run build` | Builds all packages with Turborepo. |
-| `pnpm run dev` | Runs package `dev` tasks via Turborepo (persistent, uncached). |
-| `pnpm run lint` | Lints `example` and `packages`. |
-| `pnpm run test` | Runs package `test` tasks if defined. |
-| `pnpm run format` | Formats the repository with Prettier. |
-| `pnpm run clean` | Cleans build outputs via Turborepo. |
-| `pnpm run example` | Starts the Expo example app. |
+| Command            | Description                                                    |
+| ------------------ | -------------------------------------------------------------- |
+| `pnpm run build`   | Builds all packages with Turborepo.                            |
+| `pnpm run dev`     | Runs package `dev` tasks via Turborepo (persistent, uncached). |
+| `pnpm run lint`    | Lints `example` and `packages`.                                |
+| `pnpm run test`    | Runs package `test` tasks if defined.                          |
+| `pnpm run format`  | Formats the repository with Prettier.                          |
+| `pnpm run clean`   | Cleans build outputs via Turborepo.                            |
+| `pnpm run example` | Starts the Expo example app.                                   |
 
 Package-level build commands:
 
@@ -93,6 +104,7 @@ pnpm --filter @rn-ui/components build
 ```
 
 ## Development Workflow
+
 1. Build context from the existing examples in `example/app`.
 2. Implement or update source in `packages/core/src` or `packages/components/src`.
 3. Build packages with `pnpm run build`.
@@ -100,4 +112,5 @@ pnpm --filter @rn-ui/components build
 5. Run `pnpm run lint` and `pnpm run format` before opening a PR.
 
 ## Contributing
+
 Contribution guide: [`CONTRIBUTING.md`](CONTRIBUTING.md)
