@@ -49,9 +49,13 @@ export function TextField({
   );
 
   const [isFocused, setIsFocused] = useState(false);
+  const [internalHasText, setInternalHasText] = useState(
+    () => value !== undefined && value !== ""
+  );
   const inputRef = useRef<TextInput>(null);
 
-  const hasValue = value !== undefined && value !== "";
+  const isControlled = value !== undefined;
+  const hasValue = isControlled ? value !== "" : internalHasText;
   const isLabelFloated = isFocused || hasValue;
 
   // Animation: 0 = resting (label large, centered), 1 = floated (label small, top)
@@ -99,6 +103,16 @@ export function TextField({
   const labelStaticTop = isFilled
     ? labelPositions.filledFloatedTop
     : labelPositions.outlinedFloatedTop;
+
+  const handleChangeText = useCallback(
+    (text: string) => {
+      if (!isControlled) {
+        setInternalHasText(text !== "");
+      }
+      onChangeText?.(text);
+    },
+    [isControlled, onChangeText]
+  );
 
   const handleFocus = useCallback(
     (event: NativeSyntheticEvent<TargetedEvent>) => {
@@ -188,7 +202,7 @@ export function TextField({
               ref={inputRef}
               {...textInputProps}
               value={value}
-              onChangeText={onChangeText}
+              onChangeText={handleChangeText}
               editable={!isDisabled}
               onFocus={handleFocus}
               onBlur={handleBlur}
