@@ -93,8 +93,8 @@ export function TextField({
     });
   }, [isFilled, labelAnim]);
 
-  // Label left: 16dp container padding + leading icon space (12dp inset + 24dp + 16dp gap)
-  const labelLeft = theme.spacing.md + (hasLeadingIcon ? ICON_WITH_GAP - theme.spacing.md : 0);
+  // Label start: 16dp container padding + leading icon space (12dp inset + 24dp + 16dp gap)
+  const labelStart = theme.spacing.md + (hasLeadingIcon ? ICON_WITH_GAP - theme.spacing.md : 0);
   // Static top = floated position; translateY handles resting offset
   const labelStaticTop = isFilled
     ? labelPositions.filledFloatedTop
@@ -201,6 +201,7 @@ export function TextField({
               ]}
               accessibilityLabel={label || undefined}
               accessibilityState={{ disabled: isDisabled }}
+              accessibilityHint={isError && errorText ? errorText : undefined}
             />
           </View>
 
@@ -209,6 +210,7 @@ export function TextField({
               onPress={onTrailingIconPress}
               disabled={isDisabled || !onTrailingIconPress}
               accessibilityRole="button"
+              hitSlop={12}
               style={styles.trailingIconPressable}
             >
               <View style={styles.trailingIcon}>
@@ -229,7 +231,7 @@ export function TextField({
                 styles.label,
                 {
                   top: labelStaticTop,
-                  left: labelLeft,
+                  start: labelStart,
                   color: labelColor,
                   backgroundColor: labelBackgroundColor,
                   transform: [

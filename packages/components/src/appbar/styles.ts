@@ -41,7 +41,7 @@ export function createStyles(theme: Theme) {
       flex: 1,
       justifyContent: "flex-end",
       minWidth: 0,
-      paddingRight: theme.spacing.md,
+      paddingEnd: theme.spacing.md,
       pointerEvents: "none"
     },
     topRowSpacer: {
@@ -74,7 +74,7 @@ export function createStyles(theme: Theme) {
       textAlign: "center"
     },
     startAlignedTitle: {
-      textAlign: "left"
+      textAlign: "auto"
     },
     mediumTitlePadding: {
       paddingBottom: topAppBar.mediumTitleBottomPadding

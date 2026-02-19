@@ -239,6 +239,7 @@ export function IconButton({
   selected,
   size = "medium",
   hitSlop,
+  accessibilityLabel,
   ...props
 }: IconButtonProps) {
   const theme = useTheme();
@@ -258,6 +259,7 @@ export function IconButton({
     <Pressable
       {...props}
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
       accessibilityState={accessibilityState}
       disabled={isDisabled}
       hitSlop={hitSlop ?? getDefaultHitSlop(size)}

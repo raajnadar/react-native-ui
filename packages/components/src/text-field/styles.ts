@@ -3,6 +3,7 @@ import type { Theme } from "@rn-ui/core";
 
 import type { TextFieldVariant } from "./types";
 import { alphaColor } from "../utils/color";
+import { transformOrigin } from "../utils/rtl";
 
 const CONTAINER_HEIGHT = 56;
 const ICON_SIZE = 24;
@@ -111,8 +112,8 @@ export function createStyles(theme: Theme, variant: TextFieldVariant) {
         paddingHorizontal: theme.spacing.md,
         ...(isFilled
           ? {
-              borderTopLeftRadius: theme.shape.cornerExtraSmall,
-              borderTopRightRadius: theme.shape.cornerExtraSmall,
+              borderTopStartRadius: theme.shape.cornerExtraSmall,
+              borderTopEndRadius: theme.shape.cornerExtraSmall,
             }
           : {
               borderRadius: theme.shape.cornerExtraSmall,
@@ -141,8 +142,8 @@ export function createStyles(theme: Theme, variant: TextFieldVariant) {
           },
       indicator: {
         position: "absolute",
-        left: 0,
-        right: 0,
+        start: 0,
+        end: 0,
         bottom: 0,
         height: 1,
         backgroundColor: colors.borderColor,
@@ -178,7 +179,7 @@ export function createStyles(theme: Theme, variant: TextFieldVariant) {
         fontWeight: bodySmall.fontWeight,
         letterSpacing: bodySmall.letterSpacing,
         color: colors.labelColor,
-        transformOrigin: "left top",
+        transformOrigin: transformOrigin("top"),
       },
       labelNotch: {
         paddingHorizontal: 4,
@@ -200,8 +201,8 @@ export function createStyles(theme: Theme, variant: TextFieldVariant) {
       },
       leadingIcon: {
         alignSelf: "center",
-        marginLeft: -4, // 16dp container padding → 12dp icon inset per M3
-        marginRight: theme.spacing.md,
+        marginStart: -4, // 16dp container padding → 12dp icon inset per M3
+        marginEnd: theme.spacing.md,
         width: ICON_SIZE,
         height: ICON_SIZE,
         alignItems: "center",
@@ -209,8 +210,8 @@ export function createStyles(theme: Theme, variant: TextFieldVariant) {
       },
       trailingIcon: {
         alignSelf: "center",
-        marginLeft: theme.spacing.md,
-        marginRight: -4, // 16dp container padding → 12dp icon inset per M3
+        marginStart: theme.spacing.md,
+        marginEnd: -4, // 16dp container padding → 12dp icon inset per M3
         width: ICON_SIZE,
         height: ICON_SIZE,
         alignItems: "center",

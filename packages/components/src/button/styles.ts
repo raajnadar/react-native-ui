@@ -1,9 +1,9 @@
-import type { ViewStyle } from "react-native";
 import { StyleSheet } from "react-native";
 import type { Theme } from "@rn-ui/core";
 
 import type { ButtonVariant } from "./types";
 import { alphaColor, blendColor } from "../utils/color";
+import { elevationStyle } from "../utils/elevation";
 
 interface VariantColors {
   backgroundColor: string;
@@ -133,19 +133,19 @@ function getHorizontalPadding(
   variant: ButtonVariant,
   hasLeadingIcon: boolean,
   hasTrailingIcon: boolean
-): { paddingLeft: number; paddingRight: number } {
+): { paddingStart: number; paddingEnd: number } {
   if (variant === "text") {
     // M3: text button uses 12dp base, opposite side of icon gets 16dp
     return {
-      paddingLeft: hasTrailingIcon && !hasLeadingIcon ? theme.spacing.md : 12,
-      paddingRight: hasLeadingIcon && !hasTrailingIcon ? theme.spacing.md : 12
+      paddingStart: hasLeadingIcon ? 12 : hasTrailingIcon ? theme.spacing.md : 12,
+      paddingEnd: hasTrailingIcon ? 12 : hasLeadingIcon ? theme.spacing.md : 12
     };
   }
 
   // M3: filled/elevated/tonal/outlined use 24dp base, icon side gets 16dp
   return {
-    paddingLeft: hasLeadingIcon ? theme.spacing.md : theme.spacing.lg,
-    paddingRight: hasTrailingIcon ? theme.spacing.md : theme.spacing.lg
+    paddingStart: hasLeadingIcon ? theme.spacing.md : theme.spacing.lg,
+    paddingEnd: hasTrailingIcon ? theme.spacing.md : theme.spacing.lg
   };
 }
 
@@ -158,46 +158,10 @@ export function createStyles(
   const colors = getVariantColors(theme, variant);
   const labelStyle = theme.typography.labelLarge;
   const padding = getHorizontalPadding(theme, variant, hasLeadingIcon, hasTrailingIcon);
-  const elevationLevel0: Pick<
-    ViewStyle,
-    "shadowColor" | "shadowOffset" | "shadowOpacity" | "shadowRadius" | "elevation"
-  > = {
-    shadowColor: theme.elevation.level0.shadowColor,
-    shadowOffset: {
-      width: theme.elevation.level0.shadowOffset.width,
-      height: theme.elevation.level0.shadowOffset.height
-    },
-    shadowOpacity: theme.elevation.level0.shadowOpacity,
-    shadowRadius: theme.elevation.level0.shadowRadius,
-    elevation: theme.elevation.level0.elevation
-  };
-  const elevationLevel1: Pick<
-    ViewStyle,
-    "shadowColor" | "shadowOffset" | "shadowOpacity" | "shadowRadius" | "elevation"
-  > = {
-    shadowColor: theme.elevation.level1.shadowColor,
-    shadowOffset: {
-      width: theme.elevation.level1.shadowOffset.width,
-      height: theme.elevation.level1.shadowOffset.height
-    },
-    shadowOpacity: theme.elevation.level1.shadowOpacity,
-    shadowRadius: theme.elevation.level1.shadowRadius,
-    elevation: theme.elevation.level1.elevation
-  };
-  const elevationLevel2: Pick<
-    ViewStyle,
-    "shadowColor" | "shadowOffset" | "shadowOpacity" | "shadowRadius" | "elevation"
-  > = {
-    shadowColor: theme.elevation.level2.shadowColor,
-    shadowOffset: {
-      width: theme.elevation.level2.shadowOffset.width,
-      height: theme.elevation.level2.shadowOffset.height
-    },
-    shadowOpacity: theme.elevation.level2.shadowOpacity,
-    shadowRadius: theme.elevation.level2.shadowRadius,
-    elevation: theme.elevation.level2.elevation
-  };
-  const elevationStyle = variant === "elevated" ? elevationLevel1 : elevationLevel0;
+  const elevationLevel0 = elevationStyle(theme.elevation.level0);
+  const elevationLevel1 = elevationStyle(theme.elevation.level1);
+  const elevationLevel2 = elevationStyle(theme.elevation.level2);
+  const baseElevation = variant === "elevated" ? elevationLevel1 : elevationLevel0;
 
   return StyleSheet.create({
     container: {
@@ -207,15 +171,15 @@ export function createStyles(
       justifyContent: "center",
       minWidth: 58,
       minHeight: 40,
-      paddingLeft: padding.paddingLeft,
-      paddingRight: padding.paddingRight,
+      paddingStart: padding.paddingStart,
+      paddingEnd: padding.paddingEnd,
       paddingVertical: 10,
       borderRadius: theme.shape.cornerFull,
       backgroundColor: colors.backgroundColor,
       borderColor: colors.borderColor,
       borderWidth: colors.borderWidth,
       cursor: "pointer",
-      ...elevationStyle
+      ...baseElevation
     },
     hoveredContainer: {
       backgroundColor: colors.hoveredBackgroundColor,
@@ -239,10 +203,10 @@ export function createStyles(
       color: colors.textColor
     },
     leadingIcon: {
-      marginRight: theme.spacing.sm
+      marginEnd: theme.spacing.sm
     },
     trailingIcon: {
-      marginLeft: theme.spacing.sm
+      marginStart: theme.spacing.sm
     },
     disabledLabel: {
       color: colors.disabledTextColor

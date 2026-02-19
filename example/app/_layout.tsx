@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
-import { StyleSheet, View, useColorScheme } from "react-native";
+import { Alert, I18nManager, Platform, StyleSheet, View, useColorScheme } from "react-native";
 import { Slot, useRouter, useSegments } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { MaterialProvider, darkTheme, lightTheme, useTheme } from "@rn-ui/core";
@@ -54,6 +54,21 @@ const styles = StyleSheet.create({
   }
 });
 
+function toggleRTL() {
+  const nextIsRTL = !I18nManager.isRTL;
+  I18nManager.allowRTL(true);
+  I18nManager.forceRTL(nextIsRTL);
+
+  if (Platform.OS === "web") {
+    window.location.reload();
+  } else {
+    Alert.alert(
+      "Restart Required",
+      `Layout direction set to ${nextIsRTL ? "RTL" : "LTR"}. Please restart the app to apply.`
+    );
+  }
+}
+
 interface RootLayoutContentProps {
   isDarkTheme: boolean;
   onToggleTheme: () => void;
@@ -69,6 +84,11 @@ function RootLayoutContent({ isDarkTheme, onToggleTheme }: RootLayoutContentProp
   const statusBarStyle = isDarkColor(theme.colors.surface) ? "light" : "dark";
   const appBarActions = useMemo<AppBarAction[]>(
     () => [
+      {
+        icon: I18nManager.isRTL ? "format-pilcrow-arrow-left" : "format-pilcrow-arrow-right",
+        accessibilityLabel: I18nManager.isRTL ? "Switch to LTR layout" : "Switch to RTL layout",
+        onPress: toggleRTL
+      },
       {
         icon: isDarkTheme ? "white-balance-sunny" : "weather-night",
         accessibilityLabel: isDarkTheme ? "Switch to light theme" : "Switch to dark theme",

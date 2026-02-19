@@ -9,12 +9,18 @@ import { IconButton } from "../icon-button";
 import type { IconButtonProps } from "../icon-button";
 import { Typography } from "../typography";
 import type { TypographyVariant } from "../typography";
+import { selectRTL } from "../utils/rtl";
 import { createStyles } from "./styles";
 import type { AppBarProps } from "./types";
 
 type AppBarSize = "small" | "medium" | "large";
-const DEFAULT_BACK_ICON: IconButtonProps["icon"] =
-  Platform.OS === "ios" ? "chevron-left" : "arrow-left";
+function getBackIcon(): IconButtonProps["icon"] {
+  if (Platform.OS === "ios") {
+    return selectRTL("chevron-left", "chevron-right");
+  }
+
+  return selectRTL("arrow-left", "arrow-right");
+}
 
 const titleVariantBySize: Record<AppBarSize, TypographyVariant> = {
   small: "titleLarge",
@@ -96,14 +102,14 @@ export function AppBar({
   const centeredSideInset =
     topAppBar.horizontalPadding + Math.max(leadingWidth, actionsWidth);
   const expandedTitleInsetStyle = useMemo<ViewStyle>(
-    () => ({ paddingLeft: titleStartInset }),
+    () => ({ paddingStart: titleStartInset }),
     [titleStartInset]
   );
   const overlayTitleInsetStyle = useMemo<ViewStyle>(
     () =>
       isCenterAligned
-        ? { left: centeredSideInset, right: centeredSideInset }
-        : { left: titleStartInset, right: compactTitleEndInset },
+        ? { start: centeredSideInset, end: centeredSideInset }
+        : { start: titleStartInset, end: compactTitleEndInset },
     [centeredSideInset, compactTitleEndInset, isCenterAligned, titleStartInset]
   );
 
@@ -119,7 +125,7 @@ export function AppBar({
     return (
       <View style={styles.iconFrame}>
         <IconButton
-          icon={DEFAULT_BACK_ICON}
+          icon={getBackIcon()}
           size="medium"
           variant="standard"
           iconColor={theme.colors.onSurface}

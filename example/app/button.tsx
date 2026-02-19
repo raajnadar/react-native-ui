@@ -61,7 +61,7 @@ export default function ButtonScreen() {
         <View style={styles.iconGrid}>
           {iconVariants.map((option) => (
             <View key={option.value} style={styles.iconCell}>
-              <IconButton icon="heart-outline" variant={option.value} />
+              <IconButton icon="heart-outline" variant={option.value} accessibilityLabel={`${option.label} heart`} />
               <Typography variant="labelSmall">{option.label}</Typography>
             </View>
           ))}
@@ -73,7 +73,7 @@ export default function ButtonScreen() {
         <View style={styles.iconGrid}>
           {iconSizes.map((option) => (
             <View key={option.value} style={styles.iconCell}>
-              <IconButton icon="heart-outline" size={option.value} variant="standard" />
+              <IconButton icon="heart-outline" size={option.value} variant="standard" accessibilityLabel={`${option.label} heart`} />
               <Typography variant="labelSmall">{option.label}</Typography>
             </View>
           ))}
@@ -87,10 +87,10 @@ export default function ButtonScreen() {
             <View key={`state-${option.value}`} style={styles.stateRow}>
               <Typography variant="labelSmall">{option.label}</Typography>
               <View style={styles.stateIcons}>
-                <IconButton icon="heart-outline" variant={option.value} />
-                <IconButton icon="heart-outline" selectedIcon="heart" selected variant={option.value} />
-                <IconButton icon="heart-outline" selected={false} variant={option.value} disabled />
-                <IconButton icon="heart-outline" selectedIcon="heart" selected variant={option.value} disabled />
+                <IconButton icon="heart-outline" variant={option.value} accessibilityLabel="Like" />
+                <IconButton icon="heart-outline" selectedIcon="heart" selected variant={option.value} accessibilityLabel="Like" />
+                <IconButton icon="heart-outline" selected={false} variant={option.value} disabled accessibilityLabel="Like" />
+                <IconButton icon="heart-outline" selectedIcon="heart" selected variant={option.value} disabled accessibilityLabel="Like" />
               </View>
             </View>
           ))}

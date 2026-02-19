@@ -1,6 +1,6 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useMemo } from "react";
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
 import { StyleSheet } from "react-native";
 import { Text } from "react-native";
 import type { StyleProp, ViewStyle } from "react-native";
@@ -75,6 +75,7 @@ export function Button({
       {...props}
       accessibilityRole="button"
       accessibilityState={{ disabled: isDisabled }}
+      hitSlop={Platform.OS === "web" ? undefined : 4}
       disabled={isDisabled}
       style={resolveStyle(
         styles.container,

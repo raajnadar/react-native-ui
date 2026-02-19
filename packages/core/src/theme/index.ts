@@ -7,6 +7,7 @@ export type {
   Shape,
   TopAppBarTokens,
   Elevation,
+  ElevationLevel,
   Motion
 } from "./types";
 
