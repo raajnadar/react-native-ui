@@ -21,7 +21,8 @@
     "src"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --dts --format esm --outDir dist --clean"
+    "build": "tsup src/index.ts --dts --format esm --outDir dist --clean",
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "react": "19.1.0",
