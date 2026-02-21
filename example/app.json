@@ -32,6 +32,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "experiments": {
+      "baseUrl": "/react-native-ui"
+    },
     "runtimeVersion": {
       "policy": "appVersion"
     },
