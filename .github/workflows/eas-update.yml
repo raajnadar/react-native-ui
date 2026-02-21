@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'packages/**'
+      - 'example/**'
+      - 'pnpm-lock.yaml'
 
 jobs:
   update:
