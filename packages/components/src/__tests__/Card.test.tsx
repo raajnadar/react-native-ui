@@ -1,0 +1,75 @@
+import { render, screen, fireEvent } from '@testing-library/react-native'
+import type { ReactElement, ReactNode } from 'react'
+import { Text } from 'react-native'
+import { MaterialProvider } from '@rn-ui/core'
+
+import { Card } from '../card/Card'
+
+function Providers({ children }: { children: ReactNode }) {
+  return <MaterialProvider>{children}</MaterialProvider>
+}
+
+function renderWithTheme(ui: ReactElement) {
+  return render(ui, { wrapper: Providers })
+}
+
+describe('Card', () => {
+  it('renders children content', () => {
+    renderWithTheme(
+      <Card>
+        <Text>Card content</Text>
+      </Card>,
+    )
+    expect(screen.getByText('Card content')).toBeTruthy()
+  })
+
+  it('renders as non-interactive when no onPress provided', () => {
+    renderWithTheme(
+      <Card>
+        <Text>Static card</Text>
+      </Card>,
+    )
+    expect(screen.queryByRole('button')).toBeNull()
+  })
+
+  it('renders as interactive when onPress is provided', () => {
+    renderWithTheme(
+      <Card onPress={() => {}}>
+        <Text>Clickable card</Text>
+      </Card>,
+    )
+    expect(screen.getByRole('button')).toBeTruthy()
+  })
+
+  it('calls onPress when pressed', () => {
+    const onPress = jest.fn()
+    renderWithTheme(
+      <Card onPress={onPress}>
+        <Text>Tap me</Text>
+      </Card>,
+    )
+    fireEvent.press(screen.getByRole('button'))
+    expect(onPress).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not call onPress when disabled', () => {
+    const onPress = jest.fn()
+    renderWithTheme(
+      <Card onPress={onPress} disabled>
+        <Text>Disabled card</Text>
+      </Card>,
+    )
+    fireEvent.press(screen.getByRole('button'))
+    expect(onPress).not.toHaveBeenCalled()
+  })
+
+  it('sets disabled accessibility state when disabled', () => {
+    renderWithTheme(
+      <Card onPress={() => {}} disabled>
+        <Text>Disabled</Text>
+      </Card>,
+    )
+    const button = screen.getByRole('button')
+    expect(button.props.accessibilityState).toEqual({ disabled: true })
+  })
+})
