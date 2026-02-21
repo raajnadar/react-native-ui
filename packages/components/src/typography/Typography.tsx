@@ -17,9 +17,19 @@ const HEADING_VARIANTS: ReadonlySet<TypographyVariant> = new Set([
 ]);
 
 export interface TypographyProps extends Omit<TextProps, "children" | "style"> {
+  /** Content to display. Accepts strings, numbers, or nested elements. */
   children: ReactNode;
+  /**
+   * MD3 type scale role. Controls font size, weight, line height, and letter spacing.
+   * @default 'bodyMedium'
+   */
   variant?: TypographyVariant;
+  /** Additional text styles merged after the theme typography styles. */
   style?: StyleProp<TextStyle>;
+  /**
+   * Override the underlying text component (e.g. Animated.Text).
+   * @default Text
+   */
   as?: ComponentType<TextProps>;
 }
 

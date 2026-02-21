@@ -7,8 +7,14 @@ import type { Edge } from "react-native-safe-area-context";
 import { useTheme } from "@rn-ui/core";
 
 export interface LayoutProps extends PropsWithChildren {
+  /**
+   * When `true`, removes all safe area insets for full-screen layout.
+   * @default false
+   */
   immersive?: boolean;
+  /** Explicit set of safe-area edges to apply. Overrides `immersive` when provided. */
   edges?: Edge[];
+  /** Additional styles applied to the SafeAreaView container. */
   style?: StyleProp<ViewStyle>;
 }
 

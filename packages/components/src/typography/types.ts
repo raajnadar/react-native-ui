@@ -1,3 +1,4 @@
+/** Material Design 3 type scale role. */
 export type TypographyVariant =
   | "displayLarge"
   | "displayMedium"

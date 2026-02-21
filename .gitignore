@@ -20,6 +20,9 @@ ios/build/
 # metro / bundler
 .metro-cache/
 
+# docusaurus
+.docusaurus/
+
 # misc
 .DS_Store
 .env.local

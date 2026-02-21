@@ -7,6 +7,7 @@ on:
     paths:
       - 'packages/**'
       - 'example/**'
+      - 'docs/**'
       - 'pnpm-lock.yaml'
 
 permissions:
@@ -50,10 +51,19 @@ jobs:
       - name: Add SPA fallback
         run: cp example/dist/index.html example/dist/404.html
 
+      - name: Build docs
+        run: pnpm docs:build
+
+      - name: Merge into single artifact
+        run: |
+          mkdir -p _site
+          cp -r example/dist/. _site/
+          cp -r docs/build/. _site/docs/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: example/dist
+          path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment
