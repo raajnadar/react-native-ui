@@ -1,5 +1,5 @@
-import { Card, Typography } from '@rn-ui/components'
-import { Alert, ScrollView, StyleSheet, View } from 'react-native'
+import { Card, Typography, Column } from '@rn-ui/components'
+import { Alert, ScrollView, StyleSheet } from 'react-native'
 
 const variants = ['elevated', 'filled', 'outlined'] as const
 
@@ -8,64 +8,62 @@ export default function CardScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Typography variant="headlineSmall">Card Showcase</Typography>
 
-      <View style={styles.section}>
+      <Column gap="sm">
         <Typography variant="titleSmall">Variants</Typography>
-        <View style={styles.items}>
+        <Column gap="sm">
           {variants.map((variant) => (
-            <Card key={variant} variant={variant} style={styles.card}>
-              <View style={styles.cardContent}>
+            <Card key={variant} variant={variant}>
+              <Column p="md" gap="sm">
                 <Typography variant="titleMedium">{variant}</Typography>
                 <Typography variant="bodyMedium">
                   This is a non-interactive {variant} card.
                 </Typography>
-              </View>
+              </Column>
             </Card>
           ))}
-        </View>
-      </View>
+        </Column>
+      </Column>
 
-      <View style={styles.section}>
+      <Column gap="sm">
         <Typography variant="titleSmall">Interactive Variants</Typography>
-        <View style={styles.items}>
+        <Column gap="sm">
           {variants.map((variant) => (
             <Card
               key={`interactive-${variant}`}
               variant={variant}
-              style={styles.card}
               onPress={() => Alert.alert(`${variant} card pressed`)}
             >
-              <View style={styles.cardContent}>
+              <Column p="md" gap="sm">
                 <Typography variant="titleMedium">{variant}</Typography>
                 <Typography variant="bodyMedium">
                   Tap this interactive {variant} card.
                 </Typography>
-              </View>
+              </Column>
             </Card>
           ))}
-        </View>
-      </View>
+        </Column>
+      </Column>
 
-      <View style={styles.section}>
+      <Column gap="sm">
         <Typography variant="titleSmall">Disabled Variants</Typography>
-        <View style={styles.items}>
+        <Column gap="sm">
           {variants.map((variant) => (
             <Card
               key={`disabled-${variant}`}
               variant={variant}
-              style={styles.card}
-              onPress={() => {}}
+              onPress={() => { }}
               disabled
             >
-              <View style={styles.cardContent}>
+              <Column p="md" gap="sm">
                 <Typography variant="titleMedium">{variant}</Typography>
                 <Typography variant="bodyMedium">
                   Disabled {variant} card.
                 </Typography>
-              </View>
+              </Column>
             </Card>
           ))}
-        </View>
-      </View>
+        </Column>
+      </Column>
     </ScrollView>
   )
 }
@@ -77,18 +75,5 @@ const styles = StyleSheet.create({
   content: {
     padding: 24,
     rowGap: 20,
-  },
-  section: {
-    rowGap: 10,
-  },
-  items: {
-    rowGap: 12,
-  },
-  card: {
-    alignSelf: 'stretch',
-  },
-  cardContent: {
-    padding: 16,
-    rowGap: 8,
   },
 })

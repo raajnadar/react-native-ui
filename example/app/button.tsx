@@ -1,143 +1,154 @@
-import { Button, IconButton, Typography } from "@rn-ui/components";
-import { ScrollView, StyleSheet, View } from "react-native";
+import {
+  Button,
+  Column,
+  Grid,
+  IconButton,
+  Row,
+  Typography,
+} from '@rn-ui/components'
+import { ScrollView, StyleSheet } from 'react-native'
 
-const variants = ["filled", "elevated", "tonal", "outlined", "text"] as const;
+const variants = ['filled', 'elevated', 'tonal', 'outlined', 'text'] as const
 const iconVariants = [
-  { label: "Filled", value: "filled" },
-  { label: "Tonal", value: "tonal" },
-  { label: "Outlined", value: "outlined" },
-  { label: "Standard", value: "standard" }
-] as const;
+  { label: 'Filled', value: 'filled' },
+  { label: 'Tonal', value: 'tonal' },
+  { label: 'Outlined', value: 'outlined' },
+  { label: 'Standard', value: 'standard' },
+] as const
 const iconSizes = [
-  { label: "Small", value: "small" },
-  { label: "Medium", value: "medium" },
-  { label: "Large", value: "large" }
-] as const;
+  { label: 'Small', value: 'small' },
+  { label: 'Medium', value: 'medium' },
+  { label: 'Large', value: 'large' },
+] as const
 
 export default function ButtonScreen() {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Typography variant="headlineSmall">Button Showcase</Typography>
 
-      <View style={styles.section}>
+      <Column gap="sm">
         <Typography variant="titleSmall">Variants</Typography>
-        <View style={styles.items}>
+        <Row wrap gap="sm">
           {variants.map((variant) => (
             <Button key={variant} variant={variant}>
               {`${variant} button`}
             </Button>
           ))}
-        </View>
-      </View>
+        </Row>
+      </Column>
 
-      <View style={styles.section}>
+      <Column gap="sm">
         <Typography variant="titleSmall">Disabled Variants</Typography>
-        <View style={styles.items}>
+        <Row wrap gap="sm">
           {variants.map((variant) => (
             <Button key={`disabled-${variant}`} variant={variant} disabled>
               {`${variant} button`}
             </Button>
           ))}
-        </View>
-      </View>
+        </Row>
+      </Column>
 
-      <View style={styles.section}>
+      <Column gap="sm">
         <Typography variant="titleSmall">Buttons: With Icons</Typography>
-        <View style={styles.items}>
+        <Row wrap gap="sm">
           <Button variant="filled" leadingIcon="plus">
             Add Item
           </Button>
           <Button variant="outlined" trailingIcon="arrow-right">
             Continue
           </Button>
-          <Button variant="tonal" leadingIcon="heart-outline" trailingIcon="share-variant">
+          <Button
+            variant="tonal"
+            leadingIcon="heart-outline"
+            trailingIcon="share-variant"
+          >
             Favorite
           </Button>
-        </View>
-      </View>
+        </Row>
+      </Column>
 
-      <View style={styles.section}>
+      <Column gap="sm">
         <Typography variant="titleSmall">IconButton: Variants</Typography>
-        <View style={styles.iconGrid}>
+        <Grid columns={4} gap="sm">
           {iconVariants.map((option) => (
-            <View key={option.value} style={styles.iconCell}>
-              <IconButton icon="heart-outline" variant={option.value} accessibilityLabel={`${option.label} heart`} />
+            <Column key={option.value} align="center" gap="xs">
+              <IconButton
+                icon="heart-outline"
+                variant={option.value}
+                accessibilityLabel={`${option.label} heart`}
+              />
               <Typography variant="labelSmall">{option.label}</Typography>
-            </View>
+            </Column>
           ))}
-        </View>
-      </View>
+        </Grid>
+      </Column>
 
-      <View style={styles.section}>
+      <Column gap="sm">
         <Typography variant="titleSmall">IconButton: Sizes</Typography>
-        <View style={styles.iconGrid}>
+        <Grid columns={3} gap="sm">
           {iconSizes.map((option) => (
-            <View key={option.value} style={styles.iconCell}>
-              <IconButton icon="heart-outline" size={option.value} variant="standard" accessibilityLabel={`${option.label} heart`} />
+            <Column key={option.value} align="center" gap="xs">
+              <IconButton
+                icon="heart-outline"
+                size={option.value}
+                variant="standard"
+                accessibilityLabel={`${option.label} heart`}
+              />
               <Typography variant="labelSmall">{option.label}</Typography>
-            </View>
+            </Column>
           ))}
-        </View>
-      </View>
+        </Grid>
+      </Column>
 
-      <View style={styles.section}>
+      <Column gap="sm">
         <Typography variant="titleSmall">IconButton: States</Typography>
-        <View style={styles.stateGrid}>
+        <Column gap="sm">
           {iconVariants.map((option) => (
-            <View key={`state-${option.value}`} style={styles.stateRow}>
+            <Column key={`state-${option.value}`} gap="xs">
               <Typography variant="labelSmall">{option.label}</Typography>
-              <View style={styles.stateIcons}>
-                <IconButton icon="heart-outline" variant={option.value} accessibilityLabel="Like" />
-                <IconButton icon="heart-outline" selectedIcon="heart" selected variant={option.value} accessibilityLabel="Like" />
-                <IconButton icon="heart-outline" selected={false} variant={option.value} disabled accessibilityLabel="Like" />
-                <IconButton icon="heart-outline" selectedIcon="heart" selected variant={option.value} disabled accessibilityLabel="Like" />
-              </View>
-            </View>
+              <Grid columns={4} gap="sm">
+                <IconButton
+                  icon="heart-outline"
+                  variant={option.value}
+                  accessibilityLabel="Like"
+                />
+                <IconButton
+                  icon="heart-outline"
+                  selectedIcon="heart"
+                  selected
+                  variant={option.value}
+                  accessibilityLabel="Like"
+                />
+                <IconButton
+                  icon="heart-outline"
+                  selected={false}
+                  variant={option.value}
+                  disabled
+                  accessibilityLabel="Like"
+                />
+                <IconButton
+                  icon="heart-outline"
+                  selectedIcon="heart"
+                  selected
+                  variant={option.value}
+                  disabled
+                  accessibilityLabel="Like"
+                />
+              </Grid>
+            </Column>
           ))}
-        </View>
-      </View>
+        </Column>
+      </Column>
     </ScrollView>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   content: {
     padding: 24,
-    rowGap: 20
+    rowGap: 20,
   },
-  section: {
-    rowGap: 10
-  },
-  items: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8
-  },
-  iconGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    rowGap: 12,
-    columnGap: 12
-  },
-  iconCell: {
-    minWidth: 60,
-    alignItems: "center",
-    rowGap: 6
-  },
-  stateGrid: {
-    rowGap: 12
-  },
-  stateRow: {
-    rowGap: 6
-  },
-  stateIcons: {
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "wrap",
-    rowGap: 8,
-    columnGap: 12
-  }
-});
+})

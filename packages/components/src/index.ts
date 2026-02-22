@@ -10,8 +10,19 @@ export type {
   IconButtonSize,
   IconButtonVariant,
 } from './icon-button'
+export { Box } from './layout'
+export { Column } from './layout'
+export { Grid } from './layout'
 export { Layout } from './layout'
-export type { LayoutProps } from './layout'
+export { Row } from './layout'
+export type {
+  BoxProps,
+  ColumnProps,
+  GridProps,
+  LayoutProps,
+  RowProps,
+  SpacingValue,
+} from './layout'
 export { TextField } from './text-field'
 export type { TextFieldProps, TextFieldVariant } from './text-field'
 export { Typography } from './typography'
