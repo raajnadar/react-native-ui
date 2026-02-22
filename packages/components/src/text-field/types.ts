@@ -1,14 +1,12 @@
 import type MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import type { ComponentProps } from 'react'
-import type { TextInputProps } from 'react-native'
+import type { StyleProp, TextInputProps, TextStyle } from 'react-native'
 
 /** Visual container style for the text field. */
 export type TextFieldVariant = 'filled' | 'outlined'
 
-export interface TextFieldProps extends Omit<
-  TextInputProps,
-  'placeholderTextColor' | 'editable'
-> {
+export interface TextFieldProps
+  extends Omit<TextInputProps, 'placeholderTextColor' | 'editable'> {
   /** Floating label text. Animates above the input when focused or filled. */
   label?: string
   /**
@@ -36,4 +34,16 @@ export interface TextFieldProps extends Omit<
   trailingIcon?: ComponentProps<typeof MaterialCommunityIcons>['name']
   /** Called when the trailing icon is pressed. */
   onTrailingIconPress?: () => void
+  /**
+   * Override the container (background) color.
+   * Disabled state still uses the standard disabled appearance.
+   */
+  containerColor?: string
+  /**
+   * Override the content (input text and icon) color.
+   * Error and disabled states take precedence.
+   */
+  contentColor?: string
+  /** Additional style applied to the text input element. */
+  inputStyle?: StyleProp<TextStyle>
 }

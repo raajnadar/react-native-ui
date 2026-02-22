@@ -35,6 +35,9 @@ export function TextField({
   onFocus,
   onBlur,
   style,
+  containerColor,
+  contentColor,
+  inputStyle,
   ...textInputProps
 }: TextFieldProps) {
   const theme = useTheme()
@@ -159,16 +162,19 @@ export function TextField({
     ? colors.disabledIconColor
     : isError
       ? colors.errorIconColor
-      : colors.iconColor
+      : contentColor ?? colors.iconColor
 
   const containerStyle = useMemo(
     () => [
       styles.container,
+      containerColor && !isDisabled
+        ? { backgroundColor: containerColor }
+        : undefined,
       isFocused && styles.containerFocused,
       isError && !isFocused && styles.containerError,
       isDisabled && styles.containerDisabled,
     ],
-    [styles, isFocused, isError, isDisabled],
+    [styles, isFocused, isError, isDisabled, containerColor],
   )
 
   const indicatorStyle = useMemo(
@@ -217,6 +223,10 @@ export function TextField({
               style={[
                 styles.input,
                 isDisabled ? styles.inputDisabled : undefined,
+                contentColor && !isDisabled
+                  ? { color: contentColor }
+                  : undefined,
+                inputStyle,
               ]}
               accessibilityLabel={label || undefined}
               accessibilityState={{ disabled: isDisabled }}
