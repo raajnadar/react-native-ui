@@ -19,4 +19,9 @@ export interface CardProps extends ViewProps {
    * @default false
    */
   disabled?: boolean
+  /**
+   * Override the container (background) color.
+   * State-layer colors (hover, press) are derived automatically.
+   */
+  containerColor?: string
 }

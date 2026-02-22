@@ -1,5 +1,5 @@
 import { screen, fireEvent } from '@testing-library/react-native'
-import { Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 
 import { Card } from '../card/Card'
 import { renderWithTheme } from '../test-utils/render-with-theme'
@@ -62,5 +62,29 @@ describe('Card', () => {
     )
     const button = screen.getByRole('button')
     expect(button.props.accessibilityState).toEqual({ disabled: true })
+  })
+
+  describe('overrides', () => {
+    it('applies containerColor to a non-interactive card', () => {
+      renderWithTheme(
+        <Card testID="card" containerColor="#FF0000">
+          <Text>Red card</Text>
+        </Card>,
+      )
+      const card = screen.getByTestId('card')
+      const flatStyle = StyleSheet.flatten(card.props.style)
+      expect(flatStyle.backgroundColor).toBe('#FF0000')
+    })
+
+    it('applies containerColor to an interactive card', () => {
+      renderWithTheme(
+        <Card onPress={() => {}} containerColor="#FF0000">
+          <Text>Red card</Text>
+        </Card>,
+      )
+      const card = screen.getByRole('button')
+      const flatStyle = StyleSheet.flatten(card.props.style)
+      expect(flatStyle.backgroundColor).toBe('#FF0000')
+    })
   })
 })

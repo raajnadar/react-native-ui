@@ -77,8 +77,38 @@ function getVariantColors(theme: Theme, variant: CardVariant): VariantColors {
   }
 }
 
-export function createStyles(theme: Theme, variant: CardVariant) {
-  const colors = getVariantColors(theme, variant)
+function applyColorOverrides(
+  theme: Theme,
+  colors: VariantColors,
+  containerColor?: string,
+): VariantColors {
+  if (!containerColor) return colors
+
+  return {
+    ...colors,
+    backgroundColor: containerColor,
+    borderColor: containerColor,
+    borderWidth: 0,
+    hoveredBackgroundColor: blendColor(
+      containerColor,
+      theme.colors.onSurface,
+      theme.stateLayer.hoveredOpacity,
+    ),
+    pressedBackgroundColor: blendColor(
+      containerColor,
+      theme.colors.onSurface,
+      theme.stateLayer.pressedOpacity,
+    ),
+  }
+}
+
+export function createStyles(
+  theme: Theme,
+  variant: CardVariant,
+  containerColor?: string,
+) {
+  const baseColors = getVariantColors(theme, variant)
+  const colors = applyColorOverrides(theme, baseColors, containerColor)
   const elevationLevel0 = elevationStyle(theme.elevation.level0)
   const elevationLevel1 = elevationStyle(theme.elevation.level1)
   const elevationLevel2 = elevationStyle(theme.elevation.level2)

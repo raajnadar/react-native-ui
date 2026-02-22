@@ -17,12 +17,16 @@ export function Card({
   variant = 'elevated',
   onPress,
   disabled = false,
+  containerColor,
   ...props
 }: CardProps) {
   const isDisabled = Boolean(disabled)
   const isInteractive = onPress !== undefined
   const theme = useTheme()
-  const styles = useMemo(() => createStyles(theme, variant), [theme, variant])
+  const styles = useMemo(
+    () => createStyles(theme, variant, containerColor),
+    [theme, variant, containerColor],
+  )
 
   if (!isInteractive) {
     return (
