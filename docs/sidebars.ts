@@ -7,16 +7,41 @@ const sidebars: SidebarsConfig = {
     { type: 'doc', id: 'theming', label: 'Theming' },
     {
       type: 'category',
-      label: 'Components',
+      label: 'Layout',
+      collapsed: false,
+      items: [
+        'components/box',
+        'components/row',
+        'components/column',
+        'components/grid',
+        'components/layout',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Inputs',
       collapsed: false,
       items: [
         'components/button',
-        'components/card',
-        'components/appbar',
         'components/icon-button',
         'components/text-field',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Data Display',
+      collapsed: false,
+      items: [
+        'components/card',
         'components/typography',
-        'components/layout',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Surfaces',
+      collapsed: false,
+      items: [
+        'components/appbar',
       ],
     },
   ],

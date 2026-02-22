@@ -47,12 +47,33 @@ import { Button } from '@rn-ui/components/button'
 
 ## Components
 
+### Layout
+
+| Component | Description |
+|-----------|-------------|
+| [Box](./components/box) | Theme-aware View with spacing shorthand props |
+| [Row](./components/row) | Horizontal layout with wrap and invert support |
+| [Column](./components/column) | Vertical layout with invert support |
+| [Grid](./components/grid) | Equal-width multi-column grid |
+| [Layout](./components/layout) | Safe area wrapper with theme background |
+
+### Inputs
+
 | Component | Description |
 |-----------|-------------|
 | [Button](./components/button) | Actions and choices with a single tap |
-| [Card](./components/card) | Contained surfaces for related content |
-| [AppBar](./components/appbar) | Top navigation with title and actions |
 | [IconButton](./components/icon-button) | Icon-only actions |
 | [TextField](./components/text-field) | Text input with labels and validation |
+
+### Data Display
+
+| Component | Description |
+|-----------|-------------|
+| [Card](./components/card) | Contained surfaces for related content |
 | [Typography](./components/typography) | MD3 type scale text rendering |
-| [Layout](./components/layout) | Safe area wrapper with theme background |
+
+### Surfaces
+
+| Component | Description |
+|-----------|-------------|
+| [AppBar](./components/appbar) | Top navigation with title and actions |
