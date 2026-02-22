@@ -1,6 +1,6 @@
 import type MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import type { ComponentProps } from 'react'
-import type { PressableProps } from 'react-native'
+import type { PressableProps, StyleProp, TextStyle } from 'react-native'
 
 /** Visual style variant of the button following Material Design 3 roles. */
 export type ButtonVariant =
@@ -27,4 +27,16 @@ export interface ButtonProps extends Omit<PressableProps, 'children'> {
    * @default 18
    */
   iconSize?: number
+  /**
+   * Override the container (background) color.
+   * State-layer colors (hover, press) are derived automatically.
+   */
+  containerColor?: string
+  /**
+   * Override the content (label and icon) color.
+   * State-layer colors are derived automatically when no containerColor is set.
+   */
+  contentColor?: string
+  /** Additional style applied to the label text. */
+  labelStyle?: StyleProp<TextStyle>
 }

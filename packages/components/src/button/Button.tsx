@@ -52,6 +52,9 @@ export function Button({
   leadingIcon,
   trailingIcon,
   iconSize = 18,
+  containerColor,
+  contentColor,
+  labelStyle: labelStyleOverride,
   disabled = false,
   ...props
 }: ButtonProps) {
@@ -60,20 +63,34 @@ export function Button({
   const hasTrailing = Boolean(trailingIcon)
   const theme = useTheme()
   const styles = useMemo(
-    () => createStyles(theme, variant, hasLeading, hasTrailing),
-    [theme, variant, hasLeading, hasTrailing],
-  )
-  const labelStyle = useMemo(
     () =>
-      StyleSheet.flatten([
-        styles.label,
-        isDisabled ? styles.disabledLabel : undefined,
-      ]),
-    [isDisabled, styles.disabledLabel, styles.label],
+      createStyles(
+        theme,
+        variant,
+        hasLeading,
+        hasTrailing,
+        containerColor,
+        contentColor,
+      ),
+    [theme, variant, hasLeading, hasTrailing, containerColor, contentColor],
   )
-  const iconColor = (labelStyle as { color?: unknown } | undefined)?.color
-  const resolvedIconColor =
-    typeof iconColor === 'string' ? iconColor : undefined
+
+  const resolvedIconColor = useMemo(() => {
+    const base = StyleSheet.flatten([
+      styles.label,
+      isDisabled ? styles.disabledLabel : undefined,
+    ])
+    return typeof base?.color === 'string' ? base.color : undefined
+  }, [styles.label, styles.disabledLabel, isDisabled])
+
+  const computedLabelStyle = useMemo(
+    () => [
+      styles.label,
+      isDisabled ? styles.disabledLabel : undefined,
+      labelStyleOverride,
+    ],
+    [isDisabled, styles.disabledLabel, styles.label, labelStyleOverride],
+  )
 
   return (
     <Pressable
@@ -99,7 +116,7 @@ export function Button({
           style={styles.leadingIcon}
         />
       ) : null}
-      <Text style={labelStyle}>{children}</Text>
+      <Text style={computedLabelStyle}>{children}</Text>
       {trailingIcon ? (
         <MaterialCommunityIcons
           name={trailingIcon}

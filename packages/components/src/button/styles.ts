@@ -153,13 +153,76 @@ function getHorizontalPadding(
   }
 }
 
+function applyColorOverrides(
+  theme: Theme,
+  colors: VariantColors,
+  containerColor?: string,
+  contentColor?: string,
+): VariantColors {
+  if (!containerColor && !contentColor) return colors
+
+  const result = { ...colors }
+
+  if (contentColor) {
+    result.textColor = contentColor
+  }
+
+  if (containerColor) {
+    const overlay = contentColor ?? colors.textColor
+    result.backgroundColor = containerColor
+    result.borderColor = containerColor
+    result.hoveredBackgroundColor = blendColor(
+      containerColor,
+      overlay,
+      theme.stateLayer.hoveredOpacity,
+    )
+    result.pressedBackgroundColor = blendColor(
+      containerColor,
+      overlay,
+      theme.stateLayer.pressedOpacity,
+    )
+  } else if (contentColor) {
+    if (colors.backgroundColor === 'transparent') {
+      result.hoveredBackgroundColor = alphaColor(
+        contentColor,
+        theme.stateLayer.hoveredOpacity,
+      )
+      result.pressedBackgroundColor = alphaColor(
+        contentColor,
+        theme.stateLayer.pressedOpacity,
+      )
+    } else {
+      result.hoveredBackgroundColor = blendColor(
+        colors.backgroundColor,
+        contentColor,
+        theme.stateLayer.hoveredOpacity,
+      )
+      result.pressedBackgroundColor = blendColor(
+        colors.backgroundColor,
+        contentColor,
+        theme.stateLayer.pressedOpacity,
+      )
+    }
+  }
+
+  return result
+}
+
 export function createStyles(
   theme: Theme,
   variant: ButtonVariant,
   hasLeadingIcon: boolean,
   hasTrailingIcon: boolean,
+  containerColor?: string,
+  contentColor?: string,
 ) {
-  const colors = getVariantColors(theme, variant)
+  const baseColors = getVariantColors(theme, variant)
+  const colors = applyColorOverrides(
+    theme,
+    baseColors,
+    containerColor,
+    contentColor,
+  )
   const labelStyle = theme.typography.labelLarge
   const padding = getHorizontalPadding(
     theme,

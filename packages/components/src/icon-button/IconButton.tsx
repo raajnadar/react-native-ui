@@ -1,6 +1,7 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { useMemo } from 'react'
 import { Pressable } from 'react-native'
+import type { StyleProp, ViewStyle } from 'react-native'
 import { useTheme } from '@rn-ui/core'
 
 import { createStyles } from './styles'
@@ -9,7 +10,7 @@ import type {
   IconButtonSize,
   IconButtonVariant,
 } from './types'
-import { alphaColor } from '../utils/color'
+import { alphaColor, blendColor } from '../utils/color'
 
 function getIconColor(
   variant: IconButtonVariant,
@@ -250,6 +251,9 @@ export function IconButton({
   icon,
   selectedIcon,
   iconColor,
+  contentColor,
+  containerColor,
+  style,
   onPress,
   disabled = false,
   variant = 'filled',
@@ -265,13 +269,41 @@ export function IconButton({
   const isToggle = selected !== undefined
   const isSelected = Boolean(selected)
   const resolvedIconColor =
-    iconColor ?? getIconColor(variant, theme, isDisabled, isToggle, isSelected)
+    contentColor ??
+    iconColor ??
+    getIconColor(variant, theme, isDisabled, isToggle, isSelected)
   const displayIcon =
     isToggle && isSelected && selectedIcon ? selectedIcon : icon
   const iconPixelSize = getIconPixelSize(size)
   const accessibilityState = isToggle
     ? { disabled: isDisabled, selected: isSelected }
     : { disabled: isDisabled }
+
+  const containerOverrides = useMemo(() => {
+    if (!containerColor) return null
+    const overlay = resolvedIconColor
+    return {
+      base: {
+        backgroundColor: containerColor,
+        borderColor: containerColor,
+        borderWidth: 0,
+      } as ViewStyle,
+      hovered: {
+        backgroundColor: blendColor(
+          containerColor,
+          overlay,
+          theme.stateLayer.hoveredOpacity,
+        ),
+      } as ViewStyle,
+      pressed: {
+        backgroundColor: blendColor(
+          containerColor,
+          overlay,
+          theme.stateLayer.pressedOpacity,
+        ),
+      } as ViewStyle,
+    }
+  }, [containerColor, resolvedIconColor, theme.stateLayer])
 
   return (
     <Pressable
@@ -288,18 +320,33 @@ export function IconButton({
       }: {
         pressed: boolean
         hovered?: boolean
-      }) => [
-        styles.container,
-        getSizeStyle(styles, size),
-        getColorStyle(styles, variant, isToggle, isSelected),
-        hovered && !pressed && !isDisabled
-          ? getHoveredStyle(styles, variant, isToggle, isSelected)
-          : undefined,
-        pressed && !isDisabled
-          ? getPressedStyle(styles, variant, isToggle, isSelected)
-          : undefined,
-        isDisabled ? getDisabledStyle(styles, variant) : undefined,
-      ]}
+      }) => {
+        const base: StyleProp<ViewStyle>[] = [
+          styles.container,
+          getSizeStyle(styles, size),
+          getColorStyle(styles, variant, isToggle, isSelected),
+          containerOverrides?.base,
+          hovered && !pressed && !isDisabled
+            ? containerOverrides
+              ? containerOverrides.hovered
+              : getHoveredStyle(styles, variant, isToggle, isSelected)
+            : undefined,
+          pressed && !isDisabled
+            ? containerOverrides
+              ? containerOverrides.pressed
+              : getPressedStyle(styles, variant, isToggle, isSelected)
+            : undefined,
+          isDisabled ? getDisabledStyle(styles, variant) : undefined,
+        ]
+
+        if (typeof style === 'function') {
+          base.push(style({ pressed }))
+        } else if (style) {
+          base.push(style)
+        }
+
+        return base
+      }}
     >
       <MaterialCommunityIcons
         name={displayIcon}

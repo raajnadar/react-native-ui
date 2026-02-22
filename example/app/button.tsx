@@ -1,7 +1,6 @@
 import {
   Button,
   Column,
-  Grid,
   IconButton,
   Row,
   Typography,
@@ -68,8 +67,30 @@ export default function ButtonScreen() {
       </Column>
 
       <Column gap="sm">
+        <Typography variant="titleSmall">Custom Colors</Typography>
+        <Row wrap gap="sm">
+          <Button containerColor="#B00020" contentColor="#FFFFFF">
+            Danger
+          </Button>
+          <Button
+            variant="outlined"
+            contentColor="#00796B"
+          >
+            Teal Bold
+          </Button>
+          <Button
+            variant="tonal"
+            containerColor="#E8DEF8"
+            contentColor="#4A148C"
+          >
+            Custom Tonal
+          </Button>
+        </Row>
+      </Column>
+
+      <Column gap="sm">
         <Typography variant="titleSmall">IconButton: Variants</Typography>
-        <Grid columns={4} gap="sm">
+        <Row gap="lg">
           {iconVariants.map((option) => (
             <Column key={option.value} align="center" gap="xs">
               <IconButton
@@ -80,12 +101,12 @@ export default function ButtonScreen() {
               <Typography variant="labelSmall">{option.label}</Typography>
             </Column>
           ))}
-        </Grid>
+        </Row>
       </Column>
 
       <Column gap="sm">
         <Typography variant="titleSmall">IconButton: Sizes</Typography>
-        <Grid columns={3} gap="sm">
+        <Row gap="lg">
           {iconSizes.map((option) => (
             <Column key={option.value} align="center" gap="xs">
               <IconButton
@@ -97,21 +118,49 @@ export default function ButtonScreen() {
               <Typography variant="labelSmall">{option.label}</Typography>
             </Column>
           ))}
-        </Grid>
+        </Row>
       </Column>
 
       <Column gap="sm">
-        <Typography variant="titleSmall">IconButton: States</Typography>
-        <Column gap="sm">
-          {iconVariants.map((option) => (
-            <Column key={`state-${option.value}`} gap="xs">
-              <Typography variant="labelSmall">{option.label}</Typography>
-              <Grid columns={4} gap="sm">
+        <Typography variant="titleSmall">IconButton: Custom Colors</Typography>
+        <Row gap="sm">
+          <IconButton
+            icon="delete"
+            containerColor="#B00020"
+            contentColor="#FFFFFF"
+            accessibilityLabel="Delete"
+          />
+          <IconButton
+            icon="star"
+            variant="outlined"
+            contentColor="#FF8F00"
+            accessibilityLabel="Star"
+          />
+          <IconButton
+            icon="leaf"
+            containerColor="#E8F5E9"
+            contentColor="#2E7D32"
+            accessibilityLabel="Eco"
+          />
+        </Row>
+      </Column>
+
+      <Column gap="sm">
+        <Typography variant="titleSmall">IconButton: Toggle States</Typography>
+        {iconVariants.map((option) => (
+          <Column key={`state-${option.value}`} gap="xs">
+            <Typography variant="labelSmall">{option.label}</Typography>
+            <Row gap="lg">
+              <Column align="center" gap="xs">
                 <IconButton
                   icon="heart-outline"
+                  selected={false}
                   variant={option.value}
                   accessibilityLabel="Like"
                 />
+                <Typography variant="labelSmall">Default</Typography>
+              </Column>
+              <Column align="center" gap="xs">
                 <IconButton
                   icon="heart-outline"
                   selectedIcon="heart"
@@ -119,6 +168,9 @@ export default function ButtonScreen() {
                   variant={option.value}
                   accessibilityLabel="Like"
                 />
+                <Typography variant="labelSmall">Selected</Typography>
+              </Column>
+              <Column align="center" gap="xs">
                 <IconButton
                   icon="heart-outline"
                   selected={false}
@@ -126,6 +178,9 @@ export default function ButtonScreen() {
                   disabled
                   accessibilityLabel="Like"
                 />
+                <Typography variant="labelSmall">Disabled</Typography>
+              </Column>
+              <Column align="center" gap="xs">
                 <IconButton
                   icon="heart-outline"
                   selectedIcon="heart"
@@ -134,10 +189,11 @@ export default function ButtonScreen() {
                   disabled
                   accessibilityLabel="Like"
                 />
-              </Grid>
-            </Column>
-          ))}
-        </Column>
+                <Typography variant="labelSmall">Sel + Dis</Typography>
+              </Column>
+            </Row>
+          </Column>
+        ))}
       </Column>
     </ScrollView>
   )
