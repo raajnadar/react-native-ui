@@ -1,17 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react-native'
-import type { ReactElement, ReactNode } from 'react'
+import { screen, fireEvent } from '@testing-library/react-native'
 import { Text } from 'react-native'
-import { MaterialProvider } from '@rn-ui/core'
 
 import { Card } from '../card/Card'
-
-function Providers({ children }: { children: ReactNode }) {
-  return <MaterialProvider>{children}</MaterialProvider>
-}
-
-function renderWithTheme(ui: ReactElement) {
-  return render(ui, { wrapper: Providers })
-}
+import { renderWithTheme } from '../test-utils/render-with-theme'
 
 describe('Card', () => {
   it('renders children content', () => {

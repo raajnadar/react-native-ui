@@ -1,13 +1,6 @@
 import { I18nManager } from 'react-native'
 
 /**
- * Returns the current RTL state.
- */
-export function isRTL(): boolean {
-  return I18nManager.isRTL
-}
-
-/**
  * Returns the appropriate transform origin for animations that scale
  * from a horizontal edge (e.g. label shrink in TextField).
  */

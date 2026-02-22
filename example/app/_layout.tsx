@@ -3,8 +3,6 @@ import {
   Alert,
   I18nManager,
   Platform,
-  StyleSheet,
-  View,
   useColorScheme,
 } from 'react-native'
 import { Slot, useRouter, useSegments } from 'expo-router'
@@ -54,12 +52,6 @@ function isDarkColor(color: string): boolean {
   const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
   return luminance < 0.5
 }
-
-const styles = StyleSheet.create({
-  content: {
-    flex: 1,
-  },
-})
 
 function toggleRTL() {
   const nextIsRTL = !I18nManager.isRTL
@@ -131,9 +123,7 @@ function RootLayoutContent({
           actions={appBarActions}
           insetTop
         />
-        <View style={styles.content}>
-          <Slot screenOptions={stackScreenOptions} />
-        </View>
+        <Slot screenOptions={stackScreenOptions} />
       </Layout>
     </>
   )

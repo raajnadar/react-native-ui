@@ -1,16 +1,7 @@
-import { render, screen } from '@testing-library/react-native'
-import type { ReactElement, ReactNode } from 'react'
-import { MaterialProvider } from '@rn-ui/core'
+import { screen } from '@testing-library/react-native'
 
 import { Typography } from '../typography/Typography'
-
-function Providers({ children }: { children: ReactNode }) {
-  return <MaterialProvider>{children}</MaterialProvider>
-}
-
-function renderWithTheme(ui: ReactElement) {
-  return render(ui, { wrapper: Providers })
-}
+import { renderWithTheme } from '../test-utils/render-with-theme'
 
 describe('Typography', () => {
   it('renders children text', () => {

@@ -1,5 +1,3 @@
 export { Typography } from './Typography'
 export type { TypographyProps } from './Typography'
-export { typographyTokens } from './tokens'
-export type { TypographyToken } from './tokens'
 export type { TypographyVariant } from './types'

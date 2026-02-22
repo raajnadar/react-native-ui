@@ -9,6 +9,9 @@ export type {
   Elevation,
   ElevationLevel,
   Motion,
+  Spacing,
+  StateLayer,
+  ShadowOffset,
 } from './types'
 
 export { lightTheme } from './light'
