@@ -82,6 +82,10 @@ export function AppBar({
   leading,
   trailing,
   actions,
+  containerColor,
+  contentColor,
+  titleStyle,
+  style,
 }: AppBarProps) {
   const theme = useTheme()
   const topAppBar = theme.topAppBar ?? defaultTopAppBarTokens
@@ -89,8 +93,8 @@ export function AppBar({
   const [leadingWidth, setLeadingWidth] = useState(0)
   const [actionsWidth, setActionsWidth] = useState(0)
   const titleColorStyle = useMemo(
-    () => ({ color: theme.colors.onSurface }),
-    [theme.colors.onSurface],
+    () => ({ color: contentColor ?? theme.colors.onSurface }),
+    [contentColor, theme.colors.onSurface],
   )
   const size = resolveSize(variant)
   const titleVariant = titleVariantBySize[size]
@@ -129,7 +133,7 @@ export function AppBar({
           icon={getBackIcon()}
           size="medium"
           variant="standard"
-          iconColor={theme.colors.onSurface}
+          iconColor={contentColor ?? theme.colors.onSurface}
           accessibilityLabel="Go back"
           onPress={onBackPress}
         />
@@ -137,6 +141,7 @@ export function AppBar({
     )
   }, [
     canGoBack,
+    contentColor,
     leading,
     onBackPress,
     styles.iconFrame,
@@ -163,6 +168,7 @@ export function AppBar({
               icon={action.icon}
               size="medium"
               variant="standard"
+              iconColor={contentColor}
               accessibilityLabel={action.accessibilityLabel}
               onPress={action.onPress}
               disabled={action.disabled}
@@ -171,7 +177,7 @@ export function AppBar({
         ))}
       </View>
     )
-  }, [actions, styles.actionsRow, styles.iconFrame, trailing])
+  }, [actions, contentColor, styles.actionsRow, styles.iconFrame, trailing])
 
   const onLeadingLayout = useCallback((event: LayoutChangeEvent) => {
     const nextWidth = measureWidth(event)
@@ -217,6 +223,21 @@ export function AppBar({
     </View>
   )
 
+  const containerOverride = containerColor
+    ? ({ backgroundColor: containerColor } as ViewStyle)
+    : undefined
+  const rootStyle: StyleProp<ViewStyle> = [
+    styles.root,
+    elevated ? styles.elevatedRoot : undefined,
+    containerOverride,
+    style,
+  ]
+  const safeAreaStyle: StyleProp<ViewStyle> = [
+    styles.safeArea,
+    elevated ? styles.elevatedSafeArea : undefined,
+    containerOverride,
+  ]
+
   if (isExpanded) {
     const content = (
       <View style={[styles.expandedContainer, getSizeStyle(styles, size)]}>
@@ -233,20 +254,18 @@ export function AppBar({
           <Typography
             {...APP_BAR_TITLE_TEXT_PROPS}
             variant={titleVariant}
-            style={[styles.title, titleColorStyle, styles.startAlignedTitle]}
+            style={[
+              styles.title,
+              titleColorStyle,
+              styles.startAlignedTitle,
+              titleStyle,
+            ]}
           >
             {title}
           </Typography>
         </View>
       </View>
     )
-
-    const rootStyle = elevated
-      ? [styles.root, styles.elevatedRoot]
-      : styles.root
-    const safeAreaStyle = elevated
-      ? [styles.safeArea, styles.elevatedSafeArea]
-      : styles.safeArea
 
     return (
       <View style={rootStyle}>
@@ -266,6 +285,7 @@ export function AppBar({
             styles.title,
             titleColorStyle,
             isCenterAligned ? styles.centeredTitle : styles.startAlignedTitle,
+            titleStyle,
           ]}
         >
           {title}
@@ -273,11 +293,6 @@ export function AppBar({
       </View>
     </View>
   )
-
-  const rootStyle = elevated ? [styles.root, styles.elevatedRoot] : styles.root
-  const safeAreaStyle = elevated
-    ? [styles.safeArea, styles.elevatedSafeArea]
-    : styles.safeArea
 
   return (
     <View style={rootStyle}>

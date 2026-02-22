@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import type { StyleProp, TextStyle, ViewStyle } from 'react-native'
 import type { IconButtonProps } from '../icon-button'
 
 /** Size/layout variant of the AppBar. */
@@ -50,4 +51,17 @@ export interface AppBarProps {
   trailing?: ReactNode
   /** Array of icon-button actions rendered in the trailing slot. */
   actions?: AppBarAction[]
+  /**
+   * Override the container (background) color.
+   * Applied to both normal and elevated states.
+   */
+  containerColor?: string
+  /**
+   * Override the content (title and icon) color.
+   */
+  contentColor?: string
+  /** Additional style applied to the title text. */
+  titleStyle?: StyleProp<TextStyle>
+  /** Custom style applied to the root container. */
+  style?: StyleProp<ViewStyle>
 }
