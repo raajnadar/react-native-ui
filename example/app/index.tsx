@@ -30,6 +30,9 @@ export default function HomeScreen() {
         <Button style={styles.navButton} onPress={() => router.push('/card')}>
           Card
         </Button>
+        <Button style={styles.navButton} onPress={() => router.push('/list')}>
+          List
+        </Button>
         <Button
           style={styles.navButton}
           onPress={() => router.push('/layout')}

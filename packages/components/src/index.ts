@@ -10,6 +10,13 @@ export type {
   IconButtonSize,
   IconButtonVariant,
 } from './icon-button'
+export { List, ListItem, ListDivider } from './list'
+export type {
+  ListProps,
+  ListItemLines,
+  ListItemProps,
+  ListDividerProps,
+} from './list'
 export { Box } from './layout'
 export { Column } from './layout'
 export { Grid } from './layout'

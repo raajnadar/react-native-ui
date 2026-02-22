@@ -31,7 +31,7 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Data Display',
       collapsed: false,
-      items: ['components/card', 'components/typography'],
+      items: ['components/card', 'components/list', 'components/typography'],
     },
     {
       type: 'category',
