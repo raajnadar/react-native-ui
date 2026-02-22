@@ -22,10 +22,7 @@ export function Card({
   const isDisabled = Boolean(disabled)
   const isInteractive = onPress !== undefined
   const theme = useTheme()
-  const styles = useMemo(
-    () => createStyles(theme, variant),
-    [theme, variant],
-  )
+  const styles = useMemo(() => createStyles(theme, variant), [theme, variant])
 
   if (!isInteractive) {
     return (

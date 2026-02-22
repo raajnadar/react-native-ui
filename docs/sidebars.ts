@@ -31,18 +31,13 @@ const sidebars: SidebarsConfig = {
       type: 'category',
       label: 'Data Display',
       collapsed: false,
-      items: [
-        'components/card',
-        'components/typography',
-      ],
+      items: ['components/card', 'components/typography'],
     },
     {
       type: 'category',
       label: 'Surfaces',
       collapsed: false,
-      items: [
-        'components/appbar',
-      ],
+      items: ['components/appbar'],
     },
   ],
 }

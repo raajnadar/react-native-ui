@@ -1,232 +1,249 @@
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useMemo } from "react";
-import { Pressable } from "react-native";
-import { useTheme } from "@rn-ui/core";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useMemo } from 'react'
+import { Pressable } from 'react-native'
+import { useTheme } from '@rn-ui/core'
 
-import { createStyles } from "./styles";
-import type { IconButtonProps, IconButtonSize, IconButtonVariant } from "./types";
-import { alphaColor } from "../utils/color";
+import { createStyles } from './styles'
+import type {
+  IconButtonProps,
+  IconButtonSize,
+  IconButtonVariant,
+} from './types'
+import { alphaColor } from '../utils/color'
 
 function getIconColor(
   variant: IconButtonVariant,
   theme: ReturnType<typeof useTheme>,
   disabled: boolean,
   isToggle: boolean,
-  selected: boolean
+  selected: boolean,
 ): string {
   if (disabled) {
-    return alphaColor(theme.colors.onSurface, 0.38);
+    return alphaColor(theme.colors.onSurface, 0.38)
   }
 
   if (isToggle) {
-    if (variant === "filled") {
-      return selected ? theme.colors.onPrimary : theme.colors.primary;
+    if (variant === 'filled') {
+      return selected ? theme.colors.onPrimary : theme.colors.primary
     }
 
-    if (variant === "tonal") {
+    if (variant === 'tonal') {
       return selected
         ? theme.colors.onSecondaryContainer
-        : theme.colors.onSurfaceVariant;
+        : theme.colors.onSurfaceVariant
     }
 
-    if (variant === "outlined") {
-      return selected ? theme.colors.inverseOnSurface : theme.colors.onSurfaceVariant;
+    if (variant === 'outlined') {
+      return selected
+        ? theme.colors.inverseOnSurface
+        : theme.colors.onSurfaceVariant
     }
 
-    return selected ? theme.colors.primary : theme.colors.onSurfaceVariant;
+    return selected ? theme.colors.primary : theme.colors.onSurfaceVariant
   }
 
-  if (variant === "filled") {
-    return theme.colors.onPrimary;
+  if (variant === 'filled') {
+    return theme.colors.onPrimary
   }
 
-  if (variant === "tonal") {
-    return theme.colors.onSecondaryContainer;
+  if (variant === 'tonal') {
+    return theme.colors.onSecondaryContainer
   }
 
-  return theme.colors.onSurfaceVariant;
+  return theme.colors.onSurfaceVariant
 }
 
 function getColorStyle(
   styles: ReturnType<typeof createStyles>,
   variant: IconButtonVariant,
   isToggle: boolean,
-  selected: boolean
+  selected: boolean,
 ) {
   if (isToggle) {
-    if (variant === "tonal") {
-      return selected ? styles.colorTonalToggleSelected : styles.colorTonalToggleUnselected;
+    if (variant === 'tonal') {
+      return selected
+        ? styles.colorTonalToggleSelected
+        : styles.colorTonalToggleUnselected
     }
 
-    if (variant === "outlined") {
-      return selected ? styles.colorOutlinedToggleSelected : styles.colorOutlined;
+    if (variant === 'outlined') {
+      return selected
+        ? styles.colorOutlinedToggleSelected
+        : styles.colorOutlined
     }
 
-    if (variant === "standard") {
-      return selected ? styles.colorStandardToggleSelected : styles.colorStandard;
+    if (variant === 'standard') {
+      return selected
+        ? styles.colorStandardToggleSelected
+        : styles.colorStandard
     }
 
-    return selected ? styles.colorFilledToggleSelected : styles.colorFilledToggleUnselected;
+    return selected
+      ? styles.colorFilledToggleSelected
+      : styles.colorFilledToggleUnselected
   }
 
-  if (variant === "tonal") {
-    return styles.colorTonal;
+  if (variant === 'tonal') {
+    return styles.colorTonal
   }
 
-  if (variant === "outlined") {
-    return styles.colorOutlined;
+  if (variant === 'outlined') {
+    return styles.colorOutlined
   }
 
-  if (variant === "standard") {
-    return styles.colorStandard;
+  if (variant === 'standard') {
+    return styles.colorStandard
   }
 
-  return styles.colorFilled;
+  return styles.colorFilled
 }
 
-function getSizeStyle(styles: ReturnType<typeof createStyles>, size: IconButtonSize) {
-  if (size === "small") {
-    return styles.sizeSmall;
+function getSizeStyle(
+  styles: ReturnType<typeof createStyles>,
+  size: IconButtonSize,
+) {
+  if (size === 'small') {
+    return styles.sizeSmall
   }
 
-  if (size === "large") {
-    return styles.sizeLarge;
+  if (size === 'large') {
+    return styles.sizeLarge
   }
 
-  return styles.sizeMedium;
+  return styles.sizeMedium
 }
 
 function getIconPixelSize(size: IconButtonSize): number {
-  if (size === "small") {
-    return 18;
+  if (size === 'small') {
+    return 18
   }
 
-  if (size === "large") {
-    return 28;
+  if (size === 'large') {
+    return 28
   }
 
-  return 24;
+  return 24
 }
 
 function getDefaultHitSlop(size: IconButtonSize): number {
-  if (size === "small") {
-    return 8;
+  if (size === 'small') {
+    return 8
   }
 
-  if (size === "large") {
-    return 0;
+  if (size === 'large') {
+    return 0
   }
 
-  return 4;
+  return 4
 }
 
 function getHoveredStyle(
   styles: ReturnType<typeof createStyles>,
   variant: IconButtonVariant,
   isToggle: boolean,
-  selected: boolean
+  selected: boolean,
 ) {
   if (isToggle) {
-    if (variant === "tonal") {
+    if (variant === 'tonal') {
       return selected
         ? styles.hoveredTonalToggleSelected
-        : styles.hoveredTonalToggleUnselected;
+        : styles.hoveredTonalToggleUnselected
     }
 
-    if (variant === "outlined") {
+    if (variant === 'outlined') {
       return selected
         ? styles.hoveredOutlinedToggleSelected
-        : styles.hoveredOutlinedToggleUnselected;
+        : styles.hoveredOutlinedToggleUnselected
     }
 
-    if (variant === "standard") {
+    if (variant === 'standard') {
       return selected
         ? styles.hoveredStandardToggleSelected
-        : styles.hoveredStandardToggleUnselected;
+        : styles.hoveredStandardToggleUnselected
     }
 
     return selected
       ? styles.hoveredFilledToggleSelected
-      : styles.hoveredFilledToggleUnselected;
+      : styles.hoveredFilledToggleUnselected
   }
 
-  if (variant === "tonal") {
-    return styles.hoveredTonal;
+  if (variant === 'tonal') {
+    return styles.hoveredTonal
   }
 
-  if (variant === "outlined") {
-    return styles.hoveredOutlined;
+  if (variant === 'outlined') {
+    return styles.hoveredOutlined
   }
 
-  if (variant === "standard") {
-    return styles.hoveredStandard;
+  if (variant === 'standard') {
+    return styles.hoveredStandard
   }
 
-  return styles.hoveredFilled;
+  return styles.hoveredFilled
 }
 
 function getPressedStyle(
   styles: ReturnType<typeof createStyles>,
   variant: IconButtonVariant,
   isToggle: boolean,
-  selected: boolean
+  selected: boolean,
 ) {
   if (isToggle) {
-    if (variant === "tonal") {
+    if (variant === 'tonal') {
       return selected
         ? styles.pressedTonalToggleSelected
-        : styles.pressedTonalToggleUnselected;
+        : styles.pressedTonalToggleUnselected
     }
 
-    if (variant === "outlined") {
+    if (variant === 'outlined') {
       return selected
         ? styles.pressedOutlinedToggleSelected
-        : styles.pressedOutlinedToggleUnselected;
+        : styles.pressedOutlinedToggleUnselected
     }
 
-    if (variant === "standard") {
+    if (variant === 'standard') {
       return selected
         ? styles.pressedStandardToggleSelected
-        : styles.pressedStandardToggleUnselected;
+        : styles.pressedStandardToggleUnselected
     }
 
     return selected
       ? styles.pressedFilledToggleSelected
-      : styles.pressedFilledToggleUnselected;
+      : styles.pressedFilledToggleUnselected
   }
 
-  if (variant === "tonal") {
-    return styles.pressedTonal;
+  if (variant === 'tonal') {
+    return styles.pressedTonal
   }
 
-  if (variant === "outlined") {
-    return styles.pressedOutlined;
+  if (variant === 'outlined') {
+    return styles.pressedOutlined
   }
 
-  if (variant === "standard") {
-    return styles.pressedStandard;
+  if (variant === 'standard') {
+    return styles.pressedStandard
   }
 
-  return styles.pressedFilled;
+  return styles.pressedFilled
 }
 
 function getDisabledStyle(
   styles: ReturnType<typeof createStyles>,
-  variant: IconButtonVariant
+  variant: IconButtonVariant,
 ) {
-  if (variant === "tonal") {
-    return styles.disabledTonal;
+  if (variant === 'tonal') {
+    return styles.disabledTonal
   }
 
-  if (variant === "outlined") {
-    return styles.disabledOutlined;
+  if (variant === 'outlined') {
+    return styles.disabledOutlined
   }
 
-  if (variant === "standard") {
-    return styles.disabledStandard;
+  if (variant === 'standard') {
+    return styles.disabledStandard
   }
 
-  return styles.disabledFilled;
+  return styles.disabledFilled
 }
 
 export function IconButton({
@@ -235,25 +252,26 @@ export function IconButton({
   iconColor,
   onPress,
   disabled = false,
-  variant = "filled",
+  variant = 'filled',
   selected,
-  size = "medium",
+  size = 'medium',
   hitSlop,
   accessibilityLabel,
   ...props
 }: IconButtonProps) {
-  const theme = useTheme();
-  const styles = useMemo(() => createStyles(theme), [theme]);
-  const isDisabled = Boolean(disabled);
-  const isToggle = selected !== undefined;
-  const isSelected = Boolean(selected);
+  const theme = useTheme()
+  const styles = useMemo(() => createStyles(theme), [theme])
+  const isDisabled = Boolean(disabled)
+  const isToggle = selected !== undefined
+  const isSelected = Boolean(selected)
   const resolvedIconColor =
-    iconColor ?? getIconColor(variant, theme, isDisabled, isToggle, isSelected);
-  const displayIcon = isToggle && isSelected && selectedIcon ? selectedIcon : icon;
-  const iconPixelSize = getIconPixelSize(size);
+    iconColor ?? getIconColor(variant, theme, isDisabled, isToggle, isSelected)
+  const displayIcon =
+    isToggle && isSelected && selectedIcon ? selectedIcon : icon
+  const iconPixelSize = getIconPixelSize(size)
   const accessibilityState = isToggle
     ? { disabled: isDisabled, selected: isSelected }
-    : { disabled: isDisabled };
+    : { disabled: isDisabled }
 
   return (
     <Pressable
@@ -264,7 +282,13 @@ export function IconButton({
       disabled={isDisabled}
       hitSlop={hitSlop ?? getDefaultHitSlop(size)}
       onPress={onPress}
-      style={({ pressed, hovered }: { pressed: boolean; hovered?: boolean }) => [
+      style={({
+        pressed,
+        hovered,
+      }: {
+        pressed: boolean
+        hovered?: boolean
+      }) => [
         styles.container,
         getSizeStyle(styles, size),
         getColorStyle(styles, variant, isToggle, isSelected),
@@ -274,7 +298,7 @@ export function IconButton({
         pressed && !isDisabled
           ? getPressedStyle(styles, variant, isToggle, isSelected)
           : undefined,
-        isDisabled ? getDisabledStyle(styles, variant) : undefined
+        isDisabled ? getDisabledStyle(styles, variant) : undefined,
       ]}
     >
       <MaterialCommunityIcons
@@ -283,5 +307,5 @@ export function IconButton({
         color={resolvedIconColor}
       />
     </Pressable>
-  );
+  )
 }

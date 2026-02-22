@@ -1,4 +1,4 @@
-import type { TopAppBarTokens } from "./types";
+import type { TopAppBarTokens } from './types'
 
 export const defaultTopAppBarTokens: TopAppBarTokens = {
   horizontalPadding: 4,
@@ -10,5 +10,5 @@ export const defaultTopAppBarTokens: TopAppBarTokens = {
   sideSlotMinHeight: 48,
   iconFrameSize: 48,
   mediumTitleBottomPadding: 24,
-  largeTitleBottomPadding: 28
-};
+  largeTitleBottomPadding: 28,
+}

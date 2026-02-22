@@ -1,125 +1,126 @@
-import { useCallback, useMemo, useState } from "react";
-import type { ReactNode } from "react";
-import type { LayoutChangeEvent, StyleProp, ViewStyle } from "react-native";
-import { Platform, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { defaultTopAppBarTokens, useTheme } from "@rn-ui/core";
+import { useCallback, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
+import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native'
+import { Platform, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { defaultTopAppBarTokens, useTheme } from '@rn-ui/core'
 
-import { IconButton } from "../icon-button";
-import type { IconButtonProps } from "../icon-button";
-import { Typography } from "../typography";
-import type { TypographyVariant } from "../typography";
-import { selectRTL } from "../utils/rtl";
-import { createStyles } from "./styles";
-import type { AppBarProps } from "./types";
+import { IconButton } from '../icon-button'
+import type { IconButtonProps } from '../icon-button'
+import { Typography } from '../typography'
+import type { TypographyVariant } from '../typography'
+import { selectRTL } from '../utils/rtl'
+import { createStyles } from './styles'
+import type { AppBarProps } from './types'
 
-type AppBarSize = "small" | "medium" | "large";
-function getBackIcon(): IconButtonProps["icon"] {
-  if (Platform.OS === "ios") {
-    return selectRTL("chevron-left", "chevron-right");
+type AppBarSize = 'small' | 'medium' | 'large'
+function getBackIcon(): IconButtonProps['icon'] {
+  if (Platform.OS === 'ios') {
+    return selectRTL('chevron-left', 'chevron-right')
   }
 
-  return selectRTL("arrow-left", "arrow-right");
+  return selectRTL('arrow-left', 'arrow-right')
 }
 
 const titleVariantBySize: Record<AppBarSize, TypographyVariant> = {
-  small: "titleLarge",
-  medium: "headlineSmall",
-  large: "headlineMedium"
-};
+  small: 'titleLarge',
+  medium: 'headlineSmall',
+  large: 'headlineMedium',
+}
 const APP_BAR_TITLE_TEXT_PROPS = {
   numberOfLines: 1,
-  ellipsizeMode: "tail",
-  accessibilityRole: "header"
-} as const;
+  ellipsizeMode: 'tail',
+  accessibilityRole: 'header',
+} as const
 
-function resolveSize(variant: AppBarProps["variant"]): AppBarSize {
-  if (variant === "medium" || variant === "large") {
-    return variant;
+function resolveSize(variant: AppBarProps['variant']): AppBarSize {
+  if (variant === 'medium' || variant === 'large') {
+    return variant
   }
 
-  return "small";
+  return 'small'
 }
 
 function getSizeStyle(
   styles: ReturnType<typeof createStyles>,
-  size: AppBarSize
+  size: AppBarSize,
 ) {
-  if (size === "large") {
-    return styles.largeContainer;
+  if (size === 'large') {
+    return styles.largeContainer
   }
 
-  return styles.mediumContainer;
+  return styles.mediumContainer
 }
 
 function withTopInset(
   enabled: boolean,
   content: ReactNode,
-  style: StyleProp<ViewStyle>
+  style: StyleProp<ViewStyle>,
 ) {
   if (enabled) {
     return (
-      <SafeAreaView edges={["top"]} style={style}>
+      <SafeAreaView edges={['top']} style={style}>
         {content}
       </SafeAreaView>
-    );
+    )
   }
 
-  return <View style={style}>{content}</View>;
+  return <View style={style}>{content}</View>
 }
 
 function measureWidth(event: LayoutChangeEvent): number {
-  return Math.round(event.nativeEvent.layout.width);
+  return Math.round(event.nativeEvent.layout.width)
 }
 
 export function AppBar({
   title,
-  variant = "small",
+  variant = 'small',
   canGoBack = false,
   onBackPress,
   insetTop = false,
   elevated = false,
   leading,
   trailing,
-  actions
+  actions,
 }: AppBarProps) {
-  const theme = useTheme();
-  const topAppBar = theme.topAppBar ?? defaultTopAppBarTokens;
-  const styles = useMemo(() => createStyles(theme), [theme]);
-  const [leadingWidth, setLeadingWidth] = useState(0);
-  const [actionsWidth, setActionsWidth] = useState(0);
+  const theme = useTheme()
+  const topAppBar = theme.topAppBar ?? defaultTopAppBarTokens
+  const styles = useMemo(() => createStyles(theme), [theme])
+  const [leadingWidth, setLeadingWidth] = useState(0)
+  const [actionsWidth, setActionsWidth] = useState(0)
   const titleColorStyle = useMemo(
     () => ({ color: theme.colors.onSurface }),
-    [theme.colors.onSurface]
-  );
-  const size = resolveSize(variant);
-  const titleVariant = titleVariantBySize[size];
-  const isCenterAligned = variant === "center-aligned";
-  const isExpanded = size !== "small";
+    [theme.colors.onSurface],
+  )
+  const size = resolveSize(variant)
+  const titleVariant = titleVariantBySize[size]
+  const isCenterAligned = variant === 'center-aligned'
+  const isExpanded = size !== 'small'
   const titleStartInset =
-    topAppBar.horizontalPadding + Math.max(topAppBar.titleStartInset, leadingWidth);
-  const compactTitleEndInset = topAppBar.horizontalPadding + actionsWidth;
+    topAppBar.horizontalPadding +
+    Math.max(topAppBar.titleStartInset, leadingWidth)
+  const compactTitleEndInset = topAppBar.horizontalPadding + actionsWidth
   const centeredSideInset =
-    topAppBar.horizontalPadding + Math.max(leadingWidth, actionsWidth);
+    topAppBar.horizontalPadding + Math.max(leadingWidth, actionsWidth)
   const expandedTitleInsetStyle = useMemo<ViewStyle>(
     () => ({ paddingStart: titleStartInset }),
-    [titleStartInset]
-  );
+    [titleStartInset],
+  )
   const overlayTitleInsetStyle = useMemo<ViewStyle>(
     () =>
       isCenterAligned
         ? { start: centeredSideInset, end: centeredSideInset }
         : { start: titleStartInset, end: compactTitleEndInset },
-    [centeredSideInset, compactTitleEndInset, isCenterAligned, titleStartInset]
-  );
+    [centeredSideInset, compactTitleEndInset, isCenterAligned, titleStartInset],
+  )
 
   const leadingContent = useMemo(() => {
     if (leading) {
-      return leading;
+      return leading
     }
 
     if (!canGoBack) {
-      return null;
+      return null
     }
 
     return (
@@ -133,22 +134,31 @@ export function AppBar({
           onPress={onBackPress}
         />
       </View>
-    );
-  }, [canGoBack, leading, onBackPress, styles.iconFrame, theme.colors.onSurface]);
+    )
+  }, [
+    canGoBack,
+    leading,
+    onBackPress,
+    styles.iconFrame,
+    theme.colors.onSurface,
+  ])
 
   const actionsContent = useMemo(() => {
     if (trailing) {
-      return trailing;
+      return trailing
     }
 
     if (!actions || actions.length === 0) {
-      return null;
+      return null
     }
 
     return (
       <View style={styles.actionsRow}>
         {actions.map((action, index) => (
-          <View key={`${String(action.icon)}-${index}`} style={styles.iconFrame}>
+          <View
+            key={`${String(action.icon)}-${index}`}
+            style={styles.iconFrame}
+          >
             <IconButton
               icon={action.icon}
               size="medium"
@@ -160,44 +170,52 @@ export function AppBar({
           </View>
         ))}
       </View>
-    );
-  }, [actions, styles.actionsRow, styles.iconFrame, trailing]);
+    )
+  }, [actions, styles.actionsRow, styles.iconFrame, trailing])
 
   const onLeadingLayout = useCallback((event: LayoutChangeEvent) => {
-    const nextWidth = measureWidth(event);
+    const nextWidth = measureWidth(event)
 
     setLeadingWidth((currentWidth) => {
       if (currentWidth === nextWidth) {
-        return currentWidth;
+        return currentWidth
       }
 
-      return nextWidth;
-    });
-  }, []);
+      return nextWidth
+    })
+  }, [])
 
   const onActionsLayout = useCallback((event: LayoutChangeEvent) => {
-    const nextWidth = measureWidth(event);
+    const nextWidth = measureWidth(event)
 
     setActionsWidth((currentWidth) => {
       if (currentWidth === nextWidth) {
-        return currentWidth;
+        return currentWidth
       }
 
-      return nextWidth;
-    });
-  }, []);
+      return nextWidth
+    })
+  }, [])
 
   const topRow = (
     <View style={styles.topRow}>
-      <View collapsable={false} onLayout={onLeadingLayout} style={styles.sideSlot}>
+      <View
+        collapsable={false}
+        onLayout={onLeadingLayout}
+        style={styles.sideSlot}
+      >
         {leadingContent}
       </View>
       <View style={styles.topRowSpacer} />
-      <View collapsable={false} onLayout={onActionsLayout} style={styles.sideSlot}>
+      <View
+        collapsable={false}
+        onLayout={onActionsLayout}
+        style={styles.sideSlot}
+      >
         {actionsContent}
       </View>
     </View>
-  );
+  )
 
   if (isExpanded) {
     const content = (
@@ -206,8 +224,10 @@ export function AppBar({
         <View
           style={[
             styles.expandedTitleContainer,
-            size === "large" ? styles.largeTitlePadding : styles.mediumTitlePadding,
-            expandedTitleInsetStyle
+            size === 'large'
+              ? styles.largeTitlePadding
+              : styles.mediumTitlePadding,
+            expandedTitleInsetStyle,
           ]}
         >
           <Typography
@@ -219,45 +239,49 @@ export function AppBar({
           </Typography>
         </View>
       </View>
-    );
+    )
 
-    const rootStyle = elevated ? [styles.root, styles.elevatedRoot] : styles.root;
-    const safeAreaStyle = elevated ? [styles.safeArea, styles.elevatedSafeArea] : styles.safeArea;
+    const rootStyle = elevated
+      ? [styles.root, styles.elevatedRoot]
+      : styles.root
+    const safeAreaStyle = elevated
+      ? [styles.safeArea, styles.elevatedSafeArea]
+      : styles.safeArea
 
     return (
       <View style={rootStyle}>
         {withTopInset(insetTop, content, safeAreaStyle)}
       </View>
-    );
+    )
   }
 
   const content = (
     <View style={styles.smallContainer}>
       {topRow}
-      <View
-        style={[styles.overlayTitleContainer, overlayTitleInsetStyle]}
-      >
+      <View style={[styles.overlayTitleContainer, overlayTitleInsetStyle]}>
         <Typography
           {...APP_BAR_TITLE_TEXT_PROPS}
           variant={titleVariant}
           style={[
             styles.title,
             titleColorStyle,
-            isCenterAligned ? styles.centeredTitle : styles.startAlignedTitle
+            isCenterAligned ? styles.centeredTitle : styles.startAlignedTitle,
           ]}
         >
           {title}
         </Typography>
       </View>
     </View>
-  );
+  )
 
-  const rootStyle = elevated ? [styles.root, styles.elevatedRoot] : styles.root;
-  const safeAreaStyle = elevated ? [styles.safeArea, styles.elevatedSafeArea] : styles.safeArea;
+  const rootStyle = elevated ? [styles.root, styles.elevatedRoot] : styles.root
+  const safeAreaStyle = elevated
+    ? [styles.safeArea, styles.elevatedSafeArea]
+    : styles.safeArea
 
   return (
     <View style={rootStyle}>
       {withTopInset(insetTop, content, safeAreaStyle)}
     </View>
-  );
+  )
 }

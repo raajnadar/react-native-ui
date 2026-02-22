@@ -1,10 +1,10 @@
-import { I18nManager } from "react-native";
+import { I18nManager } from 'react-native'
 
 /**
  * Returns the current RTL state.
  */
 export function isRTL(): boolean {
-  return I18nManager.isRTL;
+  return I18nManager.isRTL
 }
 
 /**
@@ -12,9 +12,9 @@ export function isRTL(): boolean {
  * from a horizontal edge (e.g. label shrink in TextField).
  */
 export function transformOrigin(
-  vertical: "top" | "center" | "bottom" = "top"
+  vertical: 'top' | 'center' | 'bottom' = 'top',
 ): string {
-  return I18nManager.isRTL ? `right ${vertical}` : `left ${vertical}`;
+  return I18nManager.isRTL ? `right ${vertical}` : `left ${vertical}`
 }
 
 /**
@@ -22,5 +22,5 @@ export function transformOrigin(
  * Useful for selecting mirrored icons or other direction-dependent values.
  */
 export function selectRTL<T>(ltr: T, rtl: T): T {
-  return I18nManager.isRTL ? rtl : ltr;
+  return I18nManager.isRTL ? rtl : ltr
 }

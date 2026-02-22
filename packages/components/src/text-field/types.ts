@@ -1,37 +1,39 @@
-import type MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import type { ComponentProps } from "react";
-import type { TextInputProps } from "react-native";
+import type MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import type { ComponentProps } from 'react'
+import type { TextInputProps } from 'react-native'
 
 /** Visual container style for the text field. */
-export type TextFieldVariant = "filled" | "outlined";
+export type TextFieldVariant = 'filled' | 'outlined'
 
-export interface TextFieldProps
-  extends Omit<TextInputProps, "placeholderTextColor" | "editable"> {
+export interface TextFieldProps extends Omit<
+  TextInputProps,
+  'placeholderTextColor' | 'editable'
+> {
   /** Floating label text. Animates above the input when focused or filled. */
-  label?: string;
+  label?: string
   /**
    * Container style.
    * @default 'filled'
    */
-  variant?: TextFieldVariant;
+  variant?: TextFieldVariant
   /** Helper text displayed below the field. Hidden when `error` or `errorText` is active. */
-  supportingText?: string;
+  supportingText?: string
   /** Error message. When provided, implicitly sets `error` to `true` and replaces `supportingText`. */
-  errorText?: string;
+  errorText?: string
   /**
    * When `true`, renders the field in error state with error colors.
    * @default false
    */
-  error?: boolean;
+  error?: boolean
   /**
    * Disables text input and reduces opacity.
    * @default false
    */
-  disabled?: boolean;
+  disabled?: boolean
   /** MaterialCommunityIcons icon name rendered at the start of the field. */
-  leadingIcon?: ComponentProps<typeof MaterialCommunityIcons>["name"];
+  leadingIcon?: ComponentProps<typeof MaterialCommunityIcons>['name']
   /** MaterialCommunityIcons icon name rendered at the end of the field. */
-  trailingIcon?: ComponentProps<typeof MaterialCommunityIcons>["name"];
+  trailingIcon?: ComponentProps<typeof MaterialCommunityIcons>['name']
   /** Called when the trailing icon is pressed. */
-  onTrailingIconPress?: () => void;
+  onTrailingIconPress?: () => void
 }

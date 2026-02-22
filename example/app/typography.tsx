@@ -46,7 +46,11 @@ export default function TypographyScreen() {
 
       <Column gap="sm">
         <Typography variant="headlineSmall">Single-Line Truncation</Typography>
-        <Typography variant="titleMedium" numberOfLines={1} ellipsizeMode="tail">
+        <Typography
+          variant="titleMedium"
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        >
           {longText}
         </Typography>
       </Column>
@@ -66,7 +70,10 @@ export default function TypographyScreen() {
         <Typography variant="bodyLarge" style={{ color: theme.colors.error }}>
           Error color text
         </Typography>
-        <Typography variant="bodyLarge" style={{ color: theme.colors.tertiary }}>
+        <Typography
+          variant="bodyLarge"
+          style={{ color: theme.colors.tertiary }}
+        >
           Tertiary color text
         </Typography>
       </Column>
@@ -82,10 +89,7 @@ export default function TypographyScreen() {
         >
           Underlined text
         </Typography>
-        <Typography
-          variant="bodyMedium"
-          style={{ textTransform: 'uppercase' }}
-        >
+        <Typography variant="bodyMedium" style={{ textTransform: 'uppercase' }}>
           Uppercase text
         </Typography>
       </Column>
@@ -105,9 +109,9 @@ export default function TypographyScreen() {
           across all platforms.
         </Typography>
         <Typography variant="bodyMedium" style={styles.paragraph}>
-          This is a second paragraph using bodyMedium. It is slightly smaller and
-          works well for supplementary information or longer content where space
-          is a consideration.
+          This is a second paragraph using bodyMedium. It is slightly smaller
+          and works well for supplementary information or longer content where
+          space is a consideration.
         </Typography>
       </Column>
     </ScrollView>

@@ -1,5 +1,10 @@
 import { useState } from 'react'
-import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet } from 'react-native'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+} from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTheme } from '@rn-ui/core'
 import { TextField, Typography, Column } from '@rn-ui/components'
@@ -41,7 +46,7 @@ export default function TextFieldScreen() {
             label="With icons"
             leadingIcon="magnify"
             trailingIcon="close-circle"
-            onTrailingIconPress={() => { }}
+            onTrailingIconPress={() => {}}
           />
           <TextField label="Disabled" disabled value="Disabled value" />
         </Column>
@@ -60,7 +65,7 @@ export default function TextFieldScreen() {
             label="With icons"
             leadingIcon="magnify"
             trailingIcon="close-circle"
-            onTrailingIconPress={() => { }}
+            onTrailingIconPress={() => {}}
           />
           <TextField
             variant="outlined"

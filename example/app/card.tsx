@@ -51,7 +51,7 @@ export default function CardScreen() {
             <Card
               key={`disabled-${variant}`}
               variant={variant}
-              onPress={() => { }}
+              onPress={() => {}}
               disabled
             >
               <Column p="md" gap="sm">

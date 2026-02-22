@@ -9,10 +9,7 @@ export default function HomeScreen() {
     <Column flex={1} p="lg" gap="lg">
       <Typography variant="headlineSmall">Components</Typography>
       <Column gap="sm">
-        <Button
-          style={styles.navButton}
-          onPress={() => router.push('/appbar')}
-        >
+        <Button style={styles.navButton} onPress={() => router.push('/appbar')}>
           AppBar
         </Button>
         <Button
@@ -21,10 +18,7 @@ export default function HomeScreen() {
         >
           Typography
         </Button>
-        <Button
-          style={styles.navButton}
-          onPress={() => router.push('/button')}
-        >
+        <Button style={styles.navButton} onPress={() => router.push('/button')}>
           Button
         </Button>
         <Button
@@ -33,10 +27,7 @@ export default function HomeScreen() {
         >
           TextField
         </Button>
-        <Button
-          style={styles.navButton}
-          onPress={() => router.push('/card')}
-        >
+        <Button style={styles.navButton} onPress={() => router.push('/card')}>
           Card
         </Button>
       </Column>

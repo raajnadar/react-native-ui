@@ -42,10 +42,7 @@ const config: Config = {
       'docusaurus-plugin-react-docgen-typescript',
       {
         src: [
-          path.resolve(
-            __dirname,
-            '../packages/components/src/**/*.{ts,tsx}',
-          ),
+          path.resolve(__dirname, '../packages/components/src/**/*.{ts,tsx}'),
           path.resolve(__dirname, '../packages/core/src/**/*.{ts,tsx}'),
         ],
         global: true,

@@ -1,5 +1,5 @@
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   Animated,
   Platform,
@@ -7,23 +7,23 @@ import {
   Text,
   TextInput,
   View,
-} from "react-native";
-import type { NativeSyntheticEvent, TargetedEvent } from "react-native";
-import { useTheme } from "@rn-ui/core";
+} from 'react-native'
+import type { NativeSyntheticEvent, TargetedEvent } from 'react-native'
+import { useTheme } from '@rn-ui/core'
 
-import { createStyles, labelPositions } from "./styles";
-import type { TextFieldProps } from "./types";
+import { createStyles, labelPositions } from './styles'
+import type { TextFieldProps } from './types'
 
-const ICON_SIZE = 24;
+const ICON_SIZE = 24
 // 12dp icon inset + 24dp icon + 16dp gap
-const ICON_WITH_GAP = 12 + 24 + 16;
+const ICON_WITH_GAP = 12 + 24 + 16
 
 export function TextField({
   value,
   onChangeText,
   label,
   placeholder,
-  variant = "filled",
+  variant = 'filled',
   supportingText,
   errorText,
   error = false,
@@ -37,105 +37,110 @@ export function TextField({
   style,
   ...textInputProps
 }: TextFieldProps) {
-  const theme = useTheme();
-  const isDisabled = Boolean(disabled);
-  const isError = Boolean(error) || Boolean(errorText);
-  const isFilled = variant === "filled";
-  const hasLeadingIcon = Boolean(leadingIcon);
+  const theme = useTheme()
+  const isDisabled = Boolean(disabled)
+  const isError = Boolean(error) || Boolean(errorText)
+  const isFilled = variant === 'filled'
+  const hasLeadingIcon = Boolean(leadingIcon)
 
   const { colors, styles } = useMemo(
     () => createStyles(theme, variant),
-    [theme, variant]
-  );
+    [theme, variant],
+  )
 
-  const [isFocused, setIsFocused] = useState(false);
+  const [isFocused, setIsFocused] = useState(false)
   const [internalHasText, setInternalHasText] = useState(
-    () => value !== undefined && value !== ""
-  );
-  const inputRef = useRef<TextInput>(null);
+    () => value !== undefined && value !== '',
+  )
+  const inputRef = useRef<TextInput>(null)
 
-  const isControlled = value !== undefined;
-  const hasValue = isControlled ? value !== "" : internalHasText;
-  const isLabelFloated = isFocused || hasValue;
+  const isControlled = value !== undefined
+  const hasValue = isControlled ? value !== '' : internalHasText
+  const isLabelFloated = isFocused || hasValue
 
   // Animation: 0 = resting (label large, centered), 1 = floated (label small, top)
-  const labelAnimRef = useRef(new Animated.Value(isLabelFloated ? 1 : 0));
-  const labelAnim = labelAnimRef.current;
+  const labelAnimRef = useRef(new Animated.Value(isLabelFloated ? 1 : 0))
+  const labelAnim = labelAnimRef.current
 
   useEffect(() => {
     Animated.timing(labelAnim, {
       toValue: isLabelFloated ? 1 : 0,
       duration: 150,
-      useNativeDriver: Platform.OS !== "web",
-    }).start();
-  }, [isLabelFloated, labelAnim]);
+      useNativeDriver: Platform.OS !== 'web',
+    }).start()
+  }, [isLabelFloated, labelAnim])
 
   // Scale: bodyLarge/bodySmall when resting → 1.0 when floated.
   // Label is always rendered at bodySmall size; scale makes it appear as bodyLarge.
   const labelScale = useMemo(() => {
     const restingScale =
-      theme.typography.bodyLarge.fontSize / theme.typography.bodySmall.fontSize;
+      theme.typography.bodyLarge.fontSize / theme.typography.bodySmall.fontSize
     return labelAnim.interpolate({
       inputRange: [0, 1],
       outputRange: [restingScale, 1],
-    });
-  }, [labelAnim, theme.typography.bodyLarge.fontSize, theme.typography.bodySmall.fontSize]);
+    })
+  }, [
+    labelAnim,
+    theme.typography.bodyLarge.fontSize,
+    theme.typography.bodySmall.fontSize,
+  ])
 
   // TranslateY: moves label from floated position down to resting position.
   // Static top = floatedTop; translateY shifts it to restingTop when at rest.
   const labelTranslateY = useMemo(() => {
     const restingTop = isFilled
       ? labelPositions.filledRestingTop
-      : labelPositions.outlinedRestingTop;
+      : labelPositions.outlinedRestingTop
     const floatedTop = isFilled
       ? labelPositions.filledFloatedTop
-      : labelPositions.outlinedFloatedTop;
-    const restingOffset = restingTop - floatedTop;
+      : labelPositions.outlinedFloatedTop
+    const restingOffset = restingTop - floatedTop
     return labelAnim.interpolate({
       inputRange: [0, 1],
       outputRange: [restingOffset, 0],
-    });
-  }, [isFilled, labelAnim]);
+    })
+  }, [isFilled, labelAnim])
 
   // Label start: 16dp container padding + leading icon space (12dp inset + 24dp + 16dp gap)
-  const labelStart = theme.spacing.md + (hasLeadingIcon ? ICON_WITH_GAP - theme.spacing.md : 0);
+  const labelStart =
+    theme.spacing.md + (hasLeadingIcon ? ICON_WITH_GAP - theme.spacing.md : 0)
   // Static top = floated position; translateY handles resting offset
   const labelStaticTop = isFilled
     ? labelPositions.filledFloatedTop
-    : labelPositions.outlinedFloatedTop;
+    : labelPositions.outlinedFloatedTop
 
   const handleChangeText = useCallback(
     (text: string) => {
       if (!isControlled) {
-        setInternalHasText(text !== "");
+        setInternalHasText(text !== '')
       }
-      onChangeText?.(text);
+      onChangeText?.(text)
     },
-    [isControlled, onChangeText]
-  );
+    [isControlled, onChangeText],
+  )
 
   const handleFocus = useCallback(
     (event: NativeSyntheticEvent<TargetedEvent>) => {
-      if (isDisabled) return;
-      setIsFocused(true);
-      onFocus?.(event);
+      if (isDisabled) return
+      setIsFocused(true)
+      onFocus?.(event)
     },
-    [isDisabled, onFocus]
-  );
+    [isDisabled, onFocus],
+  )
 
   const handleBlur = useCallback(
     (event: NativeSyntheticEvent<TargetedEvent>) => {
-      setIsFocused(false);
-      onBlur?.(event);
+      setIsFocused(false)
+      onBlur?.(event)
     },
-    [onBlur]
-  );
+    [onBlur],
+  )
 
   const handleContainerPress = useCallback(() => {
     if (!isDisabled) {
-      inputRef.current?.focus();
+      inputRef.current?.focus()
     }
-  }, [isDisabled]);
+  }, [isDisabled])
 
   const labelColor = isDisabled
     ? colors.disabledLabelColor
@@ -143,18 +148,18 @@ export function TextField({
       ? colors.errorLabelColor
       : isFocused
         ? colors.focusedLabelColor
-        : colors.labelColor;
+        : colors.labelColor
 
   const labelBackgroundColor =
-    variant === "outlined" && isLabelFloated
+    variant === 'outlined' && isLabelFloated
       ? theme.colors.surface
-      : "transparent";
+      : 'transparent'
 
   const iconColor = isDisabled
     ? colors.disabledIconColor
     : isError
       ? colors.errorIconColor
-      : colors.iconColor;
+      : colors.iconColor
 
   const containerStyle = useMemo(
     () => [
@@ -163,8 +168,8 @@ export function TextField({
       isError && !isFocused && styles.containerError,
       isDisabled && styles.containerDisabled,
     ],
-    [styles, isFocused, isError, isDisabled]
-  );
+    [styles, isFocused, isError, isDisabled],
+  )
 
   const indicatorStyle = useMemo(
     () => [
@@ -173,10 +178,10 @@ export function TextField({
       isError && !isFocused && styles.indicatorError,
       isDisabled && styles.indicatorDisabled,
     ],
-    [styles, isFocused, isError, isDisabled]
-  );
+    [styles, isFocused, isError, isDisabled],
+  )
 
-  const displaySupportingText = isError ? errorText : supportingText;
+  const displaySupportingText = isError ? errorText : supportingText
 
   return (
     <View style={[styles.root, style]}>
@@ -253,7 +258,7 @@ export function TextField({
                     { scale: labelScale },
                   ],
                 },
-                variant === "outlined" && isLabelFloated
+                variant === 'outlined' && isLabelFloated
                   ? styles.labelNotch
                   : undefined,
               ]}
@@ -279,5 +284,5 @@ export function TextField({
         </View>
       ) : null}
     </View>
-  );
+  )
 }

@@ -11,31 +11,31 @@ const variants: Array<{
   variant: AppBarVariant
   title: string
 }> = [
-    {
-      key: 'small',
-      label: 'Small',
-      variant: 'small',
-      title: 'Small App Bar',
-    },
-    {
-      key: 'center-aligned',
-      label: 'Center Aligned',
-      variant: 'center-aligned',
-      title: 'Centered App Bar',
-    },
-    {
-      key: 'medium',
-      label: 'Medium',
-      variant: 'medium',
-      title: 'Medium App Bar',
-    },
-    {
-      key: 'large',
-      label: 'Large',
-      variant: 'large',
-      title: 'Large App Bar',
-    },
-  ]
+  {
+    key: 'small',
+    label: 'Small',
+    variant: 'small',
+    title: 'Small App Bar',
+  },
+  {
+    key: 'center-aligned',
+    label: 'Center Aligned',
+    variant: 'center-aligned',
+    title: 'Centered App Bar',
+  },
+  {
+    key: 'medium',
+    label: 'Medium',
+    variant: 'medium',
+    title: 'Medium App Bar',
+  },
+  {
+    key: 'large',
+    label: 'Large',
+    variant: 'large',
+    title: 'Large App Bar',
+  },
+]
 
 const longTitle = 'Very Long App Bar Title That Should Truncate Properly'
 const actions: AppBarAction[] = [

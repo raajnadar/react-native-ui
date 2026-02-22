@@ -38,7 +38,11 @@ export default function PropTable({ name }: Props) {
   }
 
   if (!component) {
-    return <p>No props found for <code>{name}</code>.</p>
+    return (
+      <p>
+        No props found for <code>{name}</code>.
+      </p>
+    )
   }
 
   const props = Object.values(component.props)

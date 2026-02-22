@@ -1,102 +1,118 @@
-import { useCallback, useMemo, useState } from "react";
-import { Alert, I18nManager, Platform, StyleSheet, View, useColorScheme } from "react-native";
-import { Slot, useRouter, useSegments } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { MaterialProvider, darkTheme, lightTheme, useTheme } from "@rn-ui/core";
-import { AppBar, Layout } from "@rn-ui/components";
-import type { AppBarAction } from "@rn-ui/components";
+import { useCallback, useMemo, useState } from 'react'
+import {
+  Alert,
+  I18nManager,
+  Platform,
+  StyleSheet,
+  View,
+  useColorScheme,
+} from 'react-native'
+import { Slot, useRouter, useSegments } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
+import { MaterialProvider, darkTheme, lightTheme, useTheme } from '@rn-ui/core'
+import { AppBar, Layout } from '@rn-ui/components'
+import type { AppBarAction } from '@rn-ui/components'
 
 function resolveRouteName(segments: string[]): string {
-  const visibleSegments = segments.filter((segment) => !segment.startsWith("("));
-  const currentSegment = visibleSegments[visibleSegments.length - 1];
+  const visibleSegments = segments.filter((segment) => !segment.startsWith('('))
+  const currentSegment = visibleSegments[visibleSegments.length - 1]
 
-  return currentSegment ?? "index";
+  return currentSegment ?? 'index'
 }
 
 function resolveTitle(routeName: string): string {
-  if (routeName === "index") {
-    return "Home";
+  if (routeName === 'index') {
+    return 'Home'
   }
 
   return routeName
-    .replace(/^\[|\]$/g, "")
-    .replace(/[-_]/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
+    .replace(/^\[|\]$/g, '')
+    .replace(/[-_]/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase())
 }
 
 const stackScreenOptions = {
-  headerShown: false
-} as const;
-type ThemePreference = "system" | "light" | "dark";
+  headerShown: false,
+} as const
+type ThemePreference = 'system' | 'light' | 'dark'
 
 function isDarkColor(color: string): boolean {
-  const normalizedHex = color.replace("#", "");
+  const normalizedHex = color.replace('#', '')
 
   if (normalizedHex.length !== 6 && normalizedHex.length !== 8) {
-    return false;
+    return false
   }
 
-  const r = Number.parseInt(normalizedHex.slice(0, 2), 16);
-  const g = Number.parseInt(normalizedHex.slice(2, 4), 16);
-  const b = Number.parseInt(normalizedHex.slice(4, 6), 16);
+  const r = Number.parseInt(normalizedHex.slice(0, 2), 16)
+  const g = Number.parseInt(normalizedHex.slice(2, 4), 16)
+  const b = Number.parseInt(normalizedHex.slice(4, 6), 16)
 
   if (Number.isNaN(r) || Number.isNaN(g) || Number.isNaN(b)) {
-    return false;
+    return false
   }
 
-  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
-  return luminance < 0.5;
+  const luminance = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255
+  return luminance < 0.5
 }
 
 const styles = StyleSheet.create({
   content: {
-    flex: 1
-  }
-});
+    flex: 1,
+  },
+})
 
 function toggleRTL() {
-  const nextIsRTL = !I18nManager.isRTL;
-  I18nManager.allowRTL(true);
-  I18nManager.forceRTL(nextIsRTL);
+  const nextIsRTL = !I18nManager.isRTL
+  I18nManager.allowRTL(true)
+  I18nManager.forceRTL(nextIsRTL)
 
-  if (Platform.OS === "web") {
-    window.location.reload();
+  if (Platform.OS === 'web') {
+    window.location.reload()
   } else {
     Alert.alert(
-      "Restart Required",
-      `Layout direction set to ${nextIsRTL ? "RTL" : "LTR"}. Please restart the app to apply.`
-    );
+      'Restart Required',
+      `Layout direction set to ${nextIsRTL ? 'RTL' : 'LTR'}. Please restart the app to apply.`,
+    )
   }
 }
 
 interface RootLayoutContentProps {
-  isDarkTheme: boolean;
-  onToggleTheme: () => void;
+  isDarkTheme: boolean
+  onToggleTheme: () => void
 }
 
-function RootLayoutContent({ isDarkTheme, onToggleTheme }: RootLayoutContentProps) {
-  const theme = useTheme();
-  const router = useRouter();
-  const segments = useSegments();
-  const routeName = useMemo(() => resolveRouteName(segments), [segments]);
-  const title = useMemo(() => resolveTitle(routeName), [routeName]);
-  const canGoBack = routeName !== "index";
-  const statusBarStyle = isDarkColor(theme.colors.surface) ? "light" : "dark";
+function RootLayoutContent({
+  isDarkTheme,
+  onToggleTheme,
+}: RootLayoutContentProps) {
+  const theme = useTheme()
+  const router = useRouter()
+  const segments = useSegments()
+  const routeName = useMemo(() => resolveRouteName(segments), [segments])
+  const title = useMemo(() => resolveTitle(routeName), [routeName])
+  const canGoBack = routeName !== 'index'
+  const statusBarStyle = isDarkColor(theme.colors.surface) ? 'light' : 'dark'
   const appBarActions = useMemo<AppBarAction[]>(
     () => [
       {
-        icon: I18nManager.isRTL ? "format-pilcrow-arrow-left" : "format-pilcrow-arrow-right",
-        accessibilityLabel: I18nManager.isRTL ? "Switch to LTR layout" : "Switch to RTL layout",
-        onPress: toggleRTL
+        icon: I18nManager.isRTL
+          ? 'format-pilcrow-arrow-left'
+          : 'format-pilcrow-arrow-right',
+        accessibilityLabel: I18nManager.isRTL
+          ? 'Switch to LTR layout'
+          : 'Switch to RTL layout',
+        onPress: toggleRTL,
       },
       {
-        icon: isDarkTheme ? "white-balance-sunny" : "weather-night",
-        accessibilityLabel: isDarkTheme ? "Switch to light theme" : "Switch to dark theme",
-        onPress: onToggleTheme
-      }
+        icon: isDarkTheme ? 'white-balance-sunny' : 'weather-night',
+        accessibilityLabel: isDarkTheme
+          ? 'Switch to light theme'
+          : 'Switch to dark theme',
+        onPress: onToggleTheme,
+      },
     ],
-    [isDarkTheme, onToggleTheme]
-  );
+    [isDarkTheme, onToggleTheme],
+  )
 
   return (
     <>
@@ -106,7 +122,7 @@ function RootLayoutContent({ isDarkTheme, onToggleTheme }: RootLayoutContentProp
         backgroundColor={theme.colors.surface}
         translucent={false}
       />
-      <Layout edges={["bottom"]}>
+      <Layout edges={['bottom']}>
         <AppBar
           elevated
           title={title}
@@ -120,29 +136,35 @@ function RootLayoutContent({ isDarkTheme, onToggleTheme }: RootLayoutContentProp
         </View>
       </Layout>
     </>
-  );
+  )
 }
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [themePreference, setThemePreference] = useState<ThemePreference>("system");
+  const colorScheme = useColorScheme()
+  const [themePreference, setThemePreference] =
+    useState<ThemePreference>('system')
   const isDarkTheme =
-    themePreference === "system" ? colorScheme === "dark" : themePreference === "dark";
-  const theme = isDarkTheme ? darkTheme : lightTheme;
+    themePreference === 'system'
+      ? colorScheme === 'dark'
+      : themePreference === 'dark'
+  const theme = isDarkTheme ? darkTheme : lightTheme
   const toggleTheme = useCallback(() => {
     setThemePreference((currentPreference) => {
       const currentIsDark =
-        currentPreference === "system"
-          ? colorScheme === "dark"
-          : currentPreference === "dark";
+        currentPreference === 'system'
+          ? colorScheme === 'dark'
+          : currentPreference === 'dark'
 
-      return currentIsDark ? "light" : "dark";
-    });
-  }, [colorScheme]);
+      return currentIsDark ? 'light' : 'dark'
+    })
+  }, [colorScheme])
 
   return (
     <MaterialProvider theme={theme}>
-      <RootLayoutContent isDarkTheme={isDarkTheme} onToggleTheme={toggleTheme} />
+      <RootLayoutContent
+        isDarkTheme={isDarkTheme}
+        onToggleTheme={toggleTheme}
+      />
     </MaterialProvider>
-  );
+  )
 }

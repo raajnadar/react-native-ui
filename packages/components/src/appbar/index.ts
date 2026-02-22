@@ -1,2 +1,2 @@
-export { AppBar } from "./AppBar";
-export type { AppBarAction, AppBarProps, AppBarVariant } from "./types";
+export { AppBar } from './AppBar'
+export type { AppBarAction, AppBarProps, AppBarVariant } from './types'

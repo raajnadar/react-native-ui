@@ -1,77 +1,81 @@
-import { useMemo } from "react";
-import type { PropsWithChildren } from "react";
-import type { StyleProp, ViewStyle } from "react-native";
-import { StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import type { Edge } from "react-native-safe-area-context";
-import { useTheme } from "@rn-ui/core";
+import { useMemo } from 'react'
+import type { PropsWithChildren } from 'react'
+import type { StyleProp, ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import type { Edge } from 'react-native-safe-area-context'
+import { useTheme } from '@rn-ui/core'
 
 export interface LayoutProps extends PropsWithChildren {
   /**
    * When `true`, removes all safe area insets for full-screen layout.
    * @default false
    */
-  immersive?: boolean;
+  immersive?: boolean
   /** Explicit set of safe-area edges to apply. Overrides `immersive` when provided. */
-  edges?: Edge[];
+  edges?: Edge[]
   /** Additional styles applied to the SafeAreaView container. */
-  style?: StyleProp<ViewStyle>;
+  style?: StyleProp<ViewStyle>
 }
 
-const defaultEdges: Edge[] = ["bottom"];
+const defaultEdges: Edge[] = ['bottom']
 
 function resolveEdges(immersive?: boolean, edges?: Edge[]): Edge[] {
   if (edges) {
-    return edges;
+    return edges
   }
 
   if (immersive) {
-    return [];
+    return []
   }
 
-  return defaultEdges;
+  return defaultEdges
 }
 
 const styles = StyleSheet.create({
   root: {
-    flex: 1
-  }
-});
+    flex: 1,
+  },
+})
 
 function removeBackgroundColor(style?: StyleProp<ViewStyle>) {
   if (!style) {
-    return undefined;
+    return undefined
   }
 
-  const flattenedStyle = StyleSheet.flatten(style);
+  const flattenedStyle = StyleSheet.flatten(style)
 
   if (!flattenedStyle || flattenedStyle.backgroundColor === undefined) {
-    return style;
+    return style
   }
 
-  const styleWithoutBackground = { ...flattenedStyle };
-  delete styleWithoutBackground.backgroundColor;
+  const styleWithoutBackground = { ...flattenedStyle }
+  delete styleWithoutBackground.backgroundColor
 
-  return styleWithoutBackground;
+  return styleWithoutBackground
 }
 
-export function Layout({
-  immersive,
-  edges,
-  children,
-  style
-}: LayoutProps) {
-  const theme = useTheme();
+export function Layout({ immersive, edges, children, style }: LayoutProps) {
+  const theme = useTheme()
   const themeBackgroundStyle = useMemo(
     () => ({ backgroundColor: theme.colors.background }),
-    [theme.colors.background]
-  );
-  const styleWithoutBackground = useMemo(() => removeBackgroundColor(style), [style]);
-  const safeAreaEdges = useMemo(() => resolveEdges(immersive, edges), [immersive, edges]);
+    [theme.colors.background],
+  )
+  const styleWithoutBackground = useMemo(
+    () => removeBackgroundColor(style),
+    [style],
+  )
+  const safeAreaEdges = useMemo(
+    () => resolveEdges(immersive, edges),
+    [immersive, edges],
+  )
 
   return (
-    <SafeAreaView style={[styles.root, themeBackgroundStyle, styleWithoutBackground]} edges={safeAreaEdges}>
+    <SafeAreaView
+      style={[styles.root, themeBackgroundStyle, styleWithoutBackground]}
+      edges={safeAreaEdges}
+    >
       {children}
     </SafeAreaView>
-  );
+  )
 }

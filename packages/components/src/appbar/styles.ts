@@ -1,92 +1,92 @@
-import { StyleSheet } from "react-native";
-import { defaultTopAppBarTokens } from "@rn-ui/core";
-import type { Theme } from "@rn-ui/core";
+import { StyleSheet } from 'react-native'
+import { defaultTopAppBarTokens } from '@rn-ui/core'
+import type { Theme } from '@rn-ui/core'
 
 export function createStyles(theme: Theme) {
-  const topAppBar = theme.topAppBar ?? defaultTopAppBarTokens;
+  const topAppBar = theme.topAppBar ?? defaultTopAppBarTokens
 
   return StyleSheet.create({
     root: {
-      backgroundColor: theme.colors.surface
+      backgroundColor: theme.colors.surface,
     },
     safeArea: {
-      backgroundColor: theme.colors.surface
+      backgroundColor: theme.colors.surface,
     },
     elevatedRoot: {
-      backgroundColor: theme.colors.surfaceContainer
+      backgroundColor: theme.colors.surfaceContainer,
     },
     elevatedSafeArea: {
-      backgroundColor: theme.colors.surfaceContainer
+      backgroundColor: theme.colors.surfaceContainer,
     },
     smallContainer: {
       height: topAppBar.smallContainerHeight,
-      position: "relative"
+      position: 'relative',
     },
     mediumContainer: {
-      height: topAppBar.mediumContainerHeight
+      height: topAppBar.mediumContainerHeight,
     },
     largeContainer: {
-      height: topAppBar.largeContainerHeight
+      height: topAppBar.largeContainerHeight,
     },
     expandedContainer: {
-      position: "relative"
+      position: 'relative',
     },
     topRow: {
       height: topAppBar.topRowHeight,
       paddingHorizontal: topAppBar.horizontalPadding,
-      flexDirection: "row",
-      alignItems: "center"
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     expandedTitleContainer: {
       flex: 1,
-      justifyContent: "flex-end",
+      justifyContent: 'flex-end',
       minWidth: 0,
       paddingEnd: theme.spacing.md,
-      pointerEvents: "none"
+      pointerEvents: 'none',
     },
     topRowSpacer: {
-      flex: 1
+      flex: 1,
     },
     sideSlot: {
-      flexDirection: "row",
-      alignItems: "center",
-      minHeight: topAppBar.sideSlotMinHeight
+      flexDirection: 'row',
+      alignItems: 'center',
+      minHeight: topAppBar.sideSlotMinHeight,
     },
     actionsRow: {
-      flexDirection: "row",
-      alignItems: "center"
+      flexDirection: 'row',
+      alignItems: 'center',
     },
     iconFrame: {
       width: topAppBar.iconFrameSize,
       height: topAppBar.iconFrameSize,
-      alignItems: "center",
-      justifyContent: "center"
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     overlayTitleContainer: {
-      position: "absolute",
+      position: 'absolute',
       top: 0,
       bottom: 0,
-      justifyContent: "center",
+      justifyContent: 'center',
       minWidth: 0,
-      pointerEvents: "none"
+      pointerEvents: 'none',
     },
     centeredTitle: {
-      textAlign: "center"
+      textAlign: 'center',
     },
     startAlignedTitle: {
-      textAlign: "auto"
+      textAlign: 'auto',
     },
     mediumTitlePadding: {
-      paddingBottom: topAppBar.mediumTitleBottomPadding
+      paddingBottom: topAppBar.mediumTitleBottomPadding,
     },
     largeTitlePadding: {
-      paddingBottom: topAppBar.largeTitleBottomPadding
+      paddingBottom: topAppBar.largeTitleBottomPadding,
     },
     title: {
       flexShrink: 1,
-      maxWidth: "100%",
+      maxWidth: '100%',
       includeFontPadding: false,
-      textAlignVertical: "center"
-    }
-  });
+      textAlignVertical: 'center',
+    },
+  })
 }

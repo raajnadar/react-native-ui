@@ -8,9 +8,9 @@ export type {
   TopAppBarTokens,
   Elevation,
   ElevationLevel,
-  Motion
-} from "./types";
+  Motion,
+} from './types'
 
-export { lightTheme } from "./light";
-export { darkTheme } from "./dark";
-export { defaultTopAppBarTokens } from "./topAppBar";
+export { lightTheme } from './light'
+export { darkTheme } from './dark'
+export { defaultTopAppBarTokens } from './topAppBar'

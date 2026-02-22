@@ -4,11 +4,7 @@ import type { ViewStyle } from 'react-native'
 import { Box } from './Box'
 import type { ColumnProps } from './types'
 
-export function Column({
-  inverted = false,
-  style,
-  ...boxProps
-}: ColumnProps) {
+export function Column({ inverted = false, style, ...boxProps }: ColumnProps) {
   const directionStyle = useMemo<ViewStyle>(
     () => ({
       flexDirection: inverted ? 'column-reverse' : 'column',

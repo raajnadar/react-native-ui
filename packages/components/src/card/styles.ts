@@ -82,7 +82,8 @@ export function createStyles(theme: Theme, variant: CardVariant) {
   const elevationLevel0 = elevationStyle(theme.elevation.level0)
   const elevationLevel1 = elevationStyle(theme.elevation.level1)
   const elevationLevel2 = elevationStyle(theme.elevation.level2)
-  const baseElevation = variant === 'elevated' ? elevationLevel1 : elevationLevel0
+  const baseElevation =
+    variant === 'elevated' ? elevationLevel1 : elevationLevel0
 
   return StyleSheet.create({
     container: {
