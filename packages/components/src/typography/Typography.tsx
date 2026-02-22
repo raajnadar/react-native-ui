@@ -24,6 +24,8 @@ export interface TypographyProps extends Omit<TextProps, 'children' | 'style'> {
    * @default 'bodyMedium'
    */
   variant?: TypographyVariant
+  /** Override the text color. Defaults to the theme's `onSurface` color. */
+  color?: string
   /** Additional text styles merged after the theme typography styles. */
   style?: StyleProp<TextStyle>
   /**
@@ -36,6 +38,7 @@ export interface TypographyProps extends Omit<TextProps, 'children' | 'style'> {
 export function Typography({
   children,
   variant = 'bodyMedium',
+  color,
   style,
   as: Component = Text,
   accessibilityRole,
@@ -44,8 +47,8 @@ export function Typography({
   const theme = useTheme() as Theme
   const typographyStyle = theme.typography[variant]
   const colorStyle = useMemo(
-    () => ({ color: theme.colors.onSurface }),
-    [theme.colors.onSurface],
+    () => ({ color: color ?? theme.colors.onSurface }),
+    [color, theme.colors.onSurface],
   )
   const resolvedRole =
     accessibilityRole ?? (HEADING_VARIANTS.has(variant) ? 'header' : undefined)

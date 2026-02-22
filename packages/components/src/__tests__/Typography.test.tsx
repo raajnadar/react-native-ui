@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react-native'
+import { StyleSheet } from 'react-native'
 
 import { Typography } from '../typography/Typography'
 import { renderWithTheme } from '../test-utils/render-with-theme'
@@ -22,5 +23,25 @@ describe('Typography', () => {
   it('uses bodyMedium variant by default', () => {
     renderWithTheme(<Typography>Default text</Typography>)
     expect(screen.queryByRole('header')).toBeNull()
+  })
+
+  describe('overrides', () => {
+    it('applies the color prop to the text', () => {
+      renderWithTheme(<Typography color="#FF0000">Red text</Typography>)
+      const text = screen.getByText('Red text')
+      const flatStyle = StyleSheet.flatten(text.props.style)
+      expect(flatStyle.color).toBe('#FF0000')
+    })
+
+    it('style color overrides the color prop', () => {
+      renderWithTheme(
+        <Typography color="#FF0000" style={{ color: '#00FF00' }}>
+          Green wins
+        </Typography>,
+      )
+      const text = screen.getByText('Green wins')
+      const flatStyle = StyleSheet.flatten(text.props.style)
+      expect(flatStyle.color).toBe('#00FF00')
+    })
   })
 })
