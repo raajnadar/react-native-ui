@@ -23,6 +23,7 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
         'components/button',
+        'components/chip',
         'components/icon-button',
         'components/text-field',
       ],

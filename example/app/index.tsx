@@ -25,6 +25,7 @@ const components = [
   { label: 'AppBar', route: '/appbar' },
   { label: 'Typography', route: '/typography' },
   { label: 'Button', route: '/button' },
+  { label: 'Chip', route: '/chip' },
   { label: 'TextField', route: '/text-field' },
   { label: 'Card', route: '/card' },
   { label: 'List', route: '/list' },
