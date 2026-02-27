@@ -30,6 +30,9 @@ const components = [
   { label: 'Card', route: '/card' },
   { label: 'List', route: '/list' },
   { label: 'Layout', route: '/layout' },
+  { label: 'Switch', route: '/switch' },
+  { label: 'Checkbox', route: '/checkbox' },
+  { label: 'Radio', route: '/radio' },
 ] as const
 
 export default function HomeScreen() {

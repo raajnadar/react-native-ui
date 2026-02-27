@@ -23,8 +23,11 @@ const sidebars: SidebarsConfig = {
       collapsed: false,
       items: [
         'components/button',
+        'components/checkbox',
         'components/chip',
         'components/icon-button',
+        'components/radio',
+        'components/switch',
         'components/text-field',
       ],
     },
