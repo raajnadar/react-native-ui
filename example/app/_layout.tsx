@@ -119,7 +119,9 @@ function RootLayoutContent({
           elevated
           title={title}
           canGoBack={canGoBack}
-          onBackPress={() => router.back()}
+          onBackPress={() =>
+            router.canGoBack() ? router.back() : router.replace('/')
+          }
           actions={appBarActions}
           insetTop
         />
